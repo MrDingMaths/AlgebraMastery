@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra Engine Debug Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/mathquill/build/mathquill.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/mathquill/build/mathquill.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .mathquill-input {
+            width: 100%;
+            min-height: 40px;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            font-size: 18px;
+            box-sizing: border-box;
+            background-color: white;
+        }
+        .mathquill-input:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .result.match {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result.no-match {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .debug-info {
+            background-color: #e2e3e5;
+            border: 1px solid #d6d8db;
+            color: #383d41;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .example-row {
+            margin: 10px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto auto auto auto;
+            gap: 10px;
+            align-items: center;
+        }
+        .example-expr {
+            font-family: monospace;
+            background: white;
+            padding: 5px 8px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        .example-btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            background-color: #007bff;
+        }
+        .example-btn:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            padding: 5px 8px;
+            font-size: 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .custom-examples {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e7f3ff;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .add-example-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 15px;
+        }
+        .example-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .add-btn {
+            background-color: #28a745;
+        }
+        .add-btn:hover {
+            background-color: #218838;
+        }
+        .expected-result {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: white;
+        }
+        .test-result {
+            padding: 5px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .test-pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .test-fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .test-all-btn {
+            background-color: #17a2b8;
+            margin-left: 10px;
+        }
+        .test-all-btn:hover {
+            background-color: #138496;
+        }
+        .bulk-results {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            color: #212529;
+            padding: 5px 8px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        .export-import {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        .file-input {
+            margin: 10px 0;
+        }
+        .export-btn, .import-btn {
+            background-color: #28a745;
+            margin-right: 10px;
+        }
+        .export-btn:hover, .import-btn:hover {
+            background-color: #218838;
+        }
+        .edit-form {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-radius: 5px;
+            border: 1px solid #ffeaa7;
+        }
+        .edit-form.active {
+            display: block;
+        }
+        .edit-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 10px;
+            align-items: end;
+        }
+        .save-edit-btn {
+            background-color: #007bff;
+        }
+        .save-edit-btn:hover {
+            background-color: #0056b3;
+        }
+        .cancel-edit-btn {
+            background-color: #6c757d;
+        }
+        .cancel-edit-btn:hover {
+            background-color: #545b62;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .verbose-logging {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Algebra Engine Debug Tool</h1>
+        
+        <div class="input-group">
+            <label for="expression1">Expression 1 (Student Answer):</label>
+            <div id="expression1" class="mathquill-input"></div>
+        </div>
+        
+        <div class="input-group">
+            <label for="expression2">Expression 2 (Correct Answer):</label>
+            <div id="expression2" class="mathquill-input"></div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="testExpressions()">Test Match</button>
+            <button class="clear-btn" onclick="clearResults()">Clear</button>
+            <div class="verbose-logging">
+                <input type="checkbox" id="verboseLogging" checked>
+                <label for="verboseLogging">Verbose Logging</label>
+            </div>
+        </div>
+        
+        <div id="result" class="result" style="display: none;"></div>
+        <div id="debug" class="debug-info" style="display: none;"></div>
+        
+        <div class="custom-examples">
+            <h3>Custom Test Examples:</h3>
+            <div class="add-example-form">
+                <div class="input-group">
+                    <label for="newExpr1">Student Answer:</label>
+                    <div id="newExpr1" class="mathquill-input"></div>
+                </div>
+                <div class="input-group">
+                    <label for="newExpr2">Correct Answer:</label>
+                    <div id="newExpr2" class="mathquill-input"></div>
+                </div>
+                <div class="input-group">
+                    <label for="expectedResult">Expected Result:</label>
+                    <select id="expectedResult" class="expected-result">
+                        <option value="accept">Should Accept (Match)</option>
+                        <option value="reject">Should Reject (No Match)</option>
+                    </select>
+                </div>
+                <button class="add-btn" onclick="addCustomExample()">Add & Save</button>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <button class="test-all-btn" onclick="testAllExamples()">Test All Examples</button>
+                <div id="bulkResults" class="bulk-results" style="display: none;"></div>
+            </div>
+            
+            <div class="export-import">
+                <h4>Export/Import Test Examples</h4>
+                <button class="export-btn" onclick="exportExamples()">Export to CSV</button>
+                <div class="file-input">
+                    <input type="file" id="csvImport" accept=".csv" style="display: none;" onchange="importExamples(event)">
+                    <button class="import-btn" onclick="document.getElementById('csvImport').click()">Import from CSV</button>
+                    <small style="margin-left: 10px; color: #666;">CSV format: Student Answer, Correct Answer, Expected Result</small>
+                </div>
+            </div>
+            <div id="customExamplesList"></div>
+            
+            <!-- Edit form template (hidden by default) -->
+            <div id="editForm" class="edit-form">
+                <h4>Edit Test Example</h4>
+                <div class="edit-form-grid">
+                    <div class="input-group">
+                        <label for="editExpr1">Student Answer:</label>
+                        <div id="editExpr1" class="mathquill-input"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="editExpr2">Correct Answer:</label>
+                        <div id="editExpr2" class="mathquill-input"></div>
+                    </div>
+                    <div class="input-group">
+                        <label for="editExpectedResult">Expected Result:</label>
+                        <select id="editExpectedResult" class="expected-result">
+                            <option value="accept">Should Accept (Match)</option>
+                            <option value="reject">Should Reject (No Match)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="save-edit-btn" onclick="saveEdit()">Save</button>
+                        <button class="cancel-edit-btn" onclick="cancelEdit()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        let engine;
+        let customExamples = [];
+        let debugLogger = null;
+        
+        // Load custom examples from localStorage
+        function loadCustomExamples() {
+            const saved = localStorage.getItem('algebraDebug_customExamples');
+            customExamples = saved ? JSON.parse(saved) : [];
+            renderCustomExamples();
+        }
+        
+        // Save custom examples to localStorage
+        function saveCustomExamples() {
+            localStorage.setItem('algebraDebug_customExamples', JSON.stringify(customExamples));
+        }
+        
+        // Enhanced debug logger
+        class DebugLogger {
+            constructor() {
+                this.logs = [];
+                this.originalConsole = {
+                    log: console.log,
+                    error: console.error,
+                    warn: console.warn
+                };
+            }
+            
+            startCapture() {
+                this.logs = [];
+                const self = this;
+                
+                console.log = (...args) => {
+                    const message = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ');
+                    self.logs.push({ type: 'log', message });
+                    self.originalConsole.log(...args);
+                };
+                
+                console.error = (...args) => {
+                    const message = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ');
+                    self.logs.push({ type: 'error', message });
+                    self.originalConsole.error(...args);
+                };
+                
+                console.warn = (...args) => {
+                    const message = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ');
+                    self.logs.push({ type: 'warn', message });
+                    self.originalConsole.warn(...args);
+                };
+            }
+            
+            stopCapture() {
+                console.log = this.originalConsole.log;
+                console.error = this.originalConsole.error;
+                console.warn = this.originalConsole.warn;
+                return this.formatLogs();
+            }
+            
+            formatLogs() {
+                return this.logs.map(entry => {
+                    return `${entry.message}`;
+                }).join('\n');
+            }
+        }
+        
+        // Wait for Math.js to be fully loaded before creating the engine
+        window.addEventListener('load', function() {
+            // Check if Math.js is available
+            console.log('Math.js available:', typeof math !== 'undefined');
+            console.log('Window.math available:', typeof window.math !== 'undefined');
+            
+            // Initialize debug logger
+            debugLogger = new DebugLogger();
+            
+            // Load custom examples
+            loadCustomExamples();
+            
+            // Load the algebra engine after all libraries are ready
+            const script = document.createElement('script');
+            script.src = 'algebra-modules/algebraEngine.js';
+            script.onload = function() {
+                console.log('AlgebraEngine script loaded');
+                try {
+                    engine = new AlgebraEngine();
+                    console.log('AlgebraEngine created successfully');
+                    enhanceEngineWithLogging();
+                } catch (error) {
+                    console.error('Error creating AlgebraEngine:', error);
+                }
+            };
+            document.head.appendChild(script);
+        });
+        let mathField1, mathField2, newExprField1, newExprField2, editExprField1, editExprField2;
+        let currentEditingIndex = -1;
+        
+        // Initialize MathQuill when document is ready
+        $(document).ready(function() {
+            const MQ = MathQuill.getInterface(2);
+            
+            // Initialize MathQuill input fields
+            mathField1 = MQ.MathField(document.getElementById('expression1'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+            
+            mathField2 = MQ.MathField(document.getElementById('expression2'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+            
+            // Initialize MathQuill for custom example inputs
+            newExprField1 = MQ.MathField(document.getElementById('newExpr1'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+            
+            newExprField2 = MQ.MathField(document.getElementById('newExpr2'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+            
+            // Initialize MathQuill for edit form inputs
+            editExprField1 = MQ.MathField(document.getElementById('editExpr1'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+            
+            editExprField2 = MQ.MathField(document.getElementById('editExpr2'), {
+                spaceBehavesLikeTab: true,
+                leftRightIntoCmdGoes: 'up',
+                restrictMismatchedBrackets: true,
+                sumStartsWithNEquals: true,
+                supSubsRequireOperand: true,
+                charsThatBreakOutOfSupSub: '+-=<>',
+                autoSubscriptNumerals: true,
+                autoCommands: 'pi theta sqrt sum',
+                autoOperatorNames: 'sin cos tan log ln',
+            });
+        });
+        
+        function loadExample(expr1, expr2) {
+            if (mathField1 && mathField2) {
+                mathField1.latex(expr1);
+                mathField2.latex(expr2);
+            }
+        }
+        
+        function loadExampleAndTest(expr1, expr2, expectedResult) {
+            if (mathField1 && mathField2) {
+                mathField1.latex(expr1);
+                mathField2.latex(expr2);
+                testExpressions();
+            }
+        }
+        
+        function testSingleExample(example) {
+            if (!engine) {
+                console.error('Engine not loaded');
+                return null;
+            }
+            
+            try {
+                const actualMatch = engine.compareExpressions(example.expr1, example.expr2);
+                const expectedMatch = example.expected === 'accept';
+                const testPassed = actualMatch === expectedMatch;
+                
+                // Update example with test results
+                example.lastTested = Date.now();
+                example.lastResult = testPassed;
+                
+                return {
+                    passed: testPassed,
+                    actualMatch,
+                    expectedMatch,
+                    example
+                };
+            } catch (error) {
+                console.error('Error testing example:', error);
+                return { passed: false, error: error.message, example };
+            }
+        }
+        
+        function testExpressions() {
+            if (!engine) {
+                alert('Algebra engine not loaded yet. Please wait a moment and try again.');
+                return;
+            }
+            
+            if (!mathField1 || !mathField2) {
+                alert('MathQuill not initialized yet');
+                return;
+            }
+            
+            const expr1 = mathField1.latex().trim();
+            const expr2 = mathField2.latex().trim();
+            const resultDiv = document.getElementById('result');
+            const debugDiv = document.getElementById('debug');
+            const verboseLogging = document.getElementById('verboseLogging').checked;
+            
+            if (!expr1 || !expr2) {
+                alert('Please enter both expressions');
+                return;
+            }
+            
+            // Start enhanced logging
+            debugLogger.startCapture();
+            
+            console.log('ALGEBRA ENGINE DEBUG SESSION STARTED');
+            console.log('='.repeat(50));
+            console.log('Input Expressions:');
+            console.log('   Student Answer (LaTeX):', expr1);
+            console.log('   Correct Answer (LaTeX):', expr2);
+            console.log('');
+            
+            try {
+                // Test the comparison with detailed logging
+                const startTime = performance.now();
+                const isMatch = engine.compareExpressions(expr1, expr2);
+                const endTime = performance.now();
+                
+                console.log('Processing Time:', (endTime - startTime).toFixed(2) + 'ms');
+                console.log('Final Result:', isMatch ? 'MATCH' : 'NO MATCH');
+                console.log('='.repeat(50));
+                
+                // Display result
+                resultDiv.style.display = 'block';
+                resultDiv.className = isMatch ? 'result match' : 'result no-match';
+                resultDiv.innerHTML = `
+                    <strong>${isMatch ? 'MATCH' : 'NO MATCH'}</strong><br>
+                    Expression 1: <code>${expr1}</code><br>
+                    Expression 2: <code>${expr2}</code><br>
+                    Result: ${isMatch ? 'Expressions are considered equivalent' : 'Expressions are not equivalent'}<br>
+                    <small>Processing time: ${(endTime - startTime).toFixed(2)}ms</small>
+                `;
+                
+            } catch (error) {
+                console.error('CRITICAL ERROR:', error.message);
+                console.error('Stack trace:', error.stack);
+                
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result no-match';
+                resultDiv.innerHTML = `<strong>ERROR</strong><br>${error.message}<br><small>Check console for details</small>`;
+            } finally {
+                // Stop logging and display results
+                const debugOutput = debugLogger.stopCapture();
+                debugDiv.style.display = 'block';
+                debugDiv.textContent = verboseLogging ? debugOutput : (debugOutput.split('\n').slice(-10).join('\n') || 'No debug output captured');
+            }
+        }
+        
+        function clearResults() {
+            if (mathField1 && mathField2) {
+                mathField1.latex('');
+                mathField2.latex('');
+            }
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('debug').style.display = 'none';
+        }
+        
+        // Custom examples management
+        function addCustomExample() {
+            if (!newExprField1 || !newExprField2) {
+                alert('MathQuill fields not initialized yet');
+                return;
+            }
+            
+            const expr1 = newExprField1.latex().trim();
+            const expr2 = newExprField2.latex().trim();
+            const expectedResult = document.getElementById('expectedResult').value;
+            
+            if (!expr1 || !expr2) {
+                alert('Please enter both expressions');
+                return;
+            }
+            
+            const example = { 
+                expr1, 
+                expr2, 
+                expected: expectedResult,
+                id: Date.now(),
+                lastTested: null,
+                lastResult: null 
+            };
+            customExamples.push(example);
+            saveCustomExamples();
+            renderCustomExamples();
+            
+            // Clear input fields
+            newExprField1.latex('');
+            newExprField2.latex('');
+            document.getElementById('expectedResult').selectedIndex = 0;
+            
+            // Test the new example immediately
+            loadExampleAndTest(expr1, expr2, expectedResult);
+        }
+        
+        function deleteCustomExample(id) {
+            customExamples = customExamples.filter(ex => ex.id !== id);
+            saveCustomExamples();
+            renderCustomExamples();
+        }
+        
+        function handleExampleButtonClick(event) {
+            if (event.target.classList.contains('example-btn')) {
+                const expr1 = decodeURIComponent(event.target.dataset.expr1);
+                const expr2 = decodeURIComponent(event.target.dataset.expr2);
+                loadExample(expr1, expr2);
+            } else if (event.target.classList.contains('edit-btn')) {
+                const index = parseInt(event.target.dataset.index);
+                startEdit(index);
+            } else if (event.target.classList.contains('delete-btn')) {
+                const id = parseInt(event.target.dataset.id);
+                deleteCustomExample(id);
+            }
+        }
+        
+        function testAllExamples() {
+            if (!engine) {
+                alert('Algebra engine not loaded yet. Please wait a moment and try again.');
+                return;
+            }
+            
+            if (customExamples.length === 0) {
+                alert('No custom examples to test. Add some examples first.');
+                return;
+            }
+            
+            const results = [];
+            let passed = 0;
+            let failed = 0;
+            
+            console.log('=== BULK TESTING ALL EXAMPLES ===');
+            
+            customExamples.forEach((example, index) => {
+                console.log(`Testing example ${index + 1}: ${example.expr1} vs ${example.expr2} (expecting ${example.expected})`);
+                const result = testSingleExample(example);
+                results.push(result);
+                
+                if (result.passed) {
+                    passed++;
+                } else {
+                    failed++;
+                }
+            });
+            
+            // Save updated examples
+            saveCustomExamples();
+            renderCustomExamples();
+            
+            // Show bulk results
+            const bulkResultsDiv = document.getElementById('bulkResults');
+            bulkResultsDiv.style.display = 'block';
+            bulkResultsDiv.innerHTML = `
+                <h4>Bulk Test Results</h4>
+                <p><strong>Total:</strong> ${customExamples.length} | 
+                <strong style="color: #155724;">Passed:</strong> ${passed} | 
+                <strong style="color: #721c24;">Failed:</strong> ${failed}</p>
+                <p><strong>Success Rate:</strong> ${((passed / customExamples.length) * 100).toFixed(1)}%</p>
+            `;
+            
+            console.log(`Bulk testing complete: ${passed}/${customExamples.length} passed`);
+        }
+        
+        // Edit functionality
+        function startEdit(index) {
+            if (index < 0 || index >= customExamples.length) return;
+            
+            currentEditingIndex = index;
+            const example = customExamples[index];
+            
+            // Populate edit form
+            if (editExprField1 && editExprField2) {
+                editExprField1.latex(example.expr1);
+                editExprField2.latex(example.expr2);
+                document.getElementById('editExpectedResult').value = example.expected;
+            }
+            
+            // Show edit form
+            const editForm = document.getElementById('editForm');
+            editForm.classList.add('active');
+            
+            // Scroll to edit form
+            editForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function saveEdit() {
+            if (currentEditingIndex < 0 || !editExprField1 || !editExprField2) return;
+            
+            const expr1 = editExprField1.latex().trim();
+            const expr2 = editExprField2.latex().trim();
+            const expectedResult = document.getElementById('editExpectedResult').value;
+            
+            if (!expr1 || !expr2) {
+                alert('Please enter both expressions');
+                return;
+            }
+            
+            // Update the example
+            customExamples[currentEditingIndex] = {
+                ...customExamples[currentEditingIndex],
+                expr1,
+                expr2,
+                expected: expectedResult,
+                lastTested: null, // Reset test results since example changed
+                lastResult: null
+            };
+            
+            saveCustomExamples();
+            renderCustomExamples();
+            cancelEdit();
+        }
+        
+        function cancelEdit() {
+            currentEditingIndex = -1;
+            const editForm = document.getElementById('editForm');
+            editForm.classList.remove('active');
+            
+            // Clear edit form
+            if (editExprField1 && editExprField2) {
+                editExprField1.latex('');
+                editExprField2.latex('');
+                document.getElementById('editExpectedResult').selectedIndex = 0;
+            }
+        }
+        
+        // CSV Export/Import functionality
+        function exportExamples() {
+            if (customExamples.length === 0) {
+                alert('No examples to export');
+                return;
+            }
+            
+            // Create CSV content
+            const headers = ['Student Answer', 'Correct Answer', 'Expected Result', 'Last Test Result', 'Last Tested'];
+            const csvRows = [headers.join(',')];
+            
+            customExamples.forEach(example => {
+                const row = [
+                    `"${example.expr1.replace(/"/g, '""')}"`, // Escape quotes
+                    `"${example.expr2.replace(/"/g, '""')}"`,
+                    example.expected,
+                    example.lastResult !== null ? (example.lastResult ? 'PASS' : 'FAIL') : 'Not Tested',
+                    example.lastTested ? new Date(example.lastTested).toISOString() : 'Never'
+                ];
+                csvRows.push(row.join(','));
+            });
+            
+            // Create and download file
+            const csvContent = csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `algebra-debug-examples-${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            console.log(`Exported ${customExamples.length} examples to CSV`);
+        }
+        
+        function importExamples(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
+                alert('Please select a CSV file');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const csv = e.target.result;
+                    const lines = csv.split('\n').filter(line => line.trim());
+                    
+                    if (lines.length < 2) {
+                        alert('CSV file appears to be empty or invalid');
+                        return;
+                    }
+                    
+                    // Skip header row
+                    const dataLines = lines.slice(1);
+                    const importedExamples = [];
+                    let errors = [];
+                    
+                    dataLines.forEach((line, index) => {
+                        try {
+                            // Parse CSV line (handle quoted fields)
+                            const fields = parseCSVLine(line);
+                            
+                            if (fields.length < 3) {
+                                errors.push(`Line ${index + 2}: Not enough columns`);
+                                return;
+                            }
+                            
+                            const [expr1, expr2, expected] = fields;
+                            
+                            if (!expr1.trim() || !expr2.trim()) {
+                                errors.push(`Line ${index + 2}: Empty expressions`);
+                                return;
+                            }
+                            
+                            if (expected !== 'accept' && expected !== 'reject') {
+                                errors.push(`Line ${index + 2}: Expected result must be 'accept' or 'reject'`);
+                                return;
+                            }
+                            
+                            importedExamples.push({
+                                expr1: expr1.trim(),
+                                expr2: expr2.trim(),
+                                expected: expected.trim(),
+                                id: Date.now() + Math.random(), // Unique ID
+                                lastTested: null,
+                                lastResult: null
+                            });
+                            
+                        } catch (error) {
+                            errors.push(`Line ${index + 2}: ${error.message}`);
+                        }
+                    });
+                    
+                    if (errors.length > 0) {
+                        const showErrors = confirm(`Found ${errors.length} errors. Import ${importedExamples.length} valid examples anyway?\n\nFirst few errors:\n${errors.slice(0, 5).join('\n')}`);
+                        if (!showErrors) return;
+                    }
+                    
+                    if (importedExamples.length === 0) {
+                        alert('No valid examples found in CSV file');
+                        return;
+                    }
+                    
+                    const shouldReplace = confirm(`Import ${importedExamples.length} examples. Replace existing examples or add to them?\n\nOK = Replace, Cancel = Add to existing`);
+                    
+                    if (shouldReplace) {
+                        customExamples = importedExamples;
+                    } else {
+                        customExamples.push(...importedExamples);
+                    }
+                    
+                    saveCustomExamples();
+                    renderCustomExamples();
+                    
+                    alert(`Successfully imported ${importedExamples.length} examples`);
+                    
+                } catch (error) {
+                    console.error('Error importing CSV:', error);
+                    alert('Error importing CSV file: ' + error.message);
+                }
+            };
+            
+            reader.readAsText(file);
+            
+            // Clear the file input
+            event.target.value = '';
+        }
+        
+        // Helper function to parse CSV line with proper quote handling
+        function parseCSVLine(line) {
+            const fields = [];
+            let current = '';
+            let inQuotes = false;
+            let i = 0;
+            
+            while (i < line.length) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        // Escaped quote
+                        current += '"';
+                        i += 2;
+                    } else {
+                        // Toggle quote state
+                        inQuotes = !inQuotes;
+                        i++;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    // Field separator
+                    fields.push(current);
+                    current = '';
+                    i++;
+                } else {
+                    current += char;
+                    i++;
+                }
+            }
+            
+            // Add the last field
+            fields.push(current);
+            
+            return fields;
+        }
+        
+        function renderCustomExamples() {
+            const container = document.getElementById('customExamplesList');
+            container.innerHTML = '';
+            
+            if (customExamples.length === 0) {
+                container.innerHTML = '<p style="color: #666; font-style: italic;">No custom examples yet. Add one above!</p>';
+                return;
+            }
+            
+            // Add headers
+            const header = document.createElement('div');
+            header.className = 'example-row';
+            header.style.fontWeight = 'bold';
+            header.style.borderBottom = '2px solid #ddd';
+            header.style.paddingBottom = '5px';
+            header.innerHTML = `
+                <div>Student Answer</div>
+                <div>Correct Answer</div>
+                <div>Expected</div>
+                <div>Result</div>
+                <div colspan="3">Actions</div>
+                <div></div>
+                <div></div>
+            `;
+            container.appendChild(header);
+            
+            customExamples.forEach((example, index) => {
+                const row = document.createElement('div');
+                row.className = 'example-row';
+                row.dataset.index = index;
+                
+                // Determine result display
+                let resultDisplay = 'Not tested';
+                let resultClass = '';
+                if (example.lastResult !== null) {
+                    resultDisplay = example.lastResult ? '✓ PASS' : '✗ FAIL';
+                    resultClass = example.lastResult ? 'test-pass' : 'test-fail';
+                }
+                
+                row.innerHTML = `
+                    <div class="example-expr">${example.expr1}</div>
+                    <div class="example-expr">${example.expr2}</div>
+                    <div class="example-expr">${example.expected === 'accept' ? 'Accept' : 'Reject'}</div>
+                    <div class="test-result ${resultClass}">${resultDisplay}</div>
+                    <button class="example-btn" data-expr1="${encodeURIComponent(example.expr1)}" data-expr2="${encodeURIComponent(example.expr2)}">Load</button>
+                    <button class="edit-btn" data-index="${index}">Edit</button>
+                    <button class="delete-btn" data-id="${example.id}">Delete</button>
+                `;
+                container.appendChild(row);
+            });
+            
+            // Add event listeners for buttons
+            container.addEventListener('click', handleExampleButtonClick);
+        }
+        
+        // Enhanced logging for algebraEngine
+        function enhanceEngineWithLogging() {
+            if (!engine) return;
+            
+            // Wrap key methods with detailed logging
+            const originalLatexToMathJS = engine.latexToMathJS;
+            engine.latexToMathJS = function(latex) {
+                console.log('Converting LaTeX to Math.js:');
+                console.log('   Input:', latex);
+                const result = originalLatexToMathJS.call(this, latex);
+                console.log('   Output:', result);
+                return result;
+            };
+            
+            const originalValidateAlgebraicExpression = engine.validateAlgebraicExpression;
+            engine.validateAlgebraicExpression = function(studentAnswer, correctAnswer) {
+                console.log('Validating Algebraic Expression:');
+                console.log('   Student:', studentAnswer);
+                console.log('   Correct:', correctAnswer);
+                const result = originalValidateAlgebraicExpression.call(this, studentAnswer, correctAnswer);
+                console.log('   Validation Result:', result);
+                return result;
+            };
+            
+            const originalCheckSimplification = engine.checkSimplification;
+            engine.checkSimplification = function(ast) {
+                console.log('Checking Simplification:');
+                console.log('   AST type:', ast?.type);
+                console.log('   AST string:', ast?.toString?.());
+                const result = originalCheckSimplification.call(this, ast);
+                console.log('   Simplification Check:', result.isSimplified ? 'Simplified' : 'Not simplified');
+                if (!result.isSimplified) {
+                    console.log('   Reason:', result.reason);
+                }
+                return result;
+            };
+            
+            const originalCheckMathematicalEquivalence = engine.checkMathematicalEquivalence;
+            engine.checkMathematicalEquivalence = function(ast1, ast2) {
+                console.log('Checking Mathematical Equivalence:');
+                console.log('   AST1:', ast1?.toString?.());
+                console.log('   AST2:', ast2?.toString?.());
+                const result = originalCheckMathematicalEquivalence.call(this, ast1, ast2);
+                console.log('   Mathematical Equivalence:', result ? 'Equivalent' : 'Not equivalent');
+                return result;
+            };
+        }
+        
+        // Allow Enter key to trigger test (will be handled by MathQuill fields)
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (e.target.closest('.mathquill-input')) {
+                    testExpressions();
+                } else if (e.target.closest('.add-example-form')) {
+                    addCustomExample();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <title>Algebra Mastery</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for math rendering 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script> -->
+    
+    <!-- MathQuill CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
+    
+    <!-- Math.js for algebraic evaluation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Add progress tracking styles -->
+    <link rel="stylesheet" href="progress-tracking/progressStyles.css">
+    <link rel="stylesheet" href="algebra-style.css"> 
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container mx-auto text-center">
+
+        <div id="settings-screen" class="card mx-auto">
+            <h1 class="text-3xl md:text-3xl font-bold text-gray-800 mb-2">Algebra Mastery</h1>
+            <p class="text-gray-600 mb-4">Answer 10 in a row quickly to achieve mastery</p>
+            
+            <!-- Topic Mastery Progress Bars -->
+            <div id="mastery-progress-section" class="mb-8">
+                <div id="mastery-progress-bars" class="grid grid-cols-2 gap-4"></div>
+            </div>
+            
+            <!-- Skill Path Container -->
+            <div id="skill-path-container" class="mb-6">
+                <div id="skill-path-header" class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-700">Learning Path</h2>
+                    <button id="toggle-grid-view" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Show All Levels</button>
+                </div>
+                <div id="skill-path" class="skill-path-scroll mb-4"></div>
+                <div id="level-selection-container" class="hidden"></div>
+            </div>
+            
+            <p class="text-xs text-gray-300 mt-6 text-center">Found a bug? Email jding@plc.nsw.edu.au</p>
+        </div>
+
+        <div id="game-screen" class="card mx-auto hidden">
+            <div class="flex justify-between items-center mb-6 text-lg">
+                <div class="font-semibold text-gray-700">Streak: <span id="streak-counter" class="font-bold text-blue-600 text-xl">0</span>🔥</div>
+                <div class="font-semibold text-gray-700 timer-hidden">Time: <span id="timer" class="font-bold text-blue-600 text-xl">00:00</span></div>
+            </div>
+            <div id="question-container" class="my-12 min-h-[60px] flex items-center justify-center">
+                <div id="question-text" class="question-text algebra-question"></div>
+            </div>
+            <div id="feedback-message" class="feedback mb-6 text-lg"></div>
+            
+            <!-- Testing div - remove for production 
+            <div id="test-answer-display" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-2 rounded mb-4">
+                <strong>Test - Correct Answer:</strong> <span id="test-answer-content"></span>
+            </div> -->
+            
+            <button id="quit-btn" class="text-gray-500 hover:text-gray-700 font-semibold">Back to Levels</button>
+        </div>
+
+        <div id="success-screen" class="card mx-auto hidden">
+            <h2 class="text-3xl md:text-4xl font-bold text-green-500 mb-4">🎉 Challenge Complete! 🎉</h2>
+            <p class="text-gray-700 text-xl mb-2">You got 15 in a row for <br><span id="completed-level" class="font-bold"></span></p>
+            <p class="text-gray-700 text-xl mb-4">Your time: <span id="final-time" class="font-bold text-blue-600"></span></p>
+            <div id="rating-info" class="bg-blue-100 text-blue-800 rounded-xl p-4 mb-6">
+                <p class="text-lg font-semibold">Rating: <span id="final-rating" class="font-bold"></span></p>
+                <p id="best-time-message" class="mt-1 font-medium"></p>
+                <p id="rating-explanation" class="text-sm mt-2 text-blue-700"></p>
+            </div>
+            
+            <!-- Primary Action: Continue to Next Challenge -->
+            <button id="continue-next-btn" class="btn btn-primary w-full max-w-xs mx-auto text-base mb-4">
+                Next Recommended Challenge →
+            </button>
+            
+            <!-- Secondary Actions -->
+            <div class="flex gap-4 justify-center">
+                <button id="replay-level-btn" class="text-gray-500 hover:text-gray-700 font-medium text-sm">↻ Replay Level</button>
+                <button id="play-again-btn" class="text-gray-500 hover:text-gray-700 font-medium text-sm">← Back to Levels</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Load modular scripts -->
+    <script src="algebra-modules/config.js"></script>
+    <script src="algebra-modules/helpers.js"></script>
+    <script src="algebra-modules/timer.js"></script>
+    <script src="algebra-modules/storage.js"></script>
+    <script src="algebra-modules/confetti.js"></script>
+    <script src="algebra-modules/gameState.js"></script>
+    <script src="algebra-modules/algebraEngine.js"></script>
+    
+    <!-- Load individual level modules -->
+    <script src="levels/OrderOfOperationsEasy.js"></script>
+    <script src="levels/OrderOfOperationsMedium.js"></script>
+    <script src="levels/OrderOfOperationsHard.js"></script>
+    <script src="levels/simplifyLikeTermsEasy.js"></script>
+    <script src="levels/simplifyLikeTermsMedium.js"></script>
+    <script src="levels/simplifyLikeTermsHard.js"></script>
+    <script src="levels/multiplyTermsEasy.js"></script>
+    <script src="levels/multiplyTermsMedium.js"></script>
+    <script src="levels/multiplyTermsHard.js"></script>
+    <script src="levels/cancellingEasy.js"></script>
+    <script src="levels/cancellingMedium.js"></script>
+    <script src="levels/cancellingHard.js"></script>
+    <script src="levels/indexLawEasy.js"></script>
+    <script src="levels/indexLawMedium.js"></script>
+    <script src="levels/indexLawHard.js"></script>
+    <script src="levels/IndexLawsDivisionEasy.js"></script>
+    <script src="levels/IndexLawsDivisionMedium.js"></script>
+    <script src="levels/IndexLawsDivisionHard.js"></script>
+    <script src="levels/IndexLawPowerEasy.js"></script>
+    <script src="levels/IndexLawPowerMedium.js"></script>
+    <script src="levels/IndexLawPowerHard.js"></script>
+    <script src="levels/mixedIndexLawsEasy.js"></script>
+    <script src="levels/mixedIndexLawsMedium.js"></script>
+    <script src="levels/mixedIndexLawsHard.js"></script>
+    <script src="levels/expansionEasy.js"></script>
+    <script src="levels/expansionMedium.js"></script>
+    <script src="levels/expansionHard.js"></script>
+    <script src="levels/expandingDoubleBracketsEasy.js"></script>
+    <script src="levels/expandingDoubleBracketsMedium.js"></script>
+    <script src="levels/expandingDoubleBracketsHard.js"></script>
+    <script src="levels/powerProductQuotientEasy.js"></script>
+    <script src="levels/powerProductQuotientMedium.js"></script>
+    <script src="levels/powerProductQuotientHard.js"></script>
+    <script src="levels/mixedAlgebraicSimplificationEasy.js"></script>
+    <script src="levels/mixedAlgebraicSimplificationMedium.js"></script>
+    <script src="levels/mixedAlgebraicSimplificationHard.js"></script>
+    <script src="levels/expandingAndSimplifyingEasy.js"></script>
+    <script src="levels/expandingAndSimplifyingMedium.js"></script>
+    <script src="levels/expandingAndSimplifyingHard.js"></script>
+    <script src="levels/addSubtractAlgebraicFractionsEasy.js"></script>
+    <script src="levels/addSubtractAlgebraicFractionsMedium.js"></script>
+    <script src="levels/addSubtractAlgebraicFractionsHard.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsEasy.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsMedium.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsHard.js"></script>
+    <script src="levels/negativeIndicesEasy.js"></script>
+    <script src="levels/negativeIndicesMedium.js"></script>
+    <script src="levels/negativeIndicesHard.js"></script>
+    <script src="levels/factorising-easy.js"></script>
+    <script src="levels/factorising-medium.js"></script>
+    <script src="levels/factorising-hard.js"></script>
+    <script src="levels/factorisingMonicQuadraticTrinomialsEasy.js"></script>
+    <script src="levels/factorisingMonicQuadraticTrinomialsMedium.js"></script>
+    <script src="levels/factorisingMonicQuadraticTrinomialsHard.js"></script>
+    <script src="levels/addSubtractFractionsBinomialEasy.js"></script>
+    <script src="levels/addSubtractFractionsBinomialMedium.js"></script>
+    <script src="levels/addSubtractFractionsBinomialHard.js"></script>
+    <script src="levels/expandingPerfectSquaresEasy.js"></script>
+    <script src="levels/expandingPerfectSquaresMedium.js"></script>
+    <script src="levels/expandingPerfectSquaresHard.js"></script>
+    <script src="levels/expandingDifferenceOfTwoSquaresEasy.js"></script>
+    <script src="levels/expandingDifferenceOfTwoSquaresMedium.js"></script>
+    <script src="levels/expandingDifferenceOfTwoSquaresHard.js"></script>
+    <script src="levels/differenceOfTwoSquaresEasy.js"></script>
+    <script src="levels/differenceOfTwoSquaresMedium.js"></script>
+    <script src="levels/differenceOfTwoSquaresHard.js"></script>
+    <script src="levels/perfectSquareFactorisationEasy.js"></script>
+    <script src="levels/perfectSquareFactorisationMedium.js"></script>
+    <script src="levels/perfectSquareFactorisationHard.js"></script>
+    <script src="levels/mixedExpansionEasy.js"></script>
+    <script src="levels/mixedExpansionMedium.js"></script>
+    <script src="levels/mixedExpansionHard.js"></script>
+    <script src="levels/binomialFactorsEasy.js"></script>
+    <script src="levels/binomialFactorsMedium.js"></script>
+    <script src="levels/binomialFactorsHard.js"></script>
+    <script src="levels/groupingInPairsEasy.js"></script>
+    <script src="levels/groupingInPairsMedium.js"></script>
+    <script src="levels/groupingInPairsHard.js"></script>
+    <script src="levels/factorisingNonMonicQuadraticTrinomialsEasy.js"></script>
+    <script src="levels/factorisingNonMonicQuadraticTrinomialsMedium.js"></script>
+    <script src="levels/factorisingNonMonicQuadraticTrinomialsHard.js"></script>
+    <script src="levels/mixedFactorisationEasy.js"></script>
+    <script src="levels/mixedFactorisationMedium.js"></script>
+    <script src="levels/mixedFactorisationHard.js"></script>
+    <script src="levels/finishFactorisingEasy.js"></script>
+    <script src="levels/finishFactorisingMedium.js"></script>
+    <script src="levels/finishFactorisingHard.js"></script>
+    <script src="levels/simplifyAlgebraicFractionsEasy.js"></script>
+    <script src="levels/simplifyAlgebraicFractionsMedium.js"></script>
+    <script src="levels/simplifyAlgebraicFractionsHard.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsByFactorisingEasy.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsByFactorisingMedium.js"></script>
+    <script src="levels/multiplyDivideAlgebraicFractionsByFactorisingHard.js"></script>
+    <script src="levels/addSubtractFractionsFactorisingEasy.js"></script>
+    <script src="levels/addSubtractFractionsFactorisingMedium.js"></script>
+    <script src="levels/addSubtractFractionsFactorisingHard.js"></script>
+    <script src="levels/compoundFractionsEasy.js"></script>
+    <script src="levels/compoundFractionsMedium.js"></script>
+    <script src="levels/compoundFractionsHard.js"></script>
+    <script src="levels/surdSimplificationEasy.js"></script>
+    <script src="levels/surdSimplificationMedium.js"></script>
+    <script src="levels/surdSimplificationHard.js"></script>
+    <script src="levels/addSubtractingSurdsEasy.js"></script>
+    <script src="levels/addSubtractingSurdsMedium.js"></script>
+    <script src="levels/addSubtractingSurdsHard.js"></script>
+    <script src="levels/multiplyingDividingSurdsEasy.js"></script>
+    <script src="levels/multiplyingDividingSurdsMedium.js"></script>
+    <script src="levels/multiplyingDividingSurdsHard.js"></script>
+    <script src="levels/expandingSurdsEasy.js"></script>
+    <script src="levels/expandingSurdsMedium.js"></script>
+    <script src="levels/expandingSurdsHard.js"></script>
+    <script src="levels/rationalisingDenominatorEasy.js"></script>
+    <script src="levels/rationalisingDenominatorMedium.js"></script>
+    <script src="levels/rationalisingDenominatorHard.js"></script>
+    <script src="levels/furtherRationalisingDenominatorEasy.js"></script>
+    <script src="levels/furtherRationalisingDenominatorMedium.js"></script>
+    <script src="levels/furtherRationalisingDenominatorHard.js"></script>
+    <script src="levels/evaluatingFractionalIndicesEasy.js"></script>
+    <script src="levels/evaluatingFractionalIndicesMedium.js"></script>
+    <script src="levels/evaluatingFractionalIndicesHard.js"></script>
+    <script src="levels/surdToIndexEasy.js"></script>
+    <script src="levels/surdToIndexMedium.js"></script>
+    <script src="levels/surdToIndexHard.js"></script>
+    <script src="levels/indexFormToSurdFormEasy.js"></script>
+    <script src="levels/indexFormToSurdFormMedium.js"></script>
+    <script src="levels/indexFormToSurdFormHard.js"></script>
+    
+    <script src="algebra-modules/questionGenerator.js"></script>
+    <script src="algebra-modules/ui.js"></script>
+    <script src="algebra-modules/algebraMasteryTracker.js"></script>
+    <script src="algebra-modules/gameController.js"></script>
+    <script src="algebra-app.js"></script>
+    
+    <!-- Rating utils -->
+    <script src="ratingUtils.js"></script>
+    
+    <!-- Progress tracking modules -->
+    <script src="progress-tracking/progressTracker.js"></script>
+    <script src="progress-tracking/progressChart.js"></script>
+    <script src="progress-tracking/progressShare.js"></script>
+    <script src="progress-tracking/progressUI.js"></script>
+</body>
+</html>
