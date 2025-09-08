@@ -196,7 +196,7 @@ body {
 .skill-path-scroll {
     display: flex;
     overflow-x: auto;
-    padding: 2rem 0;
+    padding: 1rem 0;
     gap: 0;
     align-items: center;
     scrollbar-width: thin;
@@ -403,3 +403,13 @@ body {
         left: -0.75rem;
     }
 }
+
+.dcg {
+    padding: 3px 5px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    white-space: nowrap;
+    line-height: 2em;
+    margin: 0 1px;
+}
+

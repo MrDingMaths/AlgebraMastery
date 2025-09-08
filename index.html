@@ -9,9 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     
-    <!-- KaTeX for math rendering 
+    <!-- KaTeX for math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script> 
     
     <!-- MathQuill CSS and JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css">
@@ -37,7 +37,7 @@
         <div id="settings-screen" class="card mx-auto">
             <h1 class="text-3xl md:text-3xl font-bold text-gray-800 mb-2">Algebra Mastery Challenge</h1>
             <p class="text-gray-600 mb-4">Answer 10 in a row quickly to achieve mastery</p>
-            
+
             <!-- Topic Mastery Progress Bars -->
             <div id="mastery-progress-section" class="mb-8">
                 <div id="mastery-progress-bars" class="grid grid-cols-2 gap-4"></div>
@@ -52,7 +52,20 @@
                 <div id="skill-path" class="skill-path-scroll mb-4"></div>
                 <div id="level-selection-container" class="hidden"></div>
             </div>
-            
+            <table class="text-gray-600 mb-4 mx-auto text-left w-full max-w-lg">
+                <tr>
+                    <td class="pr-4 py-1 w-1/8"><span class="mathquill-static" id="power-example">a^n</span></td>
+                    <td class="pr-8 py-1 w-3/8"><span class="dcg">^</span> (<span class="dcg">shift</span><span class="dcg">6</span>)</td>
+                    <td class="pr-4 py-1 w-1/8"><span class="mathquill-static" id="fraction-example">\frac{a}{b}</span></td>
+                    <td class="py-1 w-3/8"><span class="dcg">a</span><span class="dcg">/</span><span class="dcg">b</span></td>
+                </tr>
+                <tr>
+                    <td class="pr-4 py-1 w-1/8"><span class="mathquill-static" id="sqrt-example">\sqrt{a}</span></td>
+                    <td class="pr-8 py-1 w-3/8"><span class="dcg">s</span><span class="dcg">q</span><span class="dcg">r</span><span class="dcg">t</span></td>
+                    <td class="pr-4 py-1 w-1/8"><span class="mathquill-static" id="nthroot-example">\sqrt[n]{a}</span></td>
+                    <td class="py-1 w-3/8"><span class="dcg">n</span><span class="dcg">t</span><span class="dcg">h</span><span class="dcg">r</span><span class="dcg">o</span><span class="dcg">o</span><span class="dcg">t</span></td>
+                </tr>
+            </table>
             <p class="text-xs text-gray-300 mt-6 text-center">Found a bug? Email jding@plc.nsw.edu.au</p>
         </div>
 
