@@ -46,7 +46,7 @@ body {
 }
 
 .question-text {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.3rem, 3vw, 2.2rem);
     font-weight: 700;
     color: #1f2937;
     letter-spacing: 2px;
@@ -57,13 +57,28 @@ body {
 }
 
 /* Algebra-specific styles */
+
+.mq-math-mode .mq-root-block {
+    overflow: visible !important;
+    padding-top: 0.2em !important;
+    min-height: 1.4em !important;
+}
+
+.mq-math-mode sup.mq-nthroot {
+    vertical-align: 0.4em;
+}
+
 .algebra-question {
     display: block;
     text-align: center;
 }
 
 .problem-line {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    overflow: visible !important;
 }
 
 .answer-line {
@@ -97,7 +112,7 @@ body {
 }
 
 .mathquill-editable.mq-focused {
-    border-color: #4338ca !important;
+    border-color: #0000FF !important;
     box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1) !important;
     outline: none !important;
 }
