@@ -35,6 +35,21 @@ class UI {
 
     initializeMathQuill() {
         this.MQ = MathQuill.getInterface(2);
+        
+        // Initialize static math examples on settings screen
+        const staticExamples = [
+            'power-example',
+            'fraction-example',
+            'sqrt-example',
+            'nthroot-example'
+        ];
+        
+        staticExamples.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                this.MQ.StaticMath(element);
+            }
+        });
     }
 
     showScreen(screenName) {
