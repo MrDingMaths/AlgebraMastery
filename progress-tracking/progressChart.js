@@ -379,6 +379,11 @@ class ProgressChart {
 
     // Helper to get level name from key
     getLevelNameFromKey(key) {
+        // Special case for practice mistakes level
+        if (key === 'practiceAllMistakes') {
+            return 'Practise Mistakes';
+        }
+        
         // Use CONFIG.LEVEL_GROUPS to dynamically find the level name
         const config = CONFIG || window.CONFIG;
         if (!config || !config.LEVEL_GROUPS) {

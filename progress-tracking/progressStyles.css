@@ -776,14 +776,14 @@
 }
 
 .btn-danger {
-   background: #fef2f2;
-   color: #b91c1c;
+   background: #fee2e2;
+   color: #dc2626;
    border: 1px solid #fecaca;
 }
 
 .btn-danger:hover {
-   background: #fee2e2;
-   color: #991b1b;
+   background: #fecaca;
+   color: #dc2626;
 }
 
 /* Share Dialog */
@@ -1172,4 +1172,258 @@
        height: auto;
        page-break-inside: avoid;
    }
+}
+
+/* Mistakes Tab Styles */
+.mistakes-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.mistakes-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.mistakes-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.mistakes-table th {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    padding: 16px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 2px solid #e5e7eb;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.mistakes-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 13px;
+    color: #1f2937;
+    vertical-align: top;
+}
+
+.mistakes-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.mistakes-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.mistakes-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Column Specific Styles */
+.level-column {
+    font-weight: 600;
+    color: #3b82f6;
+    max-width: 150px;
+    word-wrap: break-word;
+}
+
+.question-column,
+.correct-answer-column,
+.student-answer-column {
+    max-width: 180px;
+    word-wrap: break-word;
+}
+
+.date-column {
+    color: #6b7280;
+    min-width: 90px;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.actions-column {
+    text-align: center;
+    width: 60px;
+}
+
+/* Math Display in Table */
+.math-display {
+    font-family: 'Computer Modern', 'Times New Roman', serif;
+    font-size: 14px;
+    background: #f9fafb;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    display: inline-block;
+    margin: 2px 0;
+}
+
+/* Delete Button */
+.delete-mistake-btn {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-mistake-btn:hover {
+    background: #fecaca;
+    color: #b91c1c;
+    border-color: #f87171;
+}
+
+.delete-mistake-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Small button variant */
+.btn-small {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-height: auto;
+}
+
+/* No Mistakes Message */
+.no-mistakes {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+}
+
+.no-mistakes.hidden {
+    display: none;
+}
+
+.no-mistakes-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.no-mistakes h3 {
+    color: #374151;
+    margin: 16px 0 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.no-mistakes p {
+    color: #6b7280;
+    font-size: 16px;
+    margin: 0;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Practice Mistakes Button */
+#practice-mistakes {
+    background: #8ce6c5;
+    color: #0b714c;
+    font-weight: 600;
+}
+
+#practice-mistakes:hover {
+    background: #7ce2bd;
+    transform: translateY(-1px);
+}
+
+#practice-mistakes:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Clear Mistakes Button */
+#clear-mistakes {
+    background: #fee2e2;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+#clear-mistakes:hover {
+    background: #fecaca;
+    transform: translateY(-1px);
+}
+
+/* Mobile Responsive for Mistakes */
+@media (max-width: 768px) {
+    .mistakes-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mistakes-controls .btn {
+        width: 100%;
+    }
+
+    .mistakes-table {
+        max-height: 300px;
+    }
+
+    .mistakes-table th,
+    .mistakes-table td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+
+    .level-column,
+    .question-column,
+    .correct-answer-column,
+    .student-answer-column {
+        max-width: 120px;
+    }
+
+    .math-display {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
+    .date-column {
+        font-size: 11px;
+        min-width: 80px;
+    }
+
+    .delete-mistake-btn {
+        padding: 4px 6px;
+    }
+
+    .delete-mistake-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .no-mistakes {
+        padding: 40px 20px;
+    }
+
+    .no-mistakes-icon {
+        font-size: 36px;
+    }
+
+    .no-mistakes h3 {
+        font-size: 18px;
+    }
+
+    .no-mistakes p {
+        font-size: 14px;
+    }
 }

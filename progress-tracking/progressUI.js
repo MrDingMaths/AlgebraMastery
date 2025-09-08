@@ -51,6 +51,7 @@ class ProgressUI {
                     <button class="tab-btn active" data-view="overview">Overview</button>
                     <button class="tab-btn" data-view="drills">Improvement</button>
                     <button class="tab-btn" data-view="history">History</button>
+                    <button class="tab-btn" data-view="mistakes">Mistakes</button>
                 </div>
                 
                 <div class="progress-content">
@@ -152,6 +153,36 @@ class ProgressUI {
                             </table>
                         </div>
                     </div>
+                    
+                    <!-- Mistakes Tab -->
+                    <div id="mistakes-content" class="tab-content">
+                        <div class="mistakes-controls">
+                            <button id="practice-mistakes" class="btn btn-primary" title="Practice all your mistakes">Practise Mistakes</button>
+                            <button id="clear-mistakes" class="btn btn-danger" title="Clear all recorded mistakes">Clear All Mistakes</button>
+                        </div>
+                        
+                        <div class="mistakes-table">
+                            <table id="mistakes-table">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Question</th>
+                                        <th>Correct Answer</th>
+                                        <th>Your Answer</th>
+                                        <th>Date</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mistakes-tbody"></tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="no-mistakes-message" class="no-mistakes hidden">
+                            <div class="no-mistakes-icon">🎯</div>
+                            <h3>No mistakes recorded yet!</h3>
+                            <p>Keep practising and any incorrect answers will appear here for you to review.</p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="progress-actions">
@@ -213,6 +244,10 @@ class ProgressUI {
         
         // Data management
         document.getElementById('clear-data')?.addEventListener('click', () => this.confirmClearData());
+        
+        // Mistakes management
+        document.getElementById('practice-mistakes')?.addEventListener('click', () => this.practiceAllMistakes());
+        document.getElementById('clear-mistakes')?.addEventListener('click', () => this.confirmClearMistakes());
         
         // Close modal on background click
         document.getElementById('progress-modal')?.addEventListener('click', (e) => {
@@ -293,6 +328,9 @@ class ProgressUI {
         
         // Update history table
         this.updateHistoryTable();
+        
+        // Update mistakes table
+        this.updateMistakesTable();
     }
 
     // Populate drill selectors
@@ -760,5 +798,106 @@ class ProgressUI {
         });
         
         console.log(`Cleared ${keys.length} best time records`);
+    }
+
+    // Update mistakes table
+    updateMistakesTable() {
+        const mistakes = this.progressTracker.getAllMistakes();
+        const tbody = document.getElementById('mistakes-tbody');
+        const noMistakesMessage = document.getElementById('no-mistakes-message');
+        const mistakesTable = document.querySelector('.mistakes-table');
+        
+        if (tbody && mistakesTable && noMistakesMessage) {
+            if (mistakes.length === 0) {
+                mistakesTable.style.display = 'none';
+                noMistakesMessage.classList.remove('hidden');
+            } else {
+                mistakesTable.style.display = 'block';
+                noMistakesMessage.classList.add('hidden');
+                
+                const tableRows = mistakes.map(mistake => {
+                    const date = new Date(mistake.timestamp);
+                    const dateStr = date.toLocaleDateString();
+                    
+                    return `<tr data-mistake-id="${mistake.id}">` +
+                        `<td class="level-column">${mistake.levelName}</td>` +
+                        `<td class="question-column"><div class="math-display">${mistake.question}</div></td>` +
+                        `<td class="correct-answer-column"><div class="math-display">${mistake.correctAnswer}</div></td>` +
+                        `<td class="student-answer-column"><div class="math-display">${mistake.studentAnswer}</div></td>` +
+                        `<td class="date-column">${dateStr}</td>` +
+                        `<td class="actions-column">
+                            <button class="btn btn-small btn-danger delete-mistake-btn" data-mistake-id="${mistake.id}" title="Remove this mistake">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/>
+                                </svg>
+                            </button>
+                        </td>` +
+                        `</tr>`;
+                }).join('');
+                
+                tbody.innerHTML = tableRows;
+                
+                // Add event listeners to delete buttons
+                tbody.querySelectorAll('.delete-mistake-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const mistakeId = e.currentTarget.dataset.mistakeId;
+                        this.deleteMistake(mistakeId);
+                    });
+                });
+            }
+        }
+    }
+
+    // Delete a specific mistake
+    deleteMistake(mistakeId) {
+        if (confirm('Are you sure you want to remove this mistake from your list?')) {
+            const success = this.progressTracker.deleteMistake(mistakeId);
+            if (success) {
+                this.updateMistakesTable();
+            } else {
+                alert('Error deleting mistake. Please try again.');
+            }
+        }
+    }
+
+    // Practice all mistakes as a custom level
+    practiceAllMistakes() {
+        const mistakes = this.progressTracker.getAllMistakes();
+        
+        if (mistakes.length <= 5) {
+            alert('You need at least 5 mistakes to practise. Play more levels to build your mistake list.');
+            return;
+        }
+        
+        // Close the progress modal
+        this.hide();
+        
+        // Create a custom level using the mistakes
+        const mistakesLevel = {
+            key: 'practiceAllMistakes',
+            name: 'Practise Mistakes',
+            value: 'mistakes',
+            type: 'mistakes'
+        };
+        
+        // Check if gameController exists globally
+        if (window.gameController) {
+            window.gameController.startGame(mistakesLevel);
+        } else {
+            alert('Game controller not available. Please refresh the page and try again.');
+        }
+    }
+
+    // Clear all mistakes with confirmation
+    confirmClearMistakes() {
+        if (confirm('Are you sure you want to clear all recorded mistakes? This action cannot be undone.')) {
+            const success = this.progressTracker.clearAllMistakes();
+            if (success) {
+                this.updateMistakesTable();
+                alert('All mistakes have been cleared.');
+            } else {
+                alert('Error clearing mistakes. Please try again.');
+            }
+        }
     }
 }
