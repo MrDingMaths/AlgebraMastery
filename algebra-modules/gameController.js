@@ -68,6 +68,7 @@ class GameController {
         this.state.setLevel(level);
         this.ui.showScreen('game');
         this.ui.updateStreak(0);
+        this.ui.updateLevelName(level.name);
         this.timer.start();
         this.generateQuestion();
     }
@@ -140,6 +141,9 @@ class GameController {
                 this.ui.showFeedback(false, null, correctAnswer);
                 this.timer.reset();
                 
+                // Record the mistake
+                this.recordMistake(userAnswer, correctAnswer);
+                
                 setTimeout(() => { 
                     this.answerSubmitted = false;
                     this.generateQuestion(); 
@@ -207,6 +211,24 @@ class GameController {
         }
         
         this.isChecking = false;
+    }
+
+    recordMistake(studentAnswer, correctAnswer) {
+        // Record mistake for progress tracking
+        try {
+            if (window.progressTracker && this.state.currentLevel && this.state.currentQuestion) {
+                console.log('Recording mistake for:', this.state.currentLevel.key);
+                window.progressTracker.recordMistake(
+                    this.state.currentLevel.key,
+                    this.state.currentLevel.name,
+                    this.state.currentQuestion.problem,
+                    correctAnswer,
+                    studentAnswer
+                );
+            }
+        } catch (error) {
+            console.error('Error recording mistake (non-blocking):', error);
+        }
     }
 
     quitGame() {

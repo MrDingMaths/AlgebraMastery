@@ -7,6 +7,7 @@ class UI {
             successScreen: document.getElementById('success-screen'),
             levelSelection: document.getElementById('level-selection-container'),
             streakCounter: document.getElementById('streak-counter'),
+            levelName: document.getElementById('level-name'),
             timer: document.getElementById('timer'),
             questionText: document.getElementById('question-text'),
             feedbackMessage: document.getElementById('feedback-message'),
@@ -141,6 +142,10 @@ class UI {
 
     updateStreak(streak) { 
         this.elements.streakCounter.textContent = streak; 
+    }
+
+    updateLevelName(levelName) {
+        this.elements.levelName.innerHTML = levelName;
     }
 
     showFeedback(isCorrect, message, correctAnswer = null) {
