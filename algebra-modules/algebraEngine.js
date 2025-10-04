@@ -230,7 +230,7 @@ class AlgebraEngine {
             expr = expr.replace(new RegExp(unicode, 'g'), replacement);
         }
         expr = expr.replace(/\\left|\\right/g, '');
-        expr = expr.replace(/\\times|×/g, '*');
+        expr = expr.replace(/\\times|\\cdot|×/g, '*');
         expr = expr.replace(/÷/g, '/');
         expr = expr.replace(/\\sqrt\[(\d+)\]\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, '(($2)^(1/$1))');
         expr = expr.replace(/\\sqrt\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g, 'sqrt($1)');
