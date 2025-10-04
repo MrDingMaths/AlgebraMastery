@@ -59,8 +59,8 @@ class SurdToIndexMediumLevel {
             {problem: "7\\sqrt{6}", answer: "7 \\times 6^{\\frac{1}{2}}"},
             {problem: "5\\sqrt[3]{4}", answer: "5 \\times 4^{\\frac{1}{3}}"},
             {problem: "8\\sqrt{7}", answer: "8 \\times 7^{\\frac{1}{2}}"},
-            {problem: "9\\sqrt[4]{3}", answer: "9 \\times 3^{\\frac{1}{4}}"},
-            {problem: "4\\sqrt[5]{2}", answer: "4 \\times 2^{\\frac{1}{5}}"},
+            {problem: "9\\sqrt[4]{3}", answer: "3^{\\frac{9}{4}}"},
+            {problem: "4\\sqrt[5]{2}", answer: "2^{\\frac{11}{5}}"},
             {problem: "11\\sqrt{10}", answer: "11 \\times 10^{\\frac{1}{2}}"},
             {problem: "13\\sqrt[3]{8}", answer: "26"},
             
