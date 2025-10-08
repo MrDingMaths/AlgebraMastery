@@ -39,8 +39,8 @@ class FactorisingNonMonicQuadraticTrinomialsHardLevel {
             {problem: "30x^2 + 72x + 42", answer: "6(x + 1)(5x + 7)"},
     
             // Large coefficients with common factors
-            {problem: "50x^2 + 85x + 35", answer: "5(2x + 1)(5x + 7)"},
-            {problem: "60x^2 + 102x + 42", answer: "6(2x + 1)(5x + 7)"},
+            {problem: "50x^2 + 85x + 35", answer: "5(x + 1)(10x + 7)"},
+            {problem: "60x^2 + 102x + 42", answer: "6(x + 1)(10x + 7)"},
     
             // Negative common factors
             {problem: "-8x^2 - 24x - 16", answer: "-8(x + 1)(x + 2)"},
