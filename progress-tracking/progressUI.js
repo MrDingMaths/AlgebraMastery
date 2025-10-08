@@ -6,6 +6,7 @@ class ProgressUI {
         this.progressShare = progressShare;
         this.isVisible = false;
         this.currentView = 'overview';
+        this.MQ = null; // MathQuill interface for rendering math
         this.init();
     }
 
@@ -13,6 +14,16 @@ class ProgressUI {
         this.createProgressModal();
         this.createProgressButton();
         this.attachEventListeners();
+        this.initializeMathQuill();
+    }
+
+    // Initialize MathQuill for rendering math expressions
+    initializeMathQuill() {
+        if (typeof MathQuill !== 'undefined') {
+            this.MQ = MathQuill.getInterface(2);
+        } else {
+            console.warn('MathQuill not loaded - math rendering will be unavailable');
+        }
     }
 
     // Create progress button that appears on the main screen
@@ -836,7 +847,10 @@ class ProgressUI {
                 }).join('');
                 
                 tbody.innerHTML = tableRows;
-                
+
+                // Render math expressions
+                this.renderMistakesMath();
+
                 // Add event listeners to delete buttons
                 tbody.querySelectorAll('.delete-mistake-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -846,6 +860,32 @@ class ProgressUI {
                 });
             }
         }
+    }
+
+    // Render math expressions in mistakes table
+    renderMistakesMath() {
+        if (!this.MQ) {
+            console.warn('MathQuill not initialized - skipping math rendering');
+            return;
+        }
+
+        // Find all math-display elements in the mistakes table
+        const mathElements = document.querySelectorAll('#mistakes-tbody .math-display');
+
+        mathElements.forEach(element => {
+            try {
+                // Get the LaTeX string from the element's text content
+                const latex = element.textContent.trim();
+
+                // Clear the element and render as static math
+                element.textContent = '';
+                const staticMath = this.MQ.StaticMath(element);
+                staticMath.latex(latex);
+            } catch (error) {
+                console.warn('Error rendering math:', error);
+                // Leave the original LaTeX text if rendering fails
+            }
+        });
     }
 
     // Delete a specific mistake
