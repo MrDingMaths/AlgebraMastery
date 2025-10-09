@@ -118,8 +118,40 @@ class AlgebraEngine {
                     }
                     if (transformedNode.fn === 'add' || transformedNode.fn === 'multiply') {
                         let terms = this.flatten(transformedNode, transformedNode.fn);
-                        
+
                         if (transformedNode.fn === 'multiply') {
+                            // Flatten nested multiplications
+                            let flattenedTerms = [];
+                            for (const term of terms) {
+                                if (term.isOperatorNode && term.fn === 'multiply') {
+                                    flattenedTerms.push(...this.flatten(term, 'multiply'));
+                                } else {
+                                    flattenedTerms.push(term);
+                                }
+                            }
+                            terms = flattenedTerms;
+
+                            // Constant folding: multiply all constants together
+                            const constants = terms.filter(t => t.isConstantNode);
+                            const nonConstants = terms.filter(t => !t.isConstantNode);
+
+                            if (constants.length > 1) {
+                                this.log(`[TRANSFORM] Folding ${constants.length} constants in multiplication.`);
+                                const product = constants.reduce((acc, c) => acc * c.value, 1);
+                                if (product !== 1) {
+                                    terms = [new math.ConstantNode(product), ...nonConstants];
+                                } else {
+                                    terms = nonConstants.length > 0 ? nonConstants : [new math.ConstantNode(1)];
+                                }
+                            }
+
+                            // Identity elimination: remove 1 from multiplication
+                            const oneNode = terms.find(t => t.isConstantNode && t.value === 1);
+                            if (oneNode && terms.length > 1) {
+                                this.log(`[TRANSFORM] Removing identity 1 from multiplication.`);
+                                terms = terms.filter(t => !(t.isConstantNode && t.value === 1));
+                            }
+
                             const negOneNode = terms.find(t => t.isConstantNode && t.value === -1);
                             const addNode = terms.find(t => t.isOperatorNode && t.fn === 'add');
                             const fractionNode = terms.find(t => t.isOperatorNode && t.fn === 'divide');
@@ -135,7 +167,7 @@ class AlgebraEngine {
                                 }
                                 this.logDepth--; return canonicalizeNode(newExpr);
                             }
-                            
+
                             if (negOneNode && fractionNode) {
                                 this.log(`[TRANSFORM] Merging -1 into fraction numerator.`);
                                 const otherTerms = terms.filter(t => t !== negOneNode && t !== fractionNode);
@@ -145,6 +177,29 @@ class AlgebraEngine {
                                     newExpr = this.rebuildTree([...otherTerms, newExpr], 'multiply');
                                 }
                                 this.logDepth--; return canonicalizeNode(newExpr);
+                            }
+                        }
+
+                        if (transformedNode.fn === 'add') {
+                            // Constant folding: add all constants together
+                            const constants = terms.filter(t => t.isConstantNode);
+                            const nonConstants = terms.filter(t => !t.isConstantNode);
+
+                            if (constants.length > 1) {
+                                this.log(`[TRANSFORM] Folding ${constants.length} constants in addition.`);
+                                const sum = constants.reduce((acc, c) => acc + c.value, 0);
+                                if (sum !== 0) {
+                                    terms = [...nonConstants, new math.ConstantNode(sum)];
+                                } else {
+                                    terms = nonConstants.length > 0 ? nonConstants : [new math.ConstantNode(0)];
+                                }
+                            }
+
+                            // Identity elimination: remove 0 from addition
+                            const zeroNode = terms.find(t => t.isConstantNode && t.value === 0);
+                            if (zeroNode && terms.length > 1) {
+                                this.log(`[TRANSFORM] Removing identity 0 from addition.`);
+                                terms = terms.filter(t => !(t.isConstantNode && t.value === 0));
                             }
                         }
 
