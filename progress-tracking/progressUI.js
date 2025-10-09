@@ -287,18 +287,18 @@ class ProgressUI {
     // Switch between tabs
     switchTab(view) {
         this.currentView = view;
-        
+
         // Update tab buttons
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.view === view);
         });
-        
+
         // Update tab content
         document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
         });
         document.getElementById(`${view}-content`)?.classList.add('active');
-        
+
         // Initialize specific views AFTER making them visible
         setTimeout(() => {
             if (view === 'drills') {
@@ -307,6 +307,9 @@ class ProgressUI {
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => this.filterByCategory(e.target.dataset.category));
                 });
+            } else if (view === 'mistakes') {
+                // Re-render math expressions now that the tab is visible
+                this.renderMistakesMath();
             }
             // Removed comparison case
         }, 100);
@@ -848,8 +851,8 @@ class ProgressUI {
                 
                 tbody.innerHTML = tableRows;
 
-                // Render math expressions
-                this.renderMistakesMath();
+                // Math expressions will be rendered when the tab becomes visible
+                // via switchTab() -> renderMistakesMath()
 
                 // Add event listeners to delete buttons
                 tbody.querySelectorAll('.delete-mistake-btn').forEach(btn => {
