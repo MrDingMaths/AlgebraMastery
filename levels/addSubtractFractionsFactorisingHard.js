@@ -16,7 +16,7 @@ class AddSubtractFractionsFactorisingHard {
             {problem: "\\frac{2}{4x^2-1} + \\frac{1}{6x^2-x-2}", answer: "\\frac{8x-5}{(2x-1)(2x+1)(3x-2)}"},
             {problem: "\\frac{4}{8x^2-18x-5} - \\frac{2}{12x^2-5x-2}", answer: "\\frac{2}{(2x-5)(3x-2)}"},
             {problem: "\\frac{c+1}{10c^2+7c-12} + \\frac{c}{5c^2-39c+28}", answer: "\\frac{3c^2-3c-7}{(5c-4)(2c+3)(c-7)}"},
-            {problem: "\\frac{n+1}{4n^3-36n} - \\frac{2}{5n^2+15n}", answer: "\\frac{n+17}{20n(n-3)(n+3)}"},
+            {problem: "\\frac{n+1}{4n^3-36n} - \\frac{2}{5n^2+15n}", answer: "\\frac{-3n+29}{20n(n-3)(n+3)}"},
             
             // Additional complex questions - Multiple factorised quadratics
             {problem: "\\frac{2}{x^2-7x+10} + \\frac{3}{x^2-3x-10}", answer: "\\frac{5x-2}{(x-2)(x-5)(x+2)}"},
