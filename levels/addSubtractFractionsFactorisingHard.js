@@ -25,7 +25,7 @@ class AddSubtractFractionsFactorisingHard {
             {problem: "\\frac{1}{x^2-1} + \\frac{2}{x^2+2x+1}", answer: "\\frac{3x-1}{(x-1)(x+1)^2}"},
             
             // Three or more different factors
-            {problem: "\\frac{1}{x^2-x-2} + \\frac{1}{x^2-4} - \\frac{1}{x^2+x-2}", answer: "\\frac{x+5}{(x-2)(x+1)(x+2)}"},
+            {problem: "\\frac{1}{x^2-x-2} + \\frac{1}{x^2-4} - \\frac{1}{x^2+x-2}", answer: "\\frac{x^2+2x-1}{(x-1)(x-2)(x+1)(x+2)}"},
             {problem: "\\frac{2}{x^2+5x+6} - \\frac{1}{x^2+3x+2} + \\frac{3}{x^2+4x+3}", answer: "\\frac{4x+5}{(x+1)(x+2)(x+3)}"},
             {problem: "\\frac{3}{x^2-5x+6} + \\frac{2}{x^2-6x+8} - \\frac{1}{x^2-7x+12}", answer: "\\frac{4}{(x-2)(x-3)}"},
             
@@ -46,7 +46,7 @@ class AddSubtractFractionsFactorisingHard {
             // Mixed rational and polynomial terms
             {problem: "\\frac{x^2}{x^2-5x+6} - \\frac{2x}{x-2} + \\frac{3}{x-3}", answer: "\\frac{-x^2+9x-6}{(x-2)(x-3)}"},
             {problem: "\\frac{2x+1}{x^2+x-2} + \\frac{x-3}{x^2-1} - \\frac{1}{x+2}", answer: "\\frac{2}{x+1}"},
-            {problem: "\\frac{x+2}{x^2-4x+3} - \\frac{x-1}{x^2-2x-3} + \\frac{2}{x^2+2x-3}", answer: "\\frac{2x+5}{(x-1)(x-3)(x+3)}"},
+            {problem: "\\frac{x+2}{x^2-4x+3} - \\frac{x-1}{x^2-2x-3} + \\frac{2}{x^2+2x-3}", answer: "\\frac{7x^2+12x-3}{(x-1)(x-3)(x+1)(x+3)}"},
             
             // Advanced variable patterns
             {problem: "\\frac{a+b}{a^2-b^2} + \\frac{a-b}{a^2+2ab+b^2}", answer: "\\frac{2(a^2+b^2)}{(a-b)(a+b)^2}"},
