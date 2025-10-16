@@ -247,6 +247,32 @@ class AlgebraEngine {
                         let terms = this.flatten(transformedNode, transformedNode.fn);
 
                         if (transformedNode.fn === 'multiply') {
+                            // STEP 0: Normalize negated sums FIRST
+                            // Check for addition factors that are negations of each other
+                            // Example: (5-x) vs -(x-5) should both become -(x-5) with an extra -1 factor
+                            const additionNodes = terms.filter(t => t.isOperatorNode && t.fn === 'add');
+                            if (additionNodes.length >= 2) {
+                                for (let i = 0; i < additionNodes.length; i++) {
+                                    for (let j = i + 1; j < additionNodes.length; j++) {
+                                        if (this.areSumsNegations(additionNodes[i], additionNodes[j])) {
+                                            this.log(`[TRANSFORM] Detected negated sums - normalizing to canonical form.`);
+                                            // Rebuild the terms list, adding a -1 factor
+                                            const otherTerms = terms.filter(t => t !== additionNodes[i]);
+                                            const hasNegOne = otherTerms.some(t => t.isConstantNode && t.value === -1);
+                                            if (!hasNegOne) {
+                                                terms = [new math.ConstantNode(-1), ...otherTerms];
+                                            } else {
+                                                // Already have -1, so the negations cancel
+                                                terms = otherTerms.filter(t => !(t.isConstantNode && t.value === -1));
+                                            }
+                                            // Recursively canonicalize the negated sum and rebuild
+                                            transformedNode = this.rebuildTree(terms, 'multiply');
+                                            this.logDepth--;
+                                            return canonicalizeNode(transformedNode);
+                                        }
+                                    }
+                                }
+                            }
                             // Flatten nested multiplications
                             let flattenedTerms = [];
                             for (const term of terms) {
@@ -283,55 +309,8 @@ class AlgebraEngine {
                             const addNode = terms.find(t => t.isOperatorNode && t.fn === 'add');
                             const fractionNode = terms.find(t => t.isOperatorNode && t.fn === 'divide');
 
-                            // Selective distributive property for -1:
-                            // 1. Always distribute if there's exactly ONE addition node
-                            // 2. For multiple addition nodes: distribute into those containing negative terms
-                            //    to simplify double negatives like: -1 * ((-1*a) + x) → (a + (-1*x))
-                            // Example: -(x+a)(x+b) stays as -1*(sum1)*(sum2) for commutativity
-                            // But: -(x-a)(x-b) → distribute into (x-a) to match (a-x)(x-b)
-                            if (negOneNode && addNode) {
-                                const additionNodes = terms.filter(t => t.isOperatorNode && t.fn === 'add');
-
-                                if (additionNodes.length === 1) {
-                                    // Single addition node: always distribute
-                                    this.log(`[TRANSFORM] Applying distributive property for -1 (single addition factor).`);
-                                    const otherTerms = terms.filter(t => t !== negOneNode && t !== addNode);
-                                    const addTerms = this.flatten(addNode, 'add');
-                                    const distributedTerms = addTerms.map(term => new math.OperatorNode('multiply', 'multiply', [new math.ConstantNode(-1), term]));
-                                    let newExpr = this.rebuildTree(distributedTerms, 'add');
-                                    if (otherTerms.length > 0) {
-                                        newExpr = this.rebuildTree([...otherTerms, newExpr], 'multiply');
-                                    }
-                                    this.logDepth--; return canonicalizeNode(newExpr);
-                                } else {
-                                    // Multiple addition nodes: check if any contain negative terms
-                                    const nodesWithNegatives = additionNodes.filter(addNode => {
-                                        const addTerms = this.flatten(addNode, 'add');
-                                        return addTerms.some(term =>
-                                            term.isOperatorNode &&
-                                            term.fn === 'multiply' &&
-                                            term.args.some(arg => arg.isConstantNode && arg.value === -1)
-                                        );
-                                    });
-
-                                    if (nodesWithNegatives.length > 0) {
-                                        // Distribute into the first addition node with negatives to simplify
-                                        const targetNode = nodesWithNegatives[0];
-                                        this.log(`[TRANSFORM] Applying distributive property for -1 (to simplify double negatives in one factor).`);
-                                        const otherTerms = terms.filter(t => t !== negOneNode && t !== targetNode);
-                                        const addTerms = this.flatten(targetNode, 'add');
-                                        const distributedTerms = addTerms.map(term => new math.OperatorNode('multiply', 'multiply', [new math.ConstantNode(-1), term]));
-                                        let newExpr = this.rebuildTree(distributedTerms, 'add');
-                                        if (otherTerms.length > 0) {
-                                            newExpr = this.rebuildTree([...otherTerms, newExpr], 'multiply');
-                                        }
-                                        this.logDepth--; return canonicalizeNode(newExpr);
-                                    } else {
-                                        this.log(`[SKIP] Distributive property skipped: ${additionNodes.length} addition factors without negatives (preserving commutativity).`);
-                                    }
-                                }
-                            }
-
+                            // PRIORITY 1: Merge -1 into fraction numerator FIRST
+                            // This ensures consistent handling of -2/3*(...) vs -2*(...)/3
                             if (negOneNode && fractionNode) {
                                 this.log(`[TRANSFORM] Merging -1 into fraction numerator.`);
                                 const otherTerms = terms.filter(t => t !== negOneNode && t !== fractionNode);
@@ -341,6 +320,110 @@ class AlgebraEngine {
                                     newExpr = this.rebuildTree([...otherTerms, newExpr], 'multiply');
                                 }
                                 this.logDepth--; return canonicalizeNode(newExpr);
+                            }
+
+                            // PRIORITY 2: Multiplication-Division Consolidation: (a/b)*c*d → (a*c*d)/b
+                            // This ensures consistent canonical form for all fraction-multiplication patterns
+                            const divisionNodes = terms.filter(t => t.isOperatorNode && t.fn === 'divide');
+                            if (divisionNodes.length > 0) {
+                                // We have at least one division in the multiplication
+                                // Consolidate: move all non-division terms into the first division's numerator
+                                const firstDivision = divisionNodes[0];
+                                const otherDivisions = divisionNodes.slice(1);
+                                const nonDivisionTerms = terms.filter(t => !divisionNodes.includes(t));
+
+                                if (nonDivisionTerms.length > 0 && otherDivisions.length === 0) {
+                                    // Simple case: (a/b) * c * d → (a*c*d)/b
+                                    this.log(`[TRANSFORM] Consolidating division with multiplication: (a/b)*c*d → (a*c*d)/b`);
+                                    const numeratorTerms = [firstDivision.args[0], ...nonDivisionTerms];
+                                    const newNumerator = this.rebuildTree(numeratorTerms, 'multiply');
+                                    const newExpr = new math.OperatorNode('divide', 'divide', [newNumerator, firstDivision.args[1]]);
+                                    this.logDepth--; return canonicalizeNode(newExpr);
+                                }
+                            }
+
+                            // PRIORITY 3: Selective distributive property for negative constants
+                            // Only apply AFTER fraction handling is complete
+                            // 1. Always distribute if there's exactly ONE addition node WITHOUT a fraction
+                            // 2. For multiple addition nodes: distribute into those containing negative terms
+                            //    to simplify double negatives like: -1 * ((-1*a) + x) → (a + (-1*x))
+                            //    or: -2 * (a-x) → -2 * ((-1*x) + a) → split to -1 * 2 and distribute
+                            // Example: -(x+a)(x+b) stays as -1*(sum1)*(sum2) for commutativity
+                            // But: -(x-a)(x-b) → distribute into (x-a) to match (a-x)(x-b)
+                            // And: -2(a-x)(x-b) → split -2 into -1*2, distribute -1 to match 2(x-a)(x-b)
+
+                            // Find ANY negative constant (not just -1)
+                            const negativeConstant = terms.find(t => t.isConstantNode && t.value < 0);
+                            if (negativeConstant && addNode && !fractionNode) {
+                                const additionNodes = terms.filter(t => t.isOperatorNode && t.fn === 'add');
+
+                                // Helper function to check if an addition node contains negative terms
+                                const hasNegativeTerms = (addNode) => {
+                                    const addTerms = this.flatten(addNode, 'add');
+                                    return addTerms.some(term => {
+                                        // Check for -1*x patterns
+                                        if (term.isOperatorNode && term.fn === 'multiply') {
+                                            return term.args.some(arg => arg.isConstantNode && arg.value === -1);
+                                        }
+                                        // Also check for negative constants like -5
+                                        if (term.isConstantNode && term.value < 0) {
+                                            return true;
+                                        }
+                                        return false;
+                                    });
+                                };
+
+                                if (additionNodes.length === 1) {
+                                    // Single addition node: only distribute if it contains negative terms (double negative case)
+                                    if (hasNegativeTerms(addNode)) {
+                                        this.log(`[TRANSFORM] Applying distributive property for negative constant ${negativeConstant.value} (single addition factor with negatives).`);
+                                        const otherTerms = terms.filter(t => t !== negativeConstant && t !== addNode);
+
+                                        // Split the negative constant: -2 → -1 * 2
+                                        const magnitude = Math.abs(negativeConstant.value);
+                                        const addTerms = this.flatten(addNode, 'add');
+                                        const distributedTerms = addTerms.map(term => new math.OperatorNode('multiply', 'multiply', [new math.ConstantNode(-1), term]));
+                                        let newExpr = this.rebuildTree(distributedTerms, 'add');
+
+                                        // Include the magnitude if it's not 1
+                                        const newTerms = magnitude !== 1 ? [new math.ConstantNode(magnitude), ...otherTerms, newExpr] : [...otherTerms, newExpr];
+                                        if (newTerms.length > 1) {
+                                            newExpr = this.rebuildTree(newTerms, 'multiply');
+                                        } else if (newTerms.length === 1) {
+                                            newExpr = newTerms[0];
+                                        }
+                                        this.logDepth--; return canonicalizeNode(newExpr);
+                                    } else {
+                                        this.log(`[SKIP] Distributive property skipped: single addition factor without negatives (no double negative to simplify).`);
+                                    }
+                                } else {
+                                    // Multiple addition nodes: check if any contain negative terms
+                                    const nodesWithNegatives = additionNodes.filter(hasNegativeTerms);
+
+                                    if (nodesWithNegatives.length > 0) {
+                                        // Distribute the negative part into the first addition node with negatives
+                                        const targetNode = nodesWithNegatives[0];
+                                        this.log(`[TRANSFORM] Applying distributive property for negative constant ${negativeConstant.value} (to simplify double negatives in one factor).`);
+                                        const otherTerms = terms.filter(t => t !== negativeConstant && t !== targetNode);
+
+                                        // Split the negative constant: -2 → -1 * 2
+                                        const magnitude = Math.abs(negativeConstant.value);
+                                        const addTerms = this.flatten(targetNode, 'add');
+                                        const distributedTerms = addTerms.map(term => new math.OperatorNode('multiply', 'multiply', [new math.ConstantNode(-1), term]));
+                                        let newExpr = this.rebuildTree(distributedTerms, 'add');
+
+                                        // Include the magnitude if it's not 1
+                                        const newTerms = magnitude !== 1 ? [new math.ConstantNode(magnitude), ...otherTerms, newExpr] : [...otherTerms, newExpr];
+                                        if (newTerms.length > 1) {
+                                            newExpr = this.rebuildTree(newTerms, 'multiply');
+                                        } else if (newTerms.length === 1) {
+                                            newExpr = newTerms[0];
+                                        }
+                                        this.logDepth--; return canonicalizeNode(newExpr);
+                                    } else {
+                                        this.log(`[SKIP] Distributive property skipped: ${additionNodes.length} addition factors without negatives (preserving commutativity).`);
+                                    }
+                                }
                             }
                         }
 
@@ -365,39 +448,58 @@ class AlgebraEngine {
                                 this.log(`[TRANSFORM] Removing identity 0 from addition.`);
                                 terms = terms.filter(t => !(t.isConstantNode && t.value === 0));
                             }
+
+                            // Factor out -1 if ALL terms are negative
+                            // This creates a canonical form: (-a) + (-b) → -1 * (a + b)
+                            const allNegative = terms.every(term => {
+                                // Check for negative constant
+                                if (term.isConstantNode) {
+                                    return term.value < 0;
+                                }
+                                // Check for multiplication by -1 or negative constant
+                                if (term.isOperatorNode && term.fn === 'multiply') {
+                                    const factors = this.flatten(term, 'multiply');
+                                    return factors.some(f => f.isConstantNode && f.value < 0);
+                                }
+                                return false;
+                            });
+
+                            if (allNegative && terms.length > 0) {
+                                this.log(`[TRANSFORM] Factoring out -1 from addition (all terms negative).`);
+                                // Negate each term
+                                const positiveTerms = terms.map(term => {
+                                    if (term.isConstantNode) {
+                                        return new math.ConstantNode(-term.value);
+                                    }
+                                    if (term.isOperatorNode && term.fn === 'multiply') {
+                                        const factors = this.flatten(term, 'multiply');
+                                        // Remove or negate the negative constant
+                                        const newFactors = factors.flatMap(f => {
+                                            if (f.isConstantNode) {
+                                                const negated = -f.value;
+                                                return negated === 1 ? [] : [new math.ConstantNode(negated)];
+                                            }
+                                            return [f];
+                                        });
+                                        if (newFactors.length === 0) return new math.ConstantNode(1);
+                                        if (newFactors.length === 1) return newFactors[0];
+                                        return this.rebuildTree(newFactors, 'multiply');
+                                    }
+                                    return term;
+                                });
+
+                                const positiveSum = this.rebuildTree(positiveTerms, 'add');
+                                transformedNode = new math.OperatorNode('multiply', 'multiply', [
+                                    new math.ConstantNode(-1),
+                                    positiveSum
+                                ]);
+                                this.logDepth--;
+                                return canonicalizeNode(transformedNode);
+                            }
                         }
 
                         terms.sort(this.compareNodes.bind(this));
                         transformedNode = this.rebuildTree(terms, transformedNode.fn);
-                    }
-                    
-                    if (transformedNode.fn === 'divide') {
-                        const numerator = transformedNode.args[0];
-                        const denominator = transformedNode.args[1];
-                        
-                        // Handle fraction-multiplication normalization: (a*b)/c -> (a/c)*b
-                        if (numerator.isOperatorNode && numerator.fn === 'multiply') {
-                            this.log(`[TRANSFORM] Normalizing fraction with multiplication in numerator.`);
-                            const multiplyTerms = this.flatten(numerator, 'multiply');
-                            
-                            if (multiplyTerms.length > 1) {
-                                // Take first factor and create (first_factor/denominator)
-                                const firstFactor = multiplyTerms[0];
-                                const remainingFactors = multiplyTerms.slice(1);
-                                
-                                const newFraction = new math.OperatorNode('divide', 'divide', [firstFactor, denominator]);
-                                let newExpr;
-                                
-                                if (remainingFactors.length === 1) {
-                                    newExpr = new math.OperatorNode('multiply', 'multiply', [newFraction, remainingFactors[0]]);
-                                } else {
-                                    const remainingMultiply = this.rebuildTree(remainingFactors, 'multiply');
-                                    newExpr = new math.OperatorNode('multiply', 'multiply', [newFraction, remainingMultiply]);
-                                }
-                                
-                                this.logDepth--; return canonicalizeNode(newExpr);
-                            }
-                        }
                     }
                     break;
                 case 'ParenthesisNode':
@@ -432,6 +534,51 @@ class AlgebraEngine {
 
     compareNodes(a, b) {
         return this.astToString(a).localeCompare(this.astToString(b));
+    }
+
+    /**
+     * Check if two addition nodes are negations of each other.
+     * Example: (5 + (-1*x)) and ((-1*5) + x) are negations
+     * This handles cases like (5-x) vs -(x-5)
+     *
+     * This is a simple structural check - it doesn't recursively canonicalize.
+     */
+    areSumsNegations(sum1, sum2) {
+        if (!sum1.isOperatorNode || sum1.fn !== 'add') return false;
+        if (!sum2.isOperatorNode || sum2.fn !== 'add') return false;
+
+        const terms1 = this.flatten(sum1, 'add');
+        const terms2 = this.flatten(sum2, 'add');
+
+        if (terms1.length !== terms2.length) return false;
+
+        // Create negated versions of all terms in sum1
+        const negatedTerms1 = terms1.map(term => {
+            // Simple negation: if term is -1*x, return x; if term is x, return -1*x
+            if (term.isOperatorNode && term.fn === 'multiply') {
+                const flatTerms = this.flatten(term, 'multiply');
+                const hasNegOne = flatTerms.some(t => t.isConstantNode && t.value === -1);
+                if (hasNegOne) {
+                    // Remove -1 from the multiplication
+                    const withoutNegOne = flatTerms.filter(t => !(t.isConstantNode && t.value === -1));
+                    if (withoutNegOne.length === 0) return this.astToString(new math.ConstantNode(1));
+                    if (withoutNegOne.length === 1) return this.astToString(withoutNegOne[0]);
+                    return this.astToString(this.rebuildTree(withoutNegOne, 'multiply'));
+                }
+            }
+            // For constant nodes, just negate the value
+            if (term.isConstantNode) {
+                return this.astToString(new math.ConstantNode(-term.value));
+            }
+            // Otherwise, add -1 multiplication
+            return this.astToString(new math.OperatorNode('multiply', 'multiply', [new math.ConstantNode(-1), term]));
+        }).sort();
+
+        // Get string versions of sum2 terms
+        const terms2Strings = terms2.map(term => this.astToString(term)).sort();
+
+        // Check if they match
+        return JSON.stringify(negatedTerms1) === JSON.stringify(terms2Strings);
     }
 
     astEquals(ast1, ast2) {
