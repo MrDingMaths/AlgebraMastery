@@ -111,16 +111,22 @@
  *       Rule 2: Binary Difference Denominator Canonicalization
  *       - Purpose: Ensures expressions like 3/(a-x) and -3/(x-a) match
  *       - Applies AFTER Rule 1, to denominators with binary differences
+ *       - Handles both simple additions AND products of additions
  *       - Rule: For denominators with exactly 2 terms where 1 is negative:
  *         * Extract positive versions of both terms
  *         * Compare positive versions alphabetically
  *         * If negative term's positive version comes first alphabetically,
  *           factor out -1 from denominator and merge into numerator
- *       - Example: 3/(a-x) where denominator is ((-1*x) + a)
+ *       - Example 1 (simple): 3/(a-x) where denominator is ((-1*x) + a)
  *         * Positive versions: x and a
  *         * Compare: "a" < "x" alphabetically
  *         * Result: "a" should be positive, "x" should be negative
  *         * Transform: 3/((-1*x) + a) → (-3)/(a + (-1*x))
+ *       - Example 2 (product): 3/((a-x)(x+b)) where denominator is (((-1*x) + a) * ((b + x)))
+ *         * First factor (a-x) has positive versions: x and a
+ *         * Compare: "a" < "x", so transform this factor
+ *         * Second factor (x+b) is already canonical
+ *         * Result: 3/((a-x)(x+b)) → -3/((x-a)(x+b))
  *       - This creates stable canonical form for subtraction-like denominators
  *       - Mathematical equivalence: 3/(a-x) = 3/(-(x-a)) = -3/(x-a)
  *
@@ -608,75 +614,133 @@ class AlgebraEngine {
                             return canonicalizeNode(transformedNode);
                         }
 
-                        // RULE 2: Check if denominator is an addition node
-                        if (denominator.isOperatorNode && denominator.fn === 'add') {
-                            const denomTerms = this.flatten(denominator, 'add');
+                        // RULE 2: Canonicalize denominators with binary differences
+                        // This handles both simple additions (a-x) and products containing additions ((a-x)(x+b))
 
-                            // Only apply this rule for binary differences (2 terms, 1 negative, 1 positive)
-                            if (denomTerms.length === 2) {
-                                // Identify which terms are negative
-                                const termInfo = denomTerms.map(term => {
-                                    let isNegative = false;
-                                    let positiveVersion = term;
+                        // Helper function to canonicalize a binary difference (2 terms, 1 negative)
+                        const canonicalizeBinaryDifference = (addNode) => {
+                            if (!addNode.isOperatorNode || addNode.fn !== 'add') return { transformed: false, result: addNode };
 
-                                    if (term.isConstantNode && term.value < 0) {
+                            const denomTerms = this.flatten(addNode, 'add');
+                            if (denomTerms.length !== 2) return { transformed: false, result: addNode };
+
+                            // Identify which terms are negative
+                            const termInfo = denomTerms.map(term => {
+                                let isNegative = false;
+                                let positiveVersion = term;
+
+                                if (term.isConstantNode && term.value < 0) {
+                                    isNegative = true;
+                                    positiveVersion = new math.ConstantNode(-term.value);
+                                } else if (term.isOperatorNode && term.fn === 'multiply') {
+                                    const factors = this.flatten(term, 'multiply');
+                                    const negOne = factors.find(f => f.isConstantNode && f.value === -1);
+                                    if (negOne) {
                                         isNegative = true;
-                                        positiveVersion = new math.ConstantNode(-term.value);
-                                    } else if (term.isOperatorNode && term.fn === 'multiply') {
-                                        const factors = this.flatten(term, 'multiply');
-                                        const negOne = factors.find(f => f.isConstantNode && f.value === -1);
-                                        if (negOne) {
-                                            isNegative = true;
-                                            const otherFactors = factors.filter(f => f !== negOne);
-                                            if (otherFactors.length === 0) {
-                                                positiveVersion = new math.ConstantNode(1);
-                                            } else if (otherFactors.length === 1) {
-                                                positiveVersion = otherFactors[0];
-                                            } else {
-                                                positiveVersion = this.rebuildTree(otherFactors, 'multiply');
-                                            }
+                                        const otherFactors = factors.filter(f => f !== negOne);
+                                        if (otherFactors.length === 0) {
+                                            positiveVersion = new math.ConstantNode(1);
+                                        } else if (otherFactors.length === 1) {
+                                            positiveVersion = otherFactors[0];
+                                        } else {
+                                            positiveVersion = this.rebuildTree(otherFactors, 'multiply');
                                         }
                                     }
+                                }
 
-                                    return { term, isNegative, positiveVersion };
+                                return { term, isNegative, positiveVersion };
+                            });
+
+                            // Check if exactly one term is negative
+                            const negativeTerms = termInfo.filter(t => t.isNegative);
+                            if (negativeTerms.length !== 1) return { transformed: false, result: addNode };
+
+                            const positiveTerm = termInfo.find(t => !t.isNegative);
+                            const negativeTerm = negativeTerms[0];
+
+                            // Compare the positive versions alphabetically
+                            const posStr = this.astToString(positiveTerm.positiveVersion);
+                            const negStr = this.astToString(negativeTerm.positiveVersion);
+
+                            // If the negative term's positive version comes BEFORE the positive term,
+                            // we need to swap signs
+                            if (negStr.localeCompare(posStr) < 0) {
+                                // Build new addition: swap the signs
+                                const newAddTerms = [
+                                    negativeTerm.positiveVersion,  // The previously negative term, now positive
+                                    new math.OperatorNode('multiply', 'multiply', [
+                                        new math.ConstantNode(-1),
+                                        positiveTerm.positiveVersion  // The previously positive term, now negative
+                                    ])
+                                ];
+
+                                return {
+                                    transformed: true,
+                                    result: this.rebuildTree(newAddTerms, 'add'),
+                                    needsNumeratorFlip: true
+                                };
+                            }
+
+                            return { transformed: false, result: addNode };
+                        };
+
+                        // Case 1: Denominator is a simple addition (e.g., a-x)
+                        if (denominator.isOperatorNode && denominator.fn === 'add') {
+                            const canonResult = canonicalizeBinaryDifference(denominator);
+                            if (canonResult.transformed) {
+                                this.log(`[TRANSFORM] Denominator binary difference canonicalized - flipping numerator sign.`);
+
+                                const newNumerator = new math.OperatorNode('multiply', 'multiply', [
+                                    new math.ConstantNode(-1),
+                                    numerator
+                                ]);
+
+                                transformedNode = new math.OperatorNode('divide', 'divide', [newNumerator, canonResult.result]);
+                                this.logDepth--;
+                                return canonicalizeNode(transformedNode);
+                            }
+                        }
+
+                        // Case 2: Denominator is a product containing additions (e.g., (a-x)*(x+b))
+                        else if (denominator.isOperatorNode && denominator.fn === 'multiply') {
+                            const factors = this.flatten(denominator, 'multiply');
+                            const additionFactors = factors.filter(f => f.isOperatorNode && f.fn === 'add');
+
+                            if (additionFactors.length > 0) {
+                                let anyTransformed = false;
+                                let numeratorFlipCount = 0;
+
+                                const newFactors = factors.map(factor => {
+                                    if (factor.isOperatorNode && factor.fn === 'add') {
+                                        const canonResult = canonicalizeBinaryDifference(factor);
+                                        if (canonResult.transformed) {
+                                            anyTransformed = true;
+                                            if (canonResult.needsNumeratorFlip) {
+                                                numeratorFlipCount++;
+                                            }
+                                        }
+                                        return canonResult.result;
+                                    }
+                                    return factor;
                                 });
 
-                                // Check if exactly one term is negative
-                                const negativeTerms = termInfo.filter(t => t.isNegative);
-                                if (negativeTerms.length === 1) {
-                                    const positiveTerm = termInfo.find(t => !t.isNegative);
-                                    const negativeTerm = negativeTerms[0];
+                                if (anyTransformed) {
+                                    this.log(`[TRANSFORM] Denominator product contains ${numeratorFlipCount} binary difference(s) that needed canonicalization.`);
 
-                                    // Compare the positive versions alphabetically
-                                    const posStr = this.astToString(positiveTerm.positiveVersion);
-                                    const negStr = this.astToString(negativeTerm.positiveVersion);
+                                    let newNumerator = numerator;
 
-                                    // If the negative term's positive version comes BEFORE the positive term,
-                                    // factor out -1 from denominator
-                                    if (negStr.localeCompare(posStr) < 0) {
-                                        this.log(`[TRANSFORM] Denominator: negative term "${negStr}" comes before positive term "${posStr}" - factoring out -1.`);
-
-                                        // Build new denominator: swap the signs
-                                        const newDenomTerms = [
-                                            negativeTerm.positiveVersion,  // The previously negative term, now positive
-                                            new math.OperatorNode('multiply', 'multiply', [
-                                                new math.ConstantNode(-1),
-                                                positiveTerm.positiveVersion  // The previously positive term, now negative
-                                            ])
-                                        ];
-
-                                        const newDenominator = this.rebuildTree(newDenomTerms, 'add');
-
-                                        // Multiply numerator by -1
-                                        const newNumerator = new math.OperatorNode('multiply', 'multiply', [
+                                    // Flip numerator sign for each binary difference that was transformed
+                                    if (numeratorFlipCount % 2 === 1) {
+                                        newNumerator = new math.OperatorNode('multiply', 'multiply', [
                                             new math.ConstantNode(-1),
                                             numerator
                                         ]);
-
-                                        transformedNode = new math.OperatorNode('divide', 'divide', [newNumerator, newDenominator]);
-                                        this.logDepth--;
-                                        return canonicalizeNode(transformedNode);
                                     }
+
+                                    const newDenominator = this.rebuildTree(newFactors, 'multiply');
+                                    transformedNode = new math.OperatorNode('divide', 'divide', [newNumerator, newDenominator]);
+                                    this.logDepth--;
+                                    return canonicalizeNode(transformedNode);
                                 }
                             }
                         }
