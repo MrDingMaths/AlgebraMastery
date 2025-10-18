@@ -97,6 +97,33 @@
  *       - Example: x * 2 → 2 * x
  *       - Purpose: Ensures unique canonical ordering
  *
+ *   2i. Division Denominator Canonicalization (Two Rules):
+ *
+ *       Rule 1: Extract Negative from Denominator
+ *       - Purpose: Always prefer positive denominator in canonical form
+ *       - Handles: (numerator)/(-denominator) → (-numerator)/denominator
+ *       - Detects negative denominators in three ways:
+ *         * Negative constant: (expr)/(-3) → (-expr)/3
+ *         * Multiplication with -1: (expr)/(-1*e) → (-expr)/e
+ *       - Example: (a-b+c-d)/e and (b-a-c+d)/(-e) both become (-...)/e form
+ *       - This ensures: numerator/(-denom) and (-numerator)/denom match
+ *
+ *       Rule 2: Binary Difference Denominator Canonicalization
+ *       - Purpose: Ensures expressions like 3/(a-x) and -3/(x-a) match
+ *       - Applies AFTER Rule 1, to denominators with binary differences
+ *       - Rule: For denominators with exactly 2 terms where 1 is negative:
+ *         * Extract positive versions of both terms
+ *         * Compare positive versions alphabetically
+ *         * If negative term's positive version comes first alphabetically,
+ *           factor out -1 from denominator and merge into numerator
+ *       - Example: 3/(a-x) where denominator is ((-1*x) + a)
+ *         * Positive versions: x and a
+ *         * Compare: "a" < "x" alphabetically
+ *         * Result: "a" should be positive, "x" should be negative
+ *         * Transform: 3/((-1*x) + a) → (-3)/(a + (-1*x))
+ *       - This creates stable canonical form for subtraction-like denominators
+ *       - Mathematical equivalence: 3/(a-x) = 3/(-(x-a)) = -3/(x-a)
+ *
  * Step 3: COMPARISON
  *   - Convert both canonical ASTs to strings
  *   - Compare strings for exact equality
@@ -122,6 +149,36 @@
  *           Detect: ((-1*a) + x) contains negative term
  *           Distribute (Rule C): -1 * ((-1*a) + x) → (a + (-1*x)) → ((-1*x) + a)
  *           Result: (((-1*x) + a) * ((-1*b) + x)) ✓ MATCH
+ *
+ * Example 3: Denominator canonicalization with negative terms
+ *   Input:  3/(a-x) vs -3/(x-a)
+ *   Mathematical equivalence: 3/(a-x) = 3/(-(x-a)) = -3/(x-a)
+ *
+ *   Processing 3/(a-x):
+ *     Step 1: Parse: (a-x) → (a + (-1*x))
+ *     Step 2: Canonicalize and sort: ((-1*x) + a)
+ *     Step 3: Check denominator: 2 terms, 1 negative [(-1*x), a]
+ *     Step 4: Identify: negativeTerm = (-1*x) with posVersion "x"
+ *                      positiveTerm = a with posVersion "a"
+ *     Step 5: Compare: "x" vs "a" → "x" > "a", so "x" comes AFTER
+ *     Step 6: Condition check: negStr < posStr? → "x" < "a"? → FALSE
+ *     Step 7: NO transformation applied
+ *     Result: 3 / ((-1*x) + a)
+ *
+ *   Processing -3/(x-a):
+ *     Step 1: Parse: (x-a) → (x + (-1*a))
+ *     Step 2: Canonicalize and sort: ((-1*a) + x)
+ *     Step 3: Check denominator: 2 terms, 1 negative [(-1*a), x]
+ *     Step 4: Identify: negativeTerm = (-1*a) with posVersion "a"
+ *                      positiveTerm = x with posVersion "x"
+ *     Step 5: Compare: "a" vs "x" → "a" < "x", so "a" comes BEFORE
+ *     Step 6: Condition check: negStr < posStr? → "a" < "x"? → TRUE
+ *     Step 7: Transform: Swap signs in denominator, negate numerator
+ *             New denominator: (a + (-1*x)) → sorts to ((-1*x) + a)
+ *             New numerator: -1 * -3 = 3
+ *     Result: 3 / ((-1*x) + a)
+ *
+ *   Both expressions converge to: 3 / ((-1*x) + a) ✓ MATCH
  *
  * DEBUGGING:
  * ----------
@@ -500,6 +557,129 @@ class AlgebraEngine {
 
                         terms.sort(this.compareNodes.bind(this));
                         transformedNode = this.rebuildTree(terms, transformedNode.fn);
+                    }
+
+                    // Handle division nodes: canonicalize denominators where first term is negative
+                    // This ensures expressions like 3/(a-x) and -3/(x-a) match
+                    // Strategy: When denominator has exactly 2 terms with exactly 1 negative, normalize
+                    // so that the positive term comes first (alphabetically earlier positive version wins)
+                    if (transformedNode.fn === 'divide') {
+                        const numerator = transformedNode.args[0];
+                        const denominator = transformedNode.args[1];
+
+                        // RULE 1: Extract negative from denominator to create canonical form
+                        // Transform: (numerator)/(-denominator) → (-numerator)/denominator
+                        // This handles cases like (a-b+c-d)/e vs (b-a-c+d)/(-e)
+                        let isNegativeDenominator = false;
+                        let positiveDenominator = denominator;
+
+                        // Check if denominator is negative constant
+                        if (denominator.isConstantNode && denominator.value < 0) {
+                            isNegativeDenominator = true;
+                            positiveDenominator = new math.ConstantNode(-denominator.value);
+                            this.log(`[TRANSFORM] Denominator is negative constant - extracting -1.`);
+                        }
+                        // Check if denominator is multiplication with -1 factor
+                        else if (denominator.isOperatorNode && denominator.fn === 'multiply') {
+                            const factors = this.flatten(denominator, 'multiply');
+                            const negOne = factors.find(f => f.isConstantNode && f.value === -1);
+                            if (negOne) {
+                                isNegativeDenominator = true;
+                                const otherFactors = factors.filter(f => f !== negOne);
+                                if (otherFactors.length === 0) {
+                                    positiveDenominator = new math.ConstantNode(1);
+                                } else if (otherFactors.length === 1) {
+                                    positiveDenominator = otherFactors[0];
+                                } else {
+                                    positiveDenominator = this.rebuildTree(otherFactors, 'multiply');
+                                }
+                                this.log(`[TRANSFORM] Denominator has -1 factor - extracting to numerator.`);
+                            }
+                        }
+
+                        // If denominator is negative, negate both numerator and denominator
+                        if (isNegativeDenominator) {
+                            const newNumerator = new math.OperatorNode('multiply', 'multiply', [
+                                new math.ConstantNode(-1),
+                                numerator
+                            ]);
+                            transformedNode = new math.OperatorNode('divide', 'divide', [newNumerator, positiveDenominator]);
+                            this.logDepth--;
+                            return canonicalizeNode(transformedNode);
+                        }
+
+                        // RULE 2: Check if denominator is an addition node
+                        if (denominator.isOperatorNode && denominator.fn === 'add') {
+                            const denomTerms = this.flatten(denominator, 'add');
+
+                            // Only apply this rule for binary differences (2 terms, 1 negative, 1 positive)
+                            if (denomTerms.length === 2) {
+                                // Identify which terms are negative
+                                const termInfo = denomTerms.map(term => {
+                                    let isNegative = false;
+                                    let positiveVersion = term;
+
+                                    if (term.isConstantNode && term.value < 0) {
+                                        isNegative = true;
+                                        positiveVersion = new math.ConstantNode(-term.value);
+                                    } else if (term.isOperatorNode && term.fn === 'multiply') {
+                                        const factors = this.flatten(term, 'multiply');
+                                        const negOne = factors.find(f => f.isConstantNode && f.value === -1);
+                                        if (negOne) {
+                                            isNegative = true;
+                                            const otherFactors = factors.filter(f => f !== negOne);
+                                            if (otherFactors.length === 0) {
+                                                positiveVersion = new math.ConstantNode(1);
+                                            } else if (otherFactors.length === 1) {
+                                                positiveVersion = otherFactors[0];
+                                            } else {
+                                                positiveVersion = this.rebuildTree(otherFactors, 'multiply');
+                                            }
+                                        }
+                                    }
+
+                                    return { term, isNegative, positiveVersion };
+                                });
+
+                                // Check if exactly one term is negative
+                                const negativeTerms = termInfo.filter(t => t.isNegative);
+                                if (negativeTerms.length === 1) {
+                                    const positiveTerm = termInfo.find(t => !t.isNegative);
+                                    const negativeTerm = negativeTerms[0];
+
+                                    // Compare the positive versions alphabetically
+                                    const posStr = this.astToString(positiveTerm.positiveVersion);
+                                    const negStr = this.astToString(negativeTerm.positiveVersion);
+
+                                    // If the negative term's positive version comes BEFORE the positive term,
+                                    // factor out -1 from denominator
+                                    if (negStr.localeCompare(posStr) < 0) {
+                                        this.log(`[TRANSFORM] Denominator: negative term "${negStr}" comes before positive term "${posStr}" - factoring out -1.`);
+
+                                        // Build new denominator: swap the signs
+                                        const newDenomTerms = [
+                                            negativeTerm.positiveVersion,  // The previously negative term, now positive
+                                            new math.OperatorNode('multiply', 'multiply', [
+                                                new math.ConstantNode(-1),
+                                                positiveTerm.positiveVersion  // The previously positive term, now negative
+                                            ])
+                                        ];
+
+                                        const newDenominator = this.rebuildTree(newDenomTerms, 'add');
+
+                                        // Multiply numerator by -1
+                                        const newNumerator = new math.OperatorNode('multiply', 'multiply', [
+                                            new math.ConstantNode(-1),
+                                            numerator
+                                        ]);
+
+                                        transformedNode = new math.OperatorNode('divide', 'divide', [newNumerator, newDenominator]);
+                                        this.logDepth--;
+                                        return canonicalizeNode(transformedNode);
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
                 case 'ParenthesisNode':
