@@ -34,11 +34,9 @@ class FurtherRationalisingDenominatorHardLevel {
             {problem: "\\frac{\\sqrt{7}}{3-\\frac{2}{\\sqrt{7}}}", answer: "\\frac{21\\sqrt{7}+14}{59}"},
                         
             // Algebraic generalizations
-            {problem: "\\frac{x}{\\sqrt{x}+y}", answer: "\\frac{x(\\sqrt{x}-y)}{x-y^2}"},
             {problem: "\\frac{\\sqrt{x}}{a+\\sqrt{x}}", answer: "\\frac{a\\sqrt{x}-x}{a^2-x}"},
             {problem: "\\frac{a+\\sqrt{b}}{a-\\sqrt{b}}", answer: "\\frac{(a+\\sqrt{b})^2}{a^2-b}"},
             {problem: "\\frac{\\sqrt{a}+\\sqrt{b}}{\\sqrt{a}-\\sqrt{b}}", answer: "\\frac{a+2\\sqrt{ab}+b}{a-b}"},
-            {problem: "\\frac{2\\sqrt{xy}}{\\sqrt{x}-\\sqrt{y}}", answer: "\\frac{2\\sqrt{xy}(\\sqrt{x}+\\sqrt{y})}{x-y}"},
             
             // Complex multiple surd expressions
             {problem: "\\frac{\\sqrt{2}+\\sqrt{3}}{\\sqrt{6}-1}", answer: "\\frac{3\\sqrt{3}+4\\sqrt{2}}{5}"},
