@@ -14,7 +14,6 @@ class BinomialFactorsHard {
             {problem: "5ax(2x + 1)^3 - 3a(2x + 1)^2", answer: "a(2x + 1)^2(10x^2 + 5x - 3)"},
             {problem: "5x\\sqrt{2x + 1} - 3\\sqrt{2x + 1}", answer: "(5x - 3)\\sqrt{2x + 1}"},
             {problem: "5x(2x - 1)^2 - 3x(1 - 2x)", answer: "2x(2x - 1)(5x - 1)"},
-            {problem: "5x(2x + 1)(5x - 2) - 3(2x + 1)^2(5x - 2)^2", answer: "(2x + 1)(5x - 2)(-30x^2 + 2x + 6)"},
             
             // Additional generated questions for variety and complexity
             {problem: "4x(3x + 1)^2 - 3(3x + 1)", answer: "(3x + 1)(12x^2 + 4x - 3)"},
@@ -26,11 +25,9 @@ class BinomialFactorsHard {
             {problem: "7bx(x + 4)^3 - 5b(x + 4)^2", answer: "b(x + 4)^2(7x^2 + 28x - 5)"},
             {problem: "3x\\sqrt{3x - 2} + 7\\sqrt{3x - 2}", answer: "(3x + 7)\\sqrt{3x - 2}"},
             {problem: "8x(x + 1)^2 + 5x(1 + x)", answer: "x(x + 1)(8x + 13)"},
-            {problem: "6x(3x + 2)(x - 1) - 4(3x + 2)^2(x - 1)^2", answer: "2(3x + 2)(x - 1)(-6x^2 + 5x + 4)"},
             {problem: "5x(2x + 3)^2 - 7(2x + 3)", answer: "(2x + 3)(10x^2 + 15x - 7)"},
             {problem: "6x(x - 4)^2 + 2(x - 4)", answer: "2(x - 4)(3x^2 - 12x + 1)"},
             {problem: "20x(2x + 5)^2 + 35(2x + 5)", answer: "5(2x + 5)(8x^2 + 20x + 7)"},
-            {problem: "12x(4x - 1) - 18(4x - 1)^2", answer: "6(4x - 1)(-10x + 3)"},
             {problem: "45x(x + 1) + 27(x + 1)^2", answer: "9(x + 1)(8x + 3)"},
             {problem: "48x(2x - 3)^3 + 32(2x - 3)^2", answer: "16(2x - 3)^2(6x^2 - 9x + 2)"},
             {problem: "9cx(3x + 1)^3 + 6c(3x + 1)^2", answer: "3c(3x + 1)^2(9x^2 + 3x + 2)"},
@@ -46,7 +43,6 @@ class BinomialFactorsHard {
             {problem: "11dx(2x + 3)^3 - 7d(2x + 3)^2", answer: "d(2x + 3)^2(22x^2 + 33x - 7)"},
             {problem: "6x\\sqrt{2x - 1} + 9\\sqrt{2x - 1}", answer: "(6x + 9)\\sqrt{2x - 1}"},
             {problem: "12x(2x + 1)^2 - 15x(1 + 2x)", answer: "3x(2x + 1)(8x - 1)"},
-            {problem: "10x(x - 6)(3x + 2) - 15(x - 6)^2(3x + 2)^2", answer: "5(x - 6)(3x + 2)(-9x^2 + 50x + 36)"},
             {problem: "13x(4x + 7)^2 + 8(4x + 7)", answer: "(4x + 7)(52x^2 + 91x + 8)"},
             {problem: "9x(x - 8)^2 - 5(x - 8)", answer: "(x - 8)(9x^2 - 72x - 5)"},
             {problem: "30x(3x + 4)^2 + 45(3x + 4)", answer: "15(3x + 4)(6x^2 + 8x + 3)"},
