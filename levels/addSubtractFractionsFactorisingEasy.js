@@ -29,7 +29,6 @@ class AddSubtractFractionsFactorisingEasy {
             {problem: "\\frac{1}{x} + \\frac{1}{x+3}", answer: "\\frac{2x+3}{x(x+3)}"},
             {problem: "\\frac{5}{x-4} + \\frac{1}{x+1}", answer: "\\frac{6x+1}{(x-4)(x+1)}"},
             {problem: "\\frac{2}{x+5} - \\frac{1}{x-3}", answer: "\\frac{x-11}{(x+5)(x-3)}"},
-            {problem: "\\frac{4}{x} - \\frac{2}{x+6}", answer: "\\frac{2(x+12)}{x(x+6)}"},
             {problem: "\\frac{3}{2x} + \\frac{1}{x+4}", answer: "\\frac{5x+12}{2x(x+4)}"},
             {problem: "\\frac{1}{x-5} + \\frac{3}{x+2}", answer: "\\frac{4x-13}{(x-5)(x+2)}"},
             {problem: "\\frac{1}{3x} + \\frac{2}{x-2}", answer: "\\frac{7x-2}{3x(x-2)}"},

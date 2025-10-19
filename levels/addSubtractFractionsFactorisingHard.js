@@ -40,7 +40,6 @@ class AddSubtractFractionsFactorisingHard {
             
             // Nested factorisation patterns
             {problem: "\\frac{1}{(x^2-1)(x+2)} + \\frac{2}{(x-1)(x^2+2x)}", answer: "\\frac{3x+2}{x(x-1)(x+1)(x+2)}"},
-            {problem: "\\frac{3}{(x^2-4)(x-3)} - \\frac{1}{(x+2)(x^2-3x)}", answer: "\\frac{2(x+1)}{x(x-2)(x+2)(x-3)}"},
             {problem: "\\frac{2}{(x^2+x)(x-2)} + \\frac{1}{(x+1)(x^2-2x)}", answer: "\\frac{3}{x(x+1)(x-2)}"},
             
             // Mixed rational and polynomial terms
@@ -49,7 +48,6 @@ class AddSubtractFractionsFactorisingHard {
             {problem: "\\frac{x+2}{x^2-4x+3} - \\frac{x-1}{x^2-2x-3} + \\frac{2}{x^2+2x-3}", answer: "\\frac{7x^2+12x-3}{(x-1)(x-3)(x+1)(x+3)}"},
             
             // Advanced variable patterns
-            {problem: "\\frac{a+b}{a^2-b^2} + \\frac{a-b}{a^2+2ab+b^2}", answer: "\\frac{2(a^2+b^2)}{(a-b)(a+b)^2}"},
             {problem: "\\frac{2m}{m^2-n^2} - \\frac{n}{m^2+mn-2n^2}", answer: "\\frac{2m^2+3mn-n^2}{(m-n)(m+n)(m+2n)}"},            
             // Extremely complex cases
             {problem: "\\frac{x}{6x^3-6x} + \\frac{1}{2x^2-2}", answer: "\\frac{2}{3(x-1)(x+1)}"}
