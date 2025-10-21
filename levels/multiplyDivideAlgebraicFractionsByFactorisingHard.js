@@ -32,7 +32,7 @@ class MultiplyDivideAlgebraicFractionsByFactorisingHardLevel {
             {problem: "\\frac{x^3+x^2-6x}{x^2-9} \\times \\frac{x-3}{x^2+2x} \\div \\frac{x-2}{x+3}", answer: "\\frac{x+3}{x+2}"},
             
             {problem: "\\frac{6x^2-x-2}{4x^2-4x+1} \\times \\frac{2x-1}{3x+2} \\div \\frac{2x+1}{2x-1}", answer: "\\frac{3x-2}{3x+2}"},
-            {problem: "\\frac{x^4-1}{x^2+2x+1} \\div \\frac{x^2+1}{x+1} \\times \\frac{x+1}{x^2-1}", answer: "\\frac{1}{x+1}"},
+            {problem: "\\frac{x^4-1}{x^2+2x+1} \\div \\frac{x^2+1}{x+1} \\times \\frac{x+1}{x^2-1}", answer: "1"},
             {problem: "\\frac{x^2+6x+9}{x^2-9} \\times \\frac{x^2-3x}{x^2+3x} \\div \\frac{x+3}{x-3}", answer: "\\frac{x-3}{x+3}"},
             {problem: "\\frac{4x^3-4x}{x^2+2x+1} \\div \\frac{2x^2-2}{x+1} \\times \\frac{x+1}{2x}", answer: "1"},
             
