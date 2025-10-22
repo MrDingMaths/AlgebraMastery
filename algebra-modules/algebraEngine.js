@@ -1,198 +1,4 @@
 // algebra-modules/algebraEngine.js
-
-/**
- * ================================================================================
- * AlgebraEngine - Expression Comparison and Validation System
- * ================================================================================
- *
- * PRIMARY GOAL:
- * -------------
- * Check if user input matches the given answer through direct structural comparison.
- * Expressions must be in the same form (factorized vs. expanded) and fully simplified.
- *
- * CORE PRINCIPLES:
- * ----------------
- * 1. ✓ ACCEPT: Expressions that are commutatively equivalent
- *    Example: (x+a)(x+b) = (x+b)(x+a) ✓
- *    Example: -(x+a)(x+b) = -(x+b)(x+a) ✓
- *
- * 2. ✗ REJECT: Expressions that are not fully simplified
- *    Example: 2x + 3x ≠ 5x
- *
- * 3. ✗ REJECT: Expressions in the wrong form (factorized vs. expanded)
- *    Example: (x+a)(x+b) ≠ x² + (a+b)x + ab
- *
- * COMPARISON STRATEGY:
- * --------------------
- * 1. Parse LaTeX into Math.js expressions
- * 2. Convert to Abstract Syntax Trees (AST)
- * 3. Apply canonicalization transformations to create a standard form
- * 4. Compare canonical ASTs using string equality
- *
- * CANONICALIZATION PROCESS:
- * -------------------------
- * The canonicalization process transforms equivalent expressions into identical
- * canonical forms through a series of deterministic transformations:
- *
- * Step 1: PRE-PROCESSING (for multiplication nodes only)
- *   - Expand unaryMinus children before recursive processing
- *   - Example: multiply([unaryMinus((x+a)), (x+b)])
- *             → multiply([-1, (x+a), (x+b)])
- *   - Purpose: Ensures all multiplication factors are visible together for
- *              proper commutativity handling and distribution decisions
- *
- * Step 2: RECURSIVE CANONICALIZATION (bottom-up tree traversal)
- *   All child nodes are canonicalized before processing the parent.
- *
- *   2a. Subtraction → Addition:
- *       - Transform: a - b → a + (unaryMinus(b))
- *       - Then recursively canonicalize the new addition
- *
- *   2b. Unary Minus → Multiplication:
- *       - Transform: -a → -1 * a
- *       - Falls through to multiplication handling (no immediate recursion)
- *
- *   2c. Flatten Commutative Operations (addition & multiplication):
- *       - Recursively flatten nested operations of the same type
- *       - Example: (a + (b + c)) → [a, b, c]
- *       - Example: (a * (b * c)) → [a, b, c]
- *
- *   2d. Constant Folding:
- *       - Multiplication: 2 * 3 * x → 6 * x
- *       - Addition: 2 + 3 + x → 5 + x
- *
- *   2e. Identity Elimination:
- *       - Multiplication: 1 * x → x
- *       - Addition: 0 + x → x
- *
- *   2f. Selective Distributive Property for -1:
- *       This is the most complex rule, designed to handle multiple edge cases:
- *
- *       Rule A: Single addition factor with -1
- *         - When: -1 * (sum) with no other factors being additions
- *         - Action: Always distribute
- *         - Example: -1 * (x + a) → (-1*x) + (-1*a)
- *         - Purpose: Standard simplification
- *
- *       Rule B: Multiple addition factors WITHOUT negatives
- *         - When: -1 * (a+x) * (b+x) where sums contain no (-1*...) terms
- *         - Action: DO NOT distribute (preserve commutativity)
- *         - Example: -(x+a)(x+b) keeps -1 as separate factor
- *         - Purpose: Ensures -(x+a)(x+b) and -(x+b)(x+a) match after sorting
- *
- *       Rule C: Multiple addition factors WITH negatives (double negative case)
- *         - When: -1 * (...) * (sum) where sum contains terms like (-1*a)
- *         - Action: Distribute into the sum with negatives
- *         - Example: -1 * ((-1*a) + x) → (a + (-1*x))
- *         - Purpose: Simplifies double negatives to match forms like (a-x)
- *         - Key case: Makes (a-x)(x-b) match -(x-a)(x-b)
- *
- *   2g. Fraction-Multiplication Normalization:
- *       - Transform: (a*b)/c → (a/c)*b
- *       - Ensures consistent fraction form
- *
- *   2h. Commutative Sorting:
- *       - Sort all terms/factors alphabetically by their string representation
- *       - Example: (b + a) → (a + b)
- *       - Example: x * 2 → 2 * x
- *       - Purpose: Ensures unique canonical ordering
- *
- *   2i. Division Denominator Canonicalization (Two Rules):
- *
- *       Rule 1: Extract Negative from Denominator
- *       - Purpose: Always prefer positive denominator in canonical form
- *       - Handles: (numerator)/(-denominator) → (-numerator)/denominator
- *       - Detects negative denominators in three ways:
- *         * Negative constant: (expr)/(-3) → (-expr)/3
- *         * Multiplication with -1: (expr)/(-1*e) → (-expr)/e
- *       - Example: (a-b+c-d)/e and (b-a-c+d)/(-e) both become (-...)/e form
- *       - This ensures: numerator/(-denom) and (-numerator)/denom match
- *
- *       Rule 2: Binary Difference Denominator Canonicalization
- *       - Purpose: Ensures expressions like 3/(a-x) and -3/(x-a) match
- *       - Applies AFTER Rule 1, to denominators with binary differences
- *       - Handles both simple additions AND products of additions
- *       - Rule: For denominators with exactly 2 terms where 1 is negative:
- *         * Extract positive versions of both terms
- *         * Compare positive versions alphabetically
- *         * If negative term's positive version comes first alphabetically,
- *           factor out -1 from denominator and merge into numerator
- *       - Example 1 (simple): 3/(a-x) where denominator is ((-1*x) + a)
- *         * Positive versions: x and a
- *         * Compare: "a" < "x" alphabetically
- *         * Result: "a" should be positive, "x" should be negative
- *         * Transform: 3/((-1*x) + a) → (-3)/(a + (-1*x))
- *       - Example 2 (product): 3/((a-x)(x+b)) where denominator is (((-1*x) + a) * ((b + x)))
- *         * First factor (a-x) has positive versions: x and a
- *         * Compare: "a" < "x", so transform this factor
- *         * Second factor (x+b) is already canonical
- *         * Result: 3/((a-x)(x+b)) → -3/((x-a)(x+b))
- *       - This creates stable canonical form for subtraction-like denominators
- *       - Mathematical equivalence: 3/(a-x) = 3/(-(x-a)) = -3/(x-a)
- *
- * Step 3: COMPARISON
- *   - Convert both canonical ASTs to strings
- *   - Compare strings for exact equality
- *
- * KEY EXAMPLES:
- * -------------
- * Example 1: Commutativity in factorized forms
- *   Input:  -(x+a)(x+b) vs -(x+b)(x+a)
- *   Step 1: Expand unaryMinus: [-1, (x+a), (x+b)] vs [-1, (x+b), (x+a)]
- *   Step 2: Canonicalize sums: [-1, (a+x), (b+x)] vs [-1, (a+x), (b+x)]
- *   Step 3: No distribution (Rule B - no negatives in sums)
- *   Step 4: Sort factors: [-1, (a+x), (b+x)] = [-1, (a+x), (b+x)] ✓ MATCH
- *
- * Example 2: Double negative simplification
- *   Input:  (a-x)(x-b) vs -(x-a)(x-b)
- *   First:  (a-x) → (a + (-1*x)) → ((-1*x) + a)
- *           (x-b) → (x + (-1*b)) → ((-1*b) + x)
- *           Result: (((-1*x) + a) * ((-1*b) + x))
- *   Second: Expand unaryMinus: [-1, (x-a), (x-b)]
- *           (x-a) → (x + (-1*a)) → ((-1*a) + x)
- *           (x-b) → ((-1*b) + x)
- *           After canonicalization: [-1, ((-1*a) + x), ((-1*b) + x)]
- *           Detect: ((-1*a) + x) contains negative term
- *           Distribute (Rule C): -1 * ((-1*a) + x) → (a + (-1*x)) → ((-1*x) + a)
- *           Result: (((-1*x) + a) * ((-1*b) + x)) ✓ MATCH
- *
- * Example 3: Denominator canonicalization with negative terms
- *   Input:  3/(a-x) vs -3/(x-a)
- *   Mathematical equivalence: 3/(a-x) = 3/(-(x-a)) = -3/(x-a)
- *
- *   Processing 3/(a-x):
- *     Step 1: Parse: (a-x) → (a + (-1*x))
- *     Step 2: Canonicalize and sort: ((-1*x) + a)
- *     Step 3: Check denominator: 2 terms, 1 negative [(-1*x), a]
- *     Step 4: Identify: negativeTerm = (-1*x) with posVersion "x"
- *                      positiveTerm = a with posVersion "a"
- *     Step 5: Compare: "x" vs "a" → "x" > "a", so "x" comes AFTER
- *     Step 6: Condition check: negStr < posStr? → "x" < "a"? → FALSE
- *     Step 7: NO transformation applied
- *     Result: 3 / ((-1*x) + a)
- *
- *   Processing -3/(x-a):
- *     Step 1: Parse: (x-a) → (x + (-1*a))
- *     Step 2: Canonicalize and sort: ((-1*a) + x)
- *     Step 3: Check denominator: 2 terms, 1 negative [(-1*a), x]
- *     Step 4: Identify: negativeTerm = (-1*a) with posVersion "a"
- *                      positiveTerm = x with posVersion "x"
- *     Step 5: Compare: "a" vs "x" → "a" < "x", so "a" comes BEFORE
- *     Step 6: Condition check: negStr < posStr? → "a" < "x"? → TRUE
- *     Step 7: Transform: Swap signs in denominator, negate numerator
- *             New denominator: (a + (-1*x)) → sorts to ((-1*x) + a)
- *             New numerator: -1 * -3 = 3
- *     Result: 3 / ((-1*x) + a)
- *
- *   Both expressions converge to: 3 / ((-1*x) + a) ✓ MATCH
- *
- * DEBUGGING:
- * ----------
- * Verbose console logging traces the entire canonicalization process.
- * Use debug-algebra-engine.html to test and visualize transformations.
- *
- * ================================================================================
- */
 class AlgebraEngine {
     constructor() {
         this.logDepth = 0;
@@ -224,6 +30,87 @@ class AlgebraEngine {
         }
     }
 
+    /**
+     * Check if an AST contains unsimplified constant patterns.
+     * Returns an object with:
+     * - hasIssues: boolean indicating if unsimplified patterns found
+     * - issues: array of descriptive strings about what needs simplification
+     */
+    hasUnsimplifiedConstants(ast) {
+        const issues = [];
+
+        const checkNode = (node) => {
+            if (!node || !node.type) return;
+
+            // Helper to collect all constants from a node tree (handles both add and subtract)
+            const collectConstants = (n) => {
+                const constants = [];
+
+                const traverse = (current) => {
+                    if (!current || !current.type) return;
+
+                    // Direct constant
+                    if (current.isConstantNode) {
+                        constants.push(current);
+                        return;
+                    }
+
+                    // Unary minus of constant
+                    if (current.isOperatorNode && current.fn === 'unaryMinus' &&
+                        current.args[0] && current.args[0].isConstantNode) {
+                        constants.push(current);
+                        return;
+                    }
+
+                    // For addition/subtraction, traverse both sides
+                    if (current.isOperatorNode && (current.fn === 'add' || current.fn === 'subtract')) {
+                        if (current.args && current.args.length >= 2) {
+                            current.args.forEach(arg => traverse(arg));
+                        }
+                    }
+                };
+
+                traverse(n);
+                return constants;
+            };
+
+            // Check addition/subtraction nodes for multiple constants
+            if (node.isOperatorNode && (node.fn === 'add' || node.fn === 'subtract')) {
+                const constants = collectConstants(node);
+
+                if (constants.length >= 2) {
+                    issues.push(`Multiple constants in addition/subtraction should be combined`);
+                }
+            }
+
+            // Check multiplication nodes for multiple numeric constants
+            if (node.isOperatorNode && node.fn === 'multiply') {
+                const factors = this.flatten(node, 'multiply');
+                const numericConstants = factors.filter(f =>
+                    f.isConstantNode && typeof f.value === 'number'
+                );
+
+                if (numericConstants.length >= 2) {
+                    issues.push(`Multiple numeric constants in multiplication should be combined`);
+                }
+            }
+
+            // Recursively check children
+            if (node.args) {
+                node.args.forEach(arg => checkNode(arg));
+            }
+            if (node.content) {
+                checkNode(node.content);
+            }
+        };
+
+        checkNode(ast);
+        return {
+            hasIssues: issues.length > 0,
+            issues: issues
+        };
+    }
+
     compareExpressions(userLatex, correctLatex) {
         try {
             this.log(`[START] Comparing expressions:`);
@@ -239,6 +126,17 @@ class AlgebraEngine {
             const correctAST = math.parse(correctExpr);
             this.log(`[AST] Initial User AST:    `, this.astToString(userAST));
             this.log(`[AST] Initial Correct AST: `, this.astToString(correctAST));
+
+            // Check for unsimplified patterns BEFORE canonicalization
+            this.log(`\n[SIMPLIFICATION CHECK]`);
+            const userSimplification = this.hasUnsimplifiedConstants(userAST);
+            if (userSimplification.hasIssues) {
+                this.log(`[REJECT] User answer contains unsimplified expressions:`);
+                userSimplification.issues.forEach(issue => this.log(`  - ${issue}`));
+                this.log(`[RESULT] Final Match: false (not fully simplified)\n`);
+                return false;
+            }
+            this.log(`[OK] User answer appears to be fully simplified`);
 
             this.log(`\n[CANONICALIZE USER]`);
             const userCanonical = this.toCanonicalForm(userAST);
