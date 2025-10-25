@@ -1,8 +1,8 @@
 // progressTracker.js - Core tracking and data management
 class ProgressTracker {
     constructor() {
-        this.STORAGE_KEY = 'algebra_progress_data_v3';
-        this.SCHEMA_VERSION = 3;
+        this.STORAGE_KEY = 'algebra_progress_data_v4';
+        this.SCHEMA_VERSION = 4;
         this.MAX_ENTRIES_PER_DRILL = 500;
         this.MAX_MISTAKES_PER_LEVEL = 100;
         this.initializeStorage();
@@ -25,6 +25,7 @@ class ProgressTracker {
     // Check for data in older storage keys
     loadDataFromOldKeys() {
         const oldKeys = [
+            'algebra_progress_data_v3',
             'algebra_progress_data_v2',
             'algebra_progress_data_v1',
             'algebra_progress_data' // Check even older versions
@@ -92,6 +93,12 @@ class ProgressTracker {
                 newData.drillHistory = oldData.drillHistory || {};
                 newData.mistakes = {}; // Initialize empty mistakes for v3
             }
+            // Migrate from v3 to v4 - add baseline tracking for cumulative improvement
+            else if (oldData.version === 3) {
+                newData.sessions = oldData.sessions || [];
+                newData.drillHistory = this.addBaselineTracking(oldData.drillHistory || {});
+                newData.mistakes = oldData.mistakes || {};
+            }
             // For any version, preserve existing data
             else {
                 if (oldData.sessions) {
@@ -107,6 +114,33 @@ class ProgressTracker {
         }
 
         this.saveData(newData);
+    }
+
+    // Add baseline tracking to existing drill history (for v3→v4 migration)
+    addBaselineTracking(drillHistory) {
+        const updated = {};
+        Object.keys(drillHistory).forEach(key => {
+            const drill = drillHistory[key];
+            updated[key] = {
+                ...drill,
+                // Use earliest attempt as baseline, or bestTime if no attempts
+                firstAttemptTime: drill.attempts && drill.attempts.length > 0
+                    ? drill.attempts[0].time
+                    : drill.bestTime,
+                firstAttemptDate: drill.attempts && drill.attempts.length > 0
+                    ? drill.attempts[0].timestamp
+                    : drill.bestTimeDate
+            };
+
+            // Recalculate improvements with cumulative metric
+            if (updated[key].improvements && updated[key].firstAttemptTime) {
+                updated[key].improvements = updated[key].improvements.map(imp => ({
+                    ...imp,
+                    percentImprovementFromBaseline: ((updated[key].firstAttemptTime - imp.newBest) / updated[key].firstAttemptTime * 100).toFixed(1)
+                }));
+            }
+        });
+        return updated;
     }
 
     // Save progress data with validation
@@ -138,6 +172,8 @@ class ProgressTracker {
                     attempts: [],
                     bestTime: null,
                     bestTimeDate: null,
+                    firstAttemptTime: null,
+                    firstAttemptDate: null,
                     totalAttempts: 0,
                     averageTime: 0,
                     lastAttempt: null,
@@ -146,15 +182,27 @@ class ProgressTracker {
             }
 
             const drillData = data.drillHistory[levelKey];
-            
+
+            // Set first attempt time if this is the first time
+            if (drillData.firstAttemptTime === null) {
+                drillData.firstAttemptTime = time;
+                drillData.firstAttemptDate = timestamp;
+            }
+
             // Track improvement
             if (drillData.bestTime === null || time < drillData.bestTime) {
                 if (drillData.bestTime !== null) {
+                    // Calculate cumulative improvement from baseline
+                    const cumulativeImprovement = drillData.firstAttemptTime
+                        ? ((drillData.firstAttemptTime - time) / drillData.firstAttemptTime * 100).toFixed(1)
+                        : '0.0';
+
                     drillData.improvements.push({
                         previousBest: drillData.bestTime,
                         newBest: time,
                         improvement: drillData.bestTime - time,
                         percentImprovement: ((drillData.bestTime - time) / drillData.bestTime * 100).toFixed(1),
+                        percentImprovementFromBaseline: cumulativeImprovement,
                         date: timestamp
                     });
                 }
@@ -340,13 +388,15 @@ class ProgressTracker {
             }
         });
 
-        // Calculate average improvement
-        const allImprovements = Object.values(drillHistory)
-            .flatMap(d => d.improvements)
-            .map(i => parseFloat(i.percentImprovement));
-        
-        if (allImprovements.length > 0) {
-            summary.averageImprovement = (allImprovements.reduce((a, b) => a + b, 0) / allImprovements.length).toFixed(1);
+        // Calculate average cumulative improvement across all drills
+        const drillsWithBaseline = Object.values(drillHistory)
+            .filter(d => d.firstAttemptTime && d.bestTime && d.firstAttemptTime > d.bestTime);
+
+        if (drillsWithBaseline.length > 0) {
+            const cumulativeImprovements = drillsWithBaseline.map(d =>
+                ((d.firstAttemptTime - d.bestTime) / d.firstAttemptTime * 100)
+            );
+            summary.averageImprovement = (cumulativeImprovements.reduce((a, b) => a + b, 0) / cumulativeImprovements.length).toFixed(1);
         }
 
         return summary;
@@ -358,12 +408,14 @@ class ProgressTracker {
         if (!data.version || data.version < this.SCHEMA_VERSION) return false;
         if (!Array.isArray(data.sessions)) return false;
         if (!data.drillHistory || typeof data.drillHistory !== 'object') return false;
-        
+
         // For v3+, validate mistakes structure exists
         if (data.version >= 3) {
             if (!data.mistakes || typeof data.mistakes !== 'object') return false;
         }
-        
+
+        // Note: v4 adds firstAttemptTime/firstAttemptDate fields, but they're optional for backward compatibility
+
         return true;
     }
 

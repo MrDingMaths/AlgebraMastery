@@ -299,7 +299,14 @@ class ProgressChart {
                                             if (previousBest && currentTime < previousBest) {
                                                 const improvement = previousBest - currentTime;
                                                 const percentImprovement = ((improvement / previousBest) * 100).toFixed(1);
-                                                return `Improved by ${improvement}s (${percentImprovement}%)`;
+
+                                                // Also show cumulative improvement from baseline
+                                                let tooltip = `Improved by ${improvement}s (${percentImprovement}%)`;
+                                                if (drillData.firstAttemptTime) {
+                                                    const cumulativeImprovement = ((drillData.firstAttemptTime - currentTime) / drillData.firstAttemptTime * 100).toFixed(1);
+                                                    tooltip += ` | ${cumulativeImprovement}% faster overall`;
+                                                }
+                                                return tooltip;
                                             }
                                         }
                                     }

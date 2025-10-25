@@ -742,6 +742,13 @@ class ProgressUI {
                         <div class="stat-label">Improvements</div>
                         <div class="stat-value">${drill.improvements.length}</div>
                     </div>
+                    ${drill.firstAttemptTime && drill.bestTime ? `
+                    <div class="stat-item">
+                        <div class="stat-icon">🚀</div>
+                        <div class="stat-label">Overall Progress</div>
+                        <div class="stat-value">${((drill.firstAttemptTime - drill.bestTime) / drill.firstAttemptTime * 100).toFixed(1)}% faster</div>
+                    </div>
+                    ` : ''}
                 </div>
             `;
             document.getElementById('drill-stats').innerHTML = statsHtml;

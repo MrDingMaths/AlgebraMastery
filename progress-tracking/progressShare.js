@@ -19,9 +19,10 @@ class ProgressShare {
                 text += `⏱️ Best Time: ${this.formatTime(drill.bestTime)}\n`;
                 text += `📈 Average Time: ${this.formatTime(Math.round(drill.averageTime))}\n`;
                 
-                if (drill.improvements.length > 0) {
-                    const totalImprovement = drill.improvements.reduce((sum, i) => sum + parseFloat(i.percentImprovement), 0);
-                    text += `📈 Total Improvement: ${totalImprovement.toFixed(1)}%\n`;
+                if (drill.improvements.length > 0 && drill.firstAttemptTime && drill.bestTime) {
+                    // Calculate cumulative improvement from baseline (not sum of incremental improvements!)
+                    const cumulativeImprovement = ((drill.firstAttemptTime - drill.bestTime) / drill.firstAttemptTime * 100).toFixed(1);
+                    text += `📈 Total Improvement: ${cumulativeImprovement}% faster than first attempt\n`;
                 }
             }
         } else {
@@ -149,8 +150,8 @@ class ProgressShare {
                                 <td>${this.formatTime(drill.bestTime)}</td>
                                 <td>${this.formatTime(Math.round(drill.averageTime))}</td>
                                 <td class="improvement">
-                                    ${drill.improvements.length > 0
-									? drill.improvements.reduce((sum, i) => sum + parseFloat(i.percentImprovement), 0).toFixed(1) + '%'
+                                    ${drill.improvements.length > 0 && drill.firstAttemptTime && drill.bestTime
+									? ((drill.firstAttemptTime - drill.bestTime) / drill.firstAttemptTime * 100).toFixed(1) + '%'
                                        : '-'}
                                </td>
                            </tr>
