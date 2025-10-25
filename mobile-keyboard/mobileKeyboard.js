@@ -271,6 +271,12 @@ class MobileKeyboard {
 
             // Prevent body scroll when keyboard is open
             document.body.style.overflow = 'hidden';
+
+            // Shift game card up when keyboard is active
+            const gameScreen = document.getElementById('game-screen');
+            if (gameScreen) {
+                gameScreen.classList.add('keyboard-active');
+            }
         }
     }
 
@@ -281,6 +287,12 @@ class MobileKeyboard {
 
             // Restore body scroll
             document.body.style.overflow = '';
+
+            // Remove keyboard-active class to shift game card back down
+            const gameScreen = document.getElementById('game-screen');
+            if (gameScreen) {
+                gameScreen.classList.remove('keyboard-active');
+            }
 
             // Blur the math field to hide cursor
             if (this.mathField) {

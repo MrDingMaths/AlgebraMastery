@@ -454,3 +454,14 @@ sup.mq-nthroot {
     margin: 0 1px;
 }
 
+/* Mobile keyboard active state - shift game card up */
+#game-screen.keyboard-active {
+    transform: translateY(-250px);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Smooth transition when keyboard deactivates */
+#game-screen {
+    transition: transform 0.3s ease-in-out;
+}
+
