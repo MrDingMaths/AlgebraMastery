@@ -16,7 +16,6 @@ class EvaluatingFractionalIndicesEasyLevel {
             {problem: "100^{\\frac{1}{2}}", answer: "10"},
             {problem: "36^{\\frac{1}{2}}", answer: "6"},
             {problem: "400^{\\frac{1}{2}}", answer: "20"},
-            {problem: "1^{\\frac{1}{2}}", answer: "1"},
             {problem: "9^{\\frac{1}{2}}", answer: "3"},
             {problem: "4^{\\frac{1}{2}}", answer: "2"},
             {problem: "16^{\\frac{1}{2}}", answer: "4"},
@@ -35,7 +34,6 @@ class EvaluatingFractionalIndicesEasyLevel {
             {problem: "343^{\\frac{1}{3}}", answer: "7"},
             {problem: "27^{\\frac{1}{3}}", answer: "3"},
             {problem: "27000^{\\frac{1}{3}}", answer: "30"},
-            {problem: "1^{\\frac{1}{3}}", answer: "1"},
             {problem: "216^{\\frac{1}{3}}", answer: "6"},
             
             // Fourth roots (1/4 power)
@@ -47,11 +45,9 @@ class EvaluatingFractionalIndicesEasyLevel {
             
             // Fifth roots (1/5 power)
             {problem: "32^{\\frac{1}{5}}", answer: "2"},
-            {problem: "1^{\\frac{1}{5}}", answer: "1"},
             
             // Zero power cases (always equal to 1)
             {problem: "27^{\\frac{0}{3}}", answer: "1"},
-            {problem: "25^{\\frac{0}{2}}", answer: "1"},
             
             // Simple sixth roots
             {problem: "64^{\\frac{1}{6}}", answer: "2"},
