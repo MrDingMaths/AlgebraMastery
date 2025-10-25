@@ -29,13 +29,16 @@ class UI {
         this.mathField = null;
         this.MQ = null;
         this.currentView = 'skill-path'; // 'skill-path' or 'grid'
+        this.mobileKeyboard = null;
+        this.isMobile = MobileDetection.isMobileDevice();
         this.setupToggleGridView();
         this.setupSuccessScreenButtons();
+        this.initializeMobileKeyboard();
     }
 
     initializeMathQuill() {
         this.MQ = MathQuill.getInterface(2);
-        
+
         // Initialize static math examples on settings screen
         const staticExamples = [
             'power-example',
@@ -43,7 +46,7 @@ class UI {
             'sqrt-example',
             'nthroot-example'
         ];
-        
+
         staticExamples.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
@@ -52,10 +55,22 @@ class UI {
         });
     }
 
+    initializeMobileKeyboard() {
+        if (this.isMobile && typeof MobileKeyboard !== 'undefined') {
+            this.mobileKeyboard = new MobileKeyboard();
+            this.mobileKeyboard.initialize();
+        }
+    }
+
     showScreen(screenName) {
         ['settings', 'game', 'success'].forEach(s => {
             this.elements[`${s}Screen`].classList.toggle('hidden', s !== screenName);
         });
+
+        // Hide mobile keyboard when switching screens
+        if (this.mobileKeyboard && screenName !== 'game') {
+            this.mobileKeyboard.hide();
+        }
     }
 
     renderLevelGrid(levelGroups, onSelect) {
@@ -121,8 +136,8 @@ class UI {
         });
         answerLineContainer.appendChild(answerContainer);
         
-        // Initialize the math field
-        this.mathField = this.MQ.MathField(answerContainer, {
+        // Initialize the math field with mobile configuration
+        const mathFieldConfig = {
             spaceBehavesLikeTab: true,
             leftRightIntoCmdGoes: 'up',
             restrictMismatchedBrackets: true,
@@ -137,10 +152,39 @@ class UI {
                     document.dispatchEvent(event);
                 }
             }
-        });
-        
+        };
+
+        // On mobile, use substitute textarea to prevent native keyboard
+        if (this.isMobile) {
+            mathFieldConfig.substituteTextarea = MobileKeyboard.createSubstituteTextarea;
+            mathFieldConfig.handlers.edit = () => {
+                // Show mobile keyboard when user tries to edit
+                if (this.mobileKeyboard && !this.mobileKeyboard.isVisible) {
+                    this.mobileKeyboard.show();
+                }
+            };
+        }
+
+        this.mathField = this.MQ.MathField(answerContainer, mathFieldConfig);
+
+        // Set up mobile keyboard if available
+        if (this.isMobile && this.mobileKeyboard) {
+            this.mobileKeyboard.setMathField(this.mathField);
+
+            // Show keyboard when field is tapped
+            answerContainer.addEventListener('click', () => {
+                this.mobileKeyboard.show();
+            });
+        }
+
         // Focus the math field
-        setTimeout(() => this.mathField.focus(), 100);
+        setTimeout(() => {
+            this.mathField.focus();
+            // Auto-show mobile keyboard on mobile
+            if (this.isMobile && this.mobileKeyboard) {
+                this.mobileKeyboard.show();
+            }
+        }, 100);
     }
 
     getAnswerFromUI() {
