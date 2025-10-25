@@ -5,6 +5,8 @@ class MobileKeyboard {
         this.keyboardElement = null;
         this.currentPage = 0;
         this.isVisible = false;
+        this.swipeDirection = null; // Track swipe direction: 'left' or 'right'
+        this.isAnimating = false; // Prevent multiple animations at once
 
         // Define keyboard layouts for different pages
         this.pages = [
@@ -50,14 +52,38 @@ class MobileKeyboard {
                     { label: '𝑦', cmd: 'write', value: 'y' },
                     { label: '^', cmd: 'cmd', value: '^' },
                     { label: '', cmd: 'none', value: '', class: 'spacer' },
-                    { label: '↵', cmd: 'keystroke', value: 'Enter', class: 'secondary' }
+                    { label: '↩', cmd: 'keystroke', value: 'Enter', class: 'secondary' }
                 ]
             },
             // Page 2: QWERTY Alphabet
             {
                 name: 'Letters',
                 keys: [
-                    // Row 1: q w e r t y u i o p (10 keys)
+                    // Row 1: ( ) + - × ÷ x² ^ √ ⁿ√
+                    { label: '(', cmd: 'cmd', value: '(' },
+                    { label: ')', cmd: 'cmd', value: ')' },
+                    { label: '+', cmd: 'write', value: '+' },
+                    { label: '−', cmd: 'write', value: '-' },
+                    { label: '×', cmd: 'cmd', value: '*', symbol: '×' },
+                    { label: 'a/b', cmd: 'cmd', value: '/', symbol: '/' },
+                    { label: 'x²', cmd: 'write', value: '^2' },
+                    { label: '^', cmd: 'cmd', value: '^' },
+                    { label: '√', cmd: 'cmd', value: '\\sqrt' },
+                    { label: 'ⁿ√', cmd: 'cmd', value: '\\nthroot' },
+
+                    // Row 2: 1 2 3 4 5 6 7 8 9 0 (10 keys)
+                    { label: '1', cmd: 'write', value: '1' },
+                    { label: '2', cmd: 'write', value: '2' },
+                    { label: '3', cmd: 'write', value: '3' },
+                    { label: '4', cmd: 'write', value: '4' },
+                    { label: '5', cmd: 'write', value: '5' },
+                    { label: '6', cmd: 'write', value: '6' },
+                    { label: '7', cmd: 'write', value: '7' },
+                    { label: '8', cmd: 'write', value: '8' },
+                    { label: '9', cmd: 'write', value: '9' },
+                    { label: '0', cmd: 'write', value: '0' },
+
+                    // Row 3: q w e r t y u i o p (10 keys)
                     { label: 'q', cmd: 'write', value: 'q' },
                     { label: 'w', cmd: 'write', value: 'w' },
                     { label: 'e', cmd: 'write', value: 'e' },
@@ -69,7 +95,7 @@ class MobileKeyboard {
                     { label: 'o', cmd: 'write', value: 'o' },
                     { label: 'p', cmd: 'write', value: 'p' },
 
-                    // Row 2: a s d f g h j k l + backspace (9 keys + spacer for alignment)
+                    // Row 4: a s d f g h j k l + backspace (9 keys + spacer for alignment)
                     { label: '', cmd: 'none', value: '', class: 'spacer' },
                     { label: 'a', cmd: 'write', value: 'a' },
                     { label: 's', cmd: 'write', value: 's' },
@@ -81,8 +107,7 @@ class MobileKeyboard {
                     { label: 'k', cmd: 'write', value: 'k' },
                     { label: 'l', cmd: 'write', value: 'l' },
 
-                    // Row 3: z x c v b n m + backspace (7 keys + spacers for centering)
-                    { label: '', cmd: 'none', value: '', class: 'spacer' },
+                    // Row 5: z x c v b n m + backspace (7 keys + spacers for centering)
                     { label: '', cmd: 'none', value: '', class: 'spacer' },
                     { label: 'z', cmd: 'write', value: 'z' },
                     { label: 'x', cmd: 'write', value: 'x' },
@@ -91,7 +116,8 @@ class MobileKeyboard {
                     { label: 'b', cmd: 'write', value: 'b' },
                     { label: 'n', cmd: 'write', value: 'n' },
                     { label: 'm', cmd: 'write', value: 'm' },
-                    { label: '⌫', cmd: 'keystroke', value: 'Backspace', class: 'secondary' }
+                    { label: '⌫', cmd: 'keystroke', value: 'Backspace', class: 'secondary' },
+                    { label: '↩', cmd: 'keystroke', value: 'Enter', class: 'secondary' },
                 ]
             }
         ];
@@ -159,7 +185,7 @@ class MobileKeyboard {
         this.renderPage(0);
     }
 
-    renderPage(pageIndex) {
+    renderPage(pageIndex, animationClass = null) {
         const gridContainer = document.getElementById('keyboard-grid-container');
         if (!gridContainer) return;
 
@@ -167,6 +193,11 @@ class MobileKeyboard {
 
         const grid = document.createElement('div');
         grid.className = `keyboard-grid page-${pageIndex}`;
+
+        // Add animation class if provided
+        if (animationClass) {
+            grid.classList.add(animationClass);
+        }
 
         const page = this.pages[pageIndex];
         page.keys.forEach(key => {
@@ -193,8 +224,40 @@ class MobileKeyboard {
         });
     }
 
+    switchPageWithAnimation(newPageIndex, direction = null) {
+        // Prevent multiple simultaneous animations
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+
+        const gridContainer = document.getElementById('keyboard-grid-container');
+        const currentGrid = gridContainer.querySelector('.keyboard-grid');
+
+        if (!currentGrid) {
+            this.renderPage(newPageIndex);
+            this.isAnimating = false;
+            return;
+        }
+
+        // Determine direction if not provided
+        if (!direction) {
+            direction = newPageIndex > this.currentPage ? 'left' : 'right';
+        }
+
+        // Apply exit animation to current grid
+        const exitClass = direction === 'left' ? 'animate-exit-left' : 'animate-exit-right';
+        currentGrid.classList.add(exitClass);
+
+        // Wait for exit animation to complete, then render new page with entry animation
+        const animationDuration = 150; // matches CSS animation duration
+        setTimeout(() => {
+            const enterClass = direction === 'left' ? 'animate-enter-from-right' : 'animate-enter-from-left';
+            this.renderPage(newPageIndex, enterClass);
+            this.isAnimating = false;
+        }, animationDuration);
+    }
+
     switchPage(pageIndex) {
-        this.renderPage(pageIndex);
+        this.switchPageWithAnimation(pageIndex);
     }
 
     attachEventListeners() {
@@ -219,10 +282,10 @@ class MobileKeyboard {
         if (Math.abs(diff) > swipeThreshold) {
             if (diff > 0 && this.currentPage < this.pages.length - 1) {
                 // Swipe left - next page
-                this.switchPage(this.currentPage + 1);
+                this.switchPageWithAnimation(this.currentPage + 1, 'left');
             } else if (diff < 0 && this.currentPage > 0) {
                 // Swipe right - previous page
-                this.switchPage(this.currentPage - 1);
+                this.switchPageWithAnimation(this.currentPage - 1, 'right');
             }
         }
     }
