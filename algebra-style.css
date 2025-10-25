@@ -58,16 +58,6 @@ body {
 
 /* Algebra-specific styles */
 
-.mq-math-mode .mq-root-block {
-    overflow: visible !important;
-    padding-top: 0.2em !important;
-    min-height: 1.4em !important;
-}
-
-.mq-math-mode sup.mq-nthroot {
-    vertical-align: 0.4em;
-}
-
 .algebra-question {
     display: block;
     text-align: center;
@@ -94,17 +84,68 @@ body {
     margin: 0 0.5rem 0 -2rem;
 }
 
-/* Revert Tailwind preflight styles inside MathQuill containers */
-.mathquill-editable * {
-    all: revert;
+/* Selectively reset Tailwind preflight styles inside MathQuill containers */
+.mathquill-editable {
+    /* Reset problematic Tailwind preflight resets */
+    margin: 0;
+    border: 2px solid #0000FF;
+    padding: 10px;
+    line-height: normal;
 }
 
-/* MathQuill input styling */
+/* Preserve MathQuill's essential styles for math rendering */
+.mq-root-block {
+    display: inline-block !important;
+    width: 100% !important;
+    padding: 12px !important;
+    margin: 0 !important;
+}
+
+.mq-cursor {
+    display: inline-block !important;
+    vertical-align: text-bottom !important;
+}
+
+.mq-sqrt-prefix {
+    display: inline-block !important;
+    font-family: Symbola, serif !important;
+}
+
+sup,
+sub {
+    vertical-align: baseline !important;
+    position: relative !important;
+    font-size: 0.8em !important;
+}
+
+sup {
+    bottom: 0.6em !important;
+}
+
+sub {
+    top: 0.6em !important;
+}
+
+/* MathQuill nthroot index spacing */
+sup.mq-nthroot {
+    font-size: 80% !important;
+    vertical-align: 0.3em !important;
+    padding-top: 0.4em;
+}
+
+/* Keep aria-alert hidden (accessibility text for screen readers) */
+.mq-aria-alert {
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+}
+
+/* Additional MathQuill input styling */
 .mathquill-editable {
     width: 100%;
     min-height: 40px;
-    padding: 10px;
-    border: 2px solid #0000FF;
     border-radius: 5px;
     box-sizing: border-box;
     background-color: white;

@@ -832,12 +832,12 @@ class ProgressUI {
                 const tableRows = mistakes.map(mistake => {
                     const date = new Date(mistake.timestamp);
                     const dateStr = date.toLocaleDateString();
-                    
+
                     return `<tr data-mistake-id="${mistake.id}">` +
                         `<td class="level-column">${mistake.levelName}</td>` +
-                        `<td class="question-column"><div class="math-display">${mistake.question}</div></td>` +
-                        `<td class="correct-answer-column"><div class="math-display">${mistake.correctAnswer}</div></td>` +
-                        `<td class="student-answer-column"><div class="math-display">${mistake.studentAnswer}</div></td>` +
+                        `<td class="question-column"><div class="math-display" data-latex="${mistake.question.replace(/"/g, '&quot;')}">${mistake.question}</div></td>` +
+                        `<td class="correct-answer-column"><div class="math-display" data-latex="${mistake.correctAnswer.replace(/"/g, '&quot;')}">${mistake.correctAnswer}</div></td>` +
+                        `<td class="student-answer-column"><div class="math-display" data-latex="${mistake.studentAnswer.replace(/"/g, '&quot;')}">${mistake.studentAnswer}</div></td>` +
                         `<td class="date-column">${dateStr}</td>` +
                         `<td class="actions-column">
                             <button class="btn btn-small btn-danger delete-mistake-btn" data-mistake-id="${mistake.id}" title="Remove this mistake">
@@ -877,8 +877,14 @@ class ProgressUI {
 
         mathElements.forEach(element => {
             try {
-                // Get the LaTeX string from the element's text content
-                const latex = element.textContent.trim();
+                // Get the LaTeX string from the data-latex attribute (set on first render)
+                // Fallback to textContent for backward compatibility with old data
+                let latex = element.getAttribute('data-latex');
+                if (!latex) {
+                    // If data-latex doesn't exist, try to get from text content
+                    // This handles older entries that might not have the attribute
+                    latex = element.textContent.trim();
+                }
 
                 // Clear the element and render as static math
                 element.textContent = '';

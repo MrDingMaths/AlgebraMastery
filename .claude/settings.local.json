@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node test-fix.js:*)",
+      "Bash(node test-debug.js:*)",
+      "Bash(node test-sig.js:*)",
+      "Bash(node:*)",
+      "Bash(timeout 120 node:*)",
+      "Bash(timeout 30 node:*)",
+      "Bash(timeout 60 node:*)",
+      "Bash(cat:*)",
+      "Bash(git rm:*)",
+      "Bash(git mv:*)",
+      "Bash(robocopy:*)",
+      "Bash(exit 0)",
+      "Bash(powershell:*)",
+      "Bash(git reset:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algebra Engine Debug Tool</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/mathquill/build/mathquill.css">
+    <script src="lib/math.js"></script>
+    <!-- MathQuill (Desmos fork - local) -->
+    <link rel="stylesheet" type="text/css" href="lib/mathquill/mathquill.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://unpkg.com/mathquill/build/mathquill.js"></script>
+    <script src="lib/mathquill/mathquill.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -435,32 +436,43 @@
         }
         
         // Wait for Math.js to be fully loaded before creating the engine
-        window.addEventListener('load', function() {
+        function initializeEngine() {
             // Check if Math.js is available
             console.log('Math.js available:', typeof math !== 'undefined');
             console.log('Window.math available:', typeof window.math !== 'undefined');
-            
+
+            // If Math.js is not loaded yet, wait and retry
+            if (typeof math === 'undefined' && typeof window.math === 'undefined') {
+                console.log('Math.js not ready yet, retrying in 100ms...');
+                setTimeout(initializeEngine, 100);
+                return;
+            }
+
             // Initialize debug logger
             debugLogger = new DebugLogger();
-            
+
             // Load custom examples
             loadCustomExamples();
-            
+
             // Load the algebra engine after all libraries are ready
             const script = document.createElement('script');
             script.src = 'algebra-modules/algebraEngine.js';
             script.onload = function() {
                 console.log('AlgebraEngine script loaded');
                 try {
-                    engine = new AlgebraEngine();
-                    console.log('AlgebraEngine created successfully');
+                    // Pass the global math object to the engine (try both global names)
+                    const mathLib = typeof math !== 'undefined' ? math : window.math;
+                    engine = new AlgebraEngine(mathLib);
+                    console.log('AlgebraEngine created successfully with math.js');
                     enhanceEngineWithLogging();
                 } catch (error) {
                     console.error('Error creating AlgebraEngine:', error);
                 }
             };
             document.head.appendChild(script);
-        });
+        }
+
+        window.addEventListener('load', initializeEngine);
         let mathField1, mathField2, newExprField1, newExprField2, editExprField1, editExprField2;
         let currentEditingIndex = -1;
         
