@@ -19,40 +19,40 @@ class MobileKeyboard {
                     { label: '↓', cmd: 'keystroke', value: 'Down', class: 'secondary' },
                     { label: '←', cmd: 'keystroke', value: 'Left', class: 'secondary' },
                     { label: '→', cmd: 'keystroke', value: 'Right', class: 'secondary' },
-                    { label: '(', cmd: 'cmd', value: '(' },
-                    { label: ')', cmd: 'cmd', value: ')' },
+                    { label: '', cmd: 'none', value: '', class: 'spacer' },
+                    { label: '⌫', cmd: 'keystroke', value: 'Backspace', class: 'secondary' },
 
                     // Row 2: 7 8 9 + divide sqrt
                     { label: '7', cmd: 'write', value: '7' },
                     { label: '8', cmd: 'write', value: '8' },
                     { label: '9', cmd: 'write', value: '9' },
                     { label: '+', cmd: 'write', value: '+' },
-                    { label: 'a/b', cmd: 'cmd', value: '/', symbol: '/' },
-                    { label: '√', cmd: 'cmd', value: '\\sqrt' },
+                    { label: '(', cmd: 'cmd', value: '(' },
+                    { label: ')', cmd: 'cmd', value: ')' },
 
                     // Row 3: 4 5 6 - times nthroot
                     { label: '4', cmd: 'write', value: '4' },
                     { label: '5', cmd: 'write', value: '5' },
                     { label: '6', cmd: 'write', value: '6' },
                     { label: '−', cmd: 'write', value: '-' },
-                    { label: '×', cmd: 'cmd', value: '*', symbol: '×' },
-                    { label: 'ⁿ√', cmd: 'cmd', value: '\\nthroot' },
+                    { label: 'a/b', cmd: 'cmd', value: '/', symbol: '/' },
+                    { label: '√', cmd: 'cmd', value: '\\sqrt' },
 
                     // Row 4: 1 2 3 square spacer backspace
                     { label: '1', cmd: 'write', value: '1' },
                     { label: '2', cmd: 'write', value: '2' },
                     { label: '3', cmd: 'write', value: '3' },
-                    { label: 'x²', cmd: 'write', value: '^2' },
-                    { label: '', cmd: 'none', value: '', class: 'spacer' },
-                    { label: '⌫', cmd: 'keystroke', value: 'Backspace', class: 'secondary' },
+                    { label: '𝑥²', cmd: 'write', value: '^2' },
+                    { label: '×', cmd: 'cmd', value: '*', symbol: '×' },
+                    { label: 'ⁿ√', cmd: 'cmd', value: '\\nthroot' },
 
-                    // Row 5: 0 x y power spacer enter
+                    // Row 5: 0 x y power spacer spacer
                     { label: '0', cmd: 'write', value: '0' },
                     { label: '𝑥', cmd: 'write', value: 'x' },
                     { label: '𝑦', cmd: 'write', value: 'y' },
-                    { label: '^', cmd: 'cmd', value: '^' },
+                    { label: '𝑥ⁿ', cmd: 'cmd', value: '^' },
                     { label: '', cmd: 'none', value: '', class: 'spacer' },
-                    { label: '↩', cmd: 'keystroke', value: 'Enter', class: 'secondary' }
+                    { label: '', cmd: 'none', value: '', class: 'spacer' }
                 ]
             },
             // Page 2: QWERTY Alphabet
@@ -66,8 +66,8 @@ class MobileKeyboard {
                     { label: '−', cmd: 'write', value: '-' },
                     { label: '×', cmd: 'cmd', value: '*', symbol: '×' },
                     { label: 'a/b', cmd: 'cmd', value: '/', symbol: '/' },
-                    { label: 'x²', cmd: 'write', value: '^2' },
-                    { label: '^', cmd: 'cmd', value: '^' },
+                    { label: '𝑥²', cmd: 'write', value: '^2' },
+                    { label: '𝑥ⁿ', cmd: 'cmd', value: '^' },
                     { label: '√', cmd: 'cmd', value: '\\sqrt' },
                     { label: 'ⁿ√', cmd: 'cmd', value: '\\nthroot' },
 
@@ -107,7 +107,7 @@ class MobileKeyboard {
                     { label: 'k', cmd: 'write', value: 'k' },
                     { label: 'l', cmd: 'write', value: 'l' },
 
-                    // Row 5: z x c v b n m + backspace (7 keys + spacers for centering)
+                    // Row 5: z x c v b n m + backspace + spacer (7 keys + spacers for centering)
                     { label: '', cmd: 'none', value: '', class: 'spacer' },
                     { label: 'z', cmd: 'write', value: 'z' },
                     { label: 'x', cmd: 'write', value: 'x' },
@@ -117,7 +117,7 @@ class MobileKeyboard {
                     { label: 'n', cmd: 'write', value: 'n' },
                     { label: 'm', cmd: 'write', value: 'm' },
                     { label: '⌫', cmd: 'keystroke', value: 'Backspace', class: 'secondary' },
-                    { label: '↩', cmd: 'keystroke', value: 'Enter', class: 'secondary' },
+                    { label: '', cmd: 'none', value: '', class: 'spacer' },
                 ]
             }
         ];
@@ -142,17 +142,27 @@ class MobileKeyboard {
         const header = document.createElement('div');
         header.className = 'keyboard-header';
 
+        const hideBtn = document.createElement('button');
+        hideBtn.className = 'keyboard-close';
+        hideBtn.textContent = 'Hide';
+        hideBtn.onclick = () => this.hide();
+
         const title = document.createElement('div');
         title.className = 'keyboard-title';
         title.textContent = 'Maths Keyboard';
 
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'keyboard-close';
-        closeBtn.textContent = 'Done';
-        closeBtn.onclick = () => this.hide();
+        const submitBtn = document.createElement('button');
+        submitBtn.className = 'keyboard-submit';
+        submitBtn.textContent = 'Submit';
+        submitBtn.onclick = () => {
+            // Trigger the same event as Enter key
+            const event = new CustomEvent('mathquill-enter');
+            document.dispatchEvent(event);
+        };
 
+        header.appendChild(hideBtn);
         header.appendChild(title);
-        header.appendChild(closeBtn);
+        header.appendChild(submitBtn);
         keyboard.appendChild(header);
 
         // Keyboard grid container
