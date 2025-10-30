@@ -9,6 +9,7 @@ class UI {
             streakCounter: document.getElementById('streak-counter'),
             levelName: document.getElementById('level-name'),
             timer: document.getElementById('timer'),
+            timerPausedMessage: document.getElementById('timer-paused-message'),
             questionText: document.getElementById('question-text'),
             feedbackMessage: document.getElementById('feedback-message'),
             testAnswerContent: document.getElementById('test-answer-content'),
@@ -234,25 +235,6 @@ class UI {
         this.elements.feedbackMessage.className = `feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
 
         if (!isCorrect && correctAnswer) {
-            // Show the question if provided
-            if (question) {
-                const questionLine = createEl('div', { className: 'mb-4' });
-
-                const questionLabel = createEl('span', {
-                    textContent: 'Question: ',
-                    className: 'font-semibold'
-                });
-                questionLine.appendChild(questionLabel);
-
-                const questionSpan = createEl('span', { className: 'inline-block' });
-                questionLine.appendChild(questionSpan);
-
-                this.elements.feedbackMessage.appendChild(questionLine);
-
-                const questionMath = this.MQ.StaticMath(questionSpan);
-                questionMath.latex(question);
-            }
-
             // Show incorrect message with the correct answer
             const answerLine = createEl('div');
 
@@ -564,11 +546,19 @@ class UI {
         // Render both skill path and grid (grid starts hidden)
         this.renderSkillPath(levelGroups, onSelect, masteryData);
         this.renderLevelGrid(levelGroups, onSelect);
-        
+
         // Show skill path by default
         if (this.currentView === 'skill-path') {
             this.elements.levelSelection.classList.add('hidden');
             this.elements.skillPath.classList.remove('hidden');
         }
+    }
+
+    showTimerPausedMessage() {
+        this.elements.timerPausedMessage.classList.remove('hidden');
+    }
+
+    hideTimerPausedMessage() {
+        this.elements.timerPausedMessage.classList.add('hidden');
     }
 }

@@ -85,8 +85,9 @@ class GameController {
     generateQuestion() {
         this.ui.clearFeedback();
         this.ui.clearInputFeedback();
+        this.ui.hideTimerPausedMessage();
         this.answerSubmitted = false;
-        
+
         // Reset incorrect count when moving to new question
         this.state.resetIncorrectCount();
         
@@ -148,6 +149,7 @@ class GameController {
                 this.ui.updateStreak(0);
                 this.ui.showInputFeedback(false);
                 this.ui.showFeedback(false, null, correctAnswer, this.state.currentQuestion.problem);
+                this.ui.showTimerPausedMessage();
                 this.timer.reset();
 
                 // Record the mistake
@@ -164,6 +166,7 @@ class GameController {
                         document.removeEventListener('keydown', moveToNextQuestion);
 
                         // Move to next question
+                        this.ui.hideTimerPausedMessage();
                         this.answerSubmitted = false;
                         this.generateQuestion();
                         this.timer.start();
