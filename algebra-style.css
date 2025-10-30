@@ -169,10 +169,11 @@ sup.mq-nthroot {
 }
 
 .feedback {
-    height: 5rem;
+    min-height: 5rem;
     font-weight: 600;
     transition: all 0.3s;
     font-size: 1.5rem !important;
+    margin-bottom: 1rem;
 }
 .feedback-correct { color: #10b981; }
 .feedback-incorrect { color: #ef4444; }
@@ -476,8 +477,8 @@ sup.mq-nthroot {
     font-weight: 600;
     font-size: 2rem;
     transition: all 0.2s ease-in-out;
-    min-width: 48px;
-    height: 48px;
+    min-width: 64px;
+    height: 64px;
     flex-shrink: 0;
 }
 
