@@ -55,7 +55,7 @@ class UI {
     }
 
     initializeMobileKeyboard() {
-        if (this.isMobile && typeof MobileKeyboard !== 'undefined') {
+        if (typeof MobileKeyboard !== 'undefined') {
             this.mobileKeyboard = new MobileKeyboard();
             this.mobileKeyboard.initialize();
         }
@@ -106,34 +106,41 @@ class UI {
 
     displayQuestion(question) {
         this.elements.questionText.innerHTML = '';
-        
+
         // Create problem line container
         const problemLineContainer = createEl('div', { className: 'problem-line' });
         this.elements.questionText.appendChild(problemLineContainer);
-        
+
         // Create static math display for the problem
         const problemContainer = createEl('span');
         problemLineContainer.appendChild(problemContainer);
-        
+
         const problemMath = this.MQ.StaticMath(problemContainer);
         problemMath.latex(question.problem);
-        
+
         // Create answer line container
         const answerLineContainer = createEl('div', { className: 'answer-line' });
         this.elements.questionText.appendChild(answerLineContainer);
-        
+
         // Add equals sign
-        const equalsSign = createEl('span', { 
+        const equalsSign = createEl('span', {
             className: 'equals-sign',
             textContent: ' = '
         });
         answerLineContainer.appendChild(equalsSign);
-        
+
         // Create editable math field for the answer
         const answerContainer = createEl('span', {
             className: 'mathquill-editable'
         });
         answerLineContainer.appendChild(answerContainer);
+
+        // Create and add toggle keyboard button (desktop only)
+        const toggleBtn = createEl('button', {
+            id: 'toggle-keyboard-btn',
+            textContent: '⌨️'
+        });
+        answerLineContainer.appendChild(toggleBtn);
         
         // Initialize the math field with mobile configuration
         const mathFieldConfig = {
@@ -166,13 +173,29 @@ class UI {
 
         this.mathField = this.MQ.MathField(answerContainer, mathFieldConfig);
 
-        // Set up mobile keyboard if available
-        if (this.isMobile && this.mobileKeyboard) {
+        // Connect keyboard to math field on all devices
+        if (this.mobileKeyboard) {
             this.mobileKeyboard.setMathField(this.mathField);
+        }
 
-            // Show keyboard when field is tapped
+        // Mobile-specific setup: Show keyboard when field is tapped
+        if (this.isMobile && this.mobileKeyboard) {
             answerContainer.addEventListener('click', () => {
                 this.mobileKeyboard.show();
+            });
+        }
+
+        // Set up toggle keyboard button for desktop
+        if (!this.isMobile && this.mobileKeyboard) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Store reference to button for state tracking
+                if (this.mobileKeyboard.isVisible) {
+                    this.mobileKeyboard.hide();
+                } else {
+                    this.mobileKeyboard.show();
+                    this.mathField.focus();
+                }
             });
         }
 

@@ -124,11 +124,6 @@ class MobileKeyboard {
     }
 
     initialize() {
-        // Only initialize on mobile devices
-        if (!MobileDetection.isMobileDevice()) {
-            return;
-        }
-
         this.createKeyboardHTML();
         this.attachEventListeners();
     }
@@ -219,7 +214,10 @@ class MobileKeyboard {
 
             btn.onclick = (e) => {
                 e.preventDefault();
-                this.handleKeyPress(key, btn);
+                // Only trigger if not dragging (prevents accidental key presses during drag)
+                if (!this.isDragging) {
+                    this.handleKeyPress(key, btn);
+                }
             };
 
             grid.appendChild(btn);
@@ -271,7 +269,7 @@ class MobileKeyboard {
     }
 
     attachEventListeners() {
-        // Add swipe support for switching pages
+        // Add swipe support for switching pages (touch)
         this.touchStartX = 0;
         this.touchEndX = 0;
 
@@ -283,6 +281,29 @@ class MobileKeyboard {
             this.touchEndX = e.changedTouches[0].screenX;
             this.handleSwipe();
         }, { passive: true });
+
+        // Add click and drag support for switching pages (mouse/desktop)
+        this.mouseStartX = 0;
+        this.mouseEndX = 0;
+        this.isDragging = false;
+
+        this.keyboardElement.addEventListener('mousedown', (e) => {
+            this.mouseStartX = e.clientX;
+            this.isDragging = true;
+        });
+
+        this.keyboardElement.addEventListener('mouseup', (e) => {
+            if (this.isDragging) {
+                this.mouseEndX = e.clientX;
+                this.handleMouseDrag();
+                this.isDragging = false;
+            }
+        });
+
+        // Cancel drag if mouse leaves the keyboard
+        this.keyboardElement.addEventListener('mouseleave', () => {
+            this.isDragging = false;
+        });
     }
 
     handleSwipe() {
@@ -295,6 +316,21 @@ class MobileKeyboard {
                 this.switchPageWithAnimation(this.currentPage + 1, 'left');
             } else if (diff < 0 && this.currentPage > 0) {
                 // Swipe right - previous page
+                this.switchPageWithAnimation(this.currentPage - 1, 'right');
+            }
+        }
+    }
+
+    handleMouseDrag() {
+        const dragThreshold = 50;
+        const diff = this.mouseStartX - this.mouseEndX;
+
+        if (Math.abs(diff) > dragThreshold) {
+            if (diff > 0 && this.currentPage < this.pages.length - 1) {
+                // Drag left - next page
+                this.switchPageWithAnimation(this.currentPage + 1, 'left');
+            } else if (diff < 0 && this.currentPage > 0) {
+                // Drag right - previous page
                 this.switchPageWithAnimation(this.currentPage - 1, 'right');
             }
         }

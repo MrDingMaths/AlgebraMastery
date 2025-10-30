@@ -465,3 +465,37 @@ sup.mq-nthroot {
     transition: transform 0.3s ease-in-out;
 }
 
+/* Toggle Keyboard Button - Desktop Only */
+#toggle-keyboard-btn {
+    display: none;
+    background: #ffffff;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 2rem;
+    transition: all 0.2s ease-in-out;
+    min-width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+#toggle-keyboard-btn:hover {
+    background: #5b9aff;
+    transform: translateY(-1px);
+}
+
+#toggle-keyboard-btn:active {
+    transform: translateY(0);
+}
+
+/* Show button on desktop (screens wider than 1024px) */
+@media (min-width: 1025px) {
+    #toggle-keyboard-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
