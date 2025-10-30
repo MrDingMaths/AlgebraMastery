@@ -38,11 +38,11 @@ class ProgressUI {
             </svg>
             <span>Progress</span>
         `;
-        
-        // Add to settings screen
-        const settingsScreen = document.getElementById('settings-screen');
-        if (settingsScreen) {
-            settingsScreen.appendChild(button);
+
+        // Insert before mastery progress section
+        const masteryProgressSection = document.getElementById('mastery-progress-section');
+        if (masteryProgressSection) {
+            masteryProgressSection.parentNode.insertBefore(button, masteryProgressSection);
         }
     }
 
