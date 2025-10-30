@@ -737,11 +737,6 @@ class ProgressUI {
                         <div class="stat-label">Total Attempts</div>
                         <div class="stat-value">${drill.totalAttempts}</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">📈</div>
-                        <div class="stat-label">Improvements</div>
-                        <div class="stat-value">${drill.improvements.length}</div>
-                    </div>
                     ${drill.firstAttemptTime && drill.bestTime ? `
                     <div class="stat-item">
                         <div class="stat-icon">🚀</div>
