@@ -1656,8 +1656,152 @@ class AlgebraEngine {
     // ==================== MODULE 7: FINAL COMPARISON ====================
 
     /**
+     * Calculate the Greatest Common Divisor of two integers
+     * Used to check if a fraction is in lowest terms
+     */
+    gcd(a, b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        while (b !== 0) {
+            const temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    /**
+     * Check if a fraction (division node) is in simplified form
+     * A fraction is simplified if GCD(numerator, denominator) === 1
+     *
+     * Examples:
+     * - 3/10 → simplified (GCD(3,10) = 1) → true
+     * - 6/20 → unsimplified (GCD(6,20) = 2) → false
+     * - 12/4 → unsimplified (GCD(12,4) = 4) → false
+     * - 3/1 → simplified (GCD(3,1) = 1) → true
+     */
+    isFractionSimplified(ast) {
+        if (!ast || !ast.isOperatorNode || ast.fn !== 'divide' || ast.args.length !== 2) {
+            return true; // Not a fraction, so not "unsimplified"
+        }
+
+        const numerator = ast.args[0];
+        const denominator = ast.args[1];
+
+        // Both must be integer constants
+        if (!numerator.isConstantNode || !denominator.isConstantNode) {
+            return true; // Can't determine, assume simplified
+        }
+
+        const numValue = numerator.value;
+        const denomValue = denominator.value;
+
+        // Both must be integers
+        if (!Number.isInteger(numValue) || !Number.isInteger(denomValue)) {
+            return true; // Decimal fractions assumed simplified
+        }
+
+        // Denominator cannot be zero
+        if (denomValue === 0) {
+            return false; // Invalid fraction
+        }
+
+        // Calculate GCD
+        const g = this.gcd(numValue, denomValue);
+
+        // Fraction is simplified if GCD === 1
+        return g === 1;
+    }
+
+    /**
+     * Check if two numeric values are equivalent within floating-point precision
+     * Handles: decimals, fractions, and their floating-point representations
+     *
+     * Examples:
+     * - 0.3 ≡ 0.30000000001 (with tolerance)
+     * - 3/10 ≡ 0.3 (both evaluate to same value)
+     */
+    areNumericValuesEquivalent(val1, val2, epsilon = 1e-10) {
+        if (typeof val1 !== 'number' || typeof val2 !== 'number') {
+            return false;
+        }
+        return Math.abs(val1 - val2) < epsilon;
+    }
+
+    /**
+     * Extract the numeric value from an AST node
+     * Handles: ConstantNode values, division nodes (fractions)
+     *
+     * IMPORTANT: Only extracts values from SIMPLIFIED fractions
+     * Unsimplified fractions (e.g., 12/4, 6/20) return null to block matching
+     *
+     * Examples:
+     * - ConstantNode(0.3) → { value: 0.3, isWholeNumber: false, isFromFraction: false }
+     * - ConstantNode(3) → { value: 3, isWholeNumber: true, isFromFraction: false }
+     * - Division node 3/10 (simplified) → { value: 0.3, isWholeNumber: false, isFromFraction: true }
+     * - Division node 3/1 (simplified) → { value: 3, isWholeNumber: true, isFromFraction: true }
+     * - Division node 12/4 (unsimplified) → null (blocked)
+     * - Division node 6/20 (unsimplified) → null (blocked)
+     *
+     * Returns: { value: number, isWholeNumber: boolean, isFromFraction: boolean } or null
+     */
+    extractNumericValue(ast) {
+        if (!ast || !ast.type) {
+            return null;
+        }
+
+        // Case 1: Direct constant
+        if (ast.isConstantNode && typeof ast.value === 'number') {
+            const isWholeNumber = Number.isInteger(ast.value);
+            return { value: ast.value, isWholeNumber: isWholeNumber, isFromFraction: false };
+        }
+
+        // Case 2: Division node (fraction) - evaluate numerator / denominator
+        if (ast.isOperatorNode && ast.fn === 'divide' && ast.args.length === 2) {
+            const numerator = ast.args[0];
+            const denominator = ast.args[1];
+
+            // Both must be constants for us to evaluate
+            if (numerator.isConstantNode && typeof numerator.value === 'number' &&
+                denominator.isConstantNode && typeof denominator.value === 'number') {
+                if (denominator.value === 0) {
+                    return null; // Division by zero
+                }
+
+                // CRITICAL: Only accept simplified fractions
+                if (!this.isFractionSimplified(ast)) {
+                    return null; // Block unsimplified fractions
+                }
+
+                const resultValue = numerator.value / denominator.value;
+                const isWholeNumber = Number.isInteger(resultValue);
+                return { value: resultValue, isWholeNumber: isWholeNumber, isFromFraction: true };
+            }
+        }
+
+        // Case 3: Unary minus with numeric child
+        if (ast.isOperatorNode && ast.fn === 'unaryMinus' && ast.args.length === 1) {
+            const innerExtraction = this.extractNumericValue(ast.args[0]);
+            if (innerExtraction !== null) {
+                return {
+                    value: -innerExtraction.value,
+                    isWholeNumber: innerExtraction.isWholeNumber,
+                    isFromFraction: innerExtraction.isFromFraction
+                };
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Compare two canonical ASTs for equality
-     * Handles: string equality, division/fraction comparison, multiplication sign equivalences
+     * Handles: string equality, division/fraction comparison, multiplication sign equivalences, numeric equivalence
+     *
+     * Numeric matching rules:
+     * - Decimals can match simplified fractions (e.g., 0.3 = 3/10)
+     * - Whole numbers CANNOT match fractions (e.g., 3 ≠ 3/1)
+     * - Unsimplified fractions are rejected (e.g., 0.3 ≠ 6/20)
      */
     astEquals(ast1, ast2) {
         const str1 = this.astToString(ast1);
@@ -1667,6 +1811,27 @@ class AlgebraEngine {
         if (areEqual) {
             this.log(`[COMPARE] Comparing final strings:\n    - A: ${str1}\n    - B: ${str2}\n    - Equal: ${areEqual}`);
             return true;
+        }
+
+        // Check for numeric equivalence (e.g., 0.3 ≡ 3/10)
+        const extraction1 = this.extractNumericValue(ast1);
+        const extraction2 = this.extractNumericValue(ast2);
+        if (extraction1 !== null && extraction2 !== null) {
+            // Guard: prevent whole numbers from matching fractions (e.g., 3 ≠ 3/1)
+            // Allow decimals to match simplified fractions (e.g., 0.1 ≡ 1/10)
+            if (extraction1.isWholeNumber && extraction2.isFromFraction) {
+                this.log(`[COMPARE] Numeric comparison blocked: whole number cannot match fraction\n    - A: ${str1} (whole number)\n    - B: ${str2} (from fraction)`);
+                // Fall through to other comparison methods
+            } else if (extraction2.isWholeNumber && extraction1.isFromFraction) {
+                this.log(`[COMPARE] Numeric comparison blocked: whole number cannot match fraction\n    - A: ${str1} (from fraction)\n    - B: ${str2} (whole number)`);
+                // Fall through to other comparison methods
+            } else {
+                const numericEqual = this.areNumericValuesEquivalent(extraction1.value, extraction2.value);
+                if (numericEqual) {
+                    this.log(`[COMPARE] Comparing numeric values:\n    - A: ${str1} → ${extraction1.value}\n    - B: ${str2} → ${extraction2.value}\n    - Numerically Equal: true`);
+                    return true;
+                }
+            }
         }
 
         // Try deeper comparison for complex cases
