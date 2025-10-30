@@ -23,7 +23,6 @@ class UI {
             skillPathContainer: document.getElementById('skill-path-container'),
             masteryProgressBars: document.getElementById('mastery-progress-bars'),
             toggleGridView: document.getElementById('toggle-grid-view'),
-            continueNextBtn: document.getElementById('continue-next-btn'),
             replayLevelBtn: document.getElementById('replay-level-btn'),
         };
         this.mathField = null;
@@ -207,18 +206,44 @@ class UI {
         this.elements.levelName.innerHTML = levelName;
     }
 
-    showFeedback(isCorrect, message, correctAnswer = null) {
+    showFeedback(isCorrect, message, correctAnswer = null, question = null) {
         this.elements.feedbackMessage.innerHTML = '';
         this.elements.feedbackMessage.className = `feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
-        
+
         if (!isCorrect && correctAnswer) {
+            // Show the question if provided
+            if (question) {
+                const questionLine = createEl('div', { className: 'mb-4' });
+
+                const questionLabel = createEl('span', {
+                    textContent: 'Question: ',
+                    className: 'font-semibold'
+                });
+                questionLine.appendChild(questionLabel);
+
+                const questionSpan = createEl('span', { className: 'inline-block' });
+                questionLine.appendChild(questionSpan);
+
+                this.elements.feedbackMessage.appendChild(questionLine);
+
+                const questionMath = this.MQ.StaticMath(questionSpan);
+                questionMath.latex(question);
+            }
+
             // Show incorrect message with the correct answer
-            const textPart = createEl('span', { textContent: 'Correct answer: ' });
-            this.elements.feedbackMessage.appendChild(textPart);
-            
-            const answerSpan = createEl('span');
-            this.elements.feedbackMessage.appendChild(answerSpan);
-            
+            const answerLine = createEl('div');
+
+            const textPart = createEl('span', {
+                textContent: 'Correct answer: ',
+                className: 'font-semibold'
+            });
+            answerLine.appendChild(textPart);
+
+            const answerSpan = createEl('span', { className: 'inline-block' });
+            answerLine.appendChild(answerSpan);
+
+            this.elements.feedbackMessage.appendChild(answerLine);
+
             const staticMath = this.MQ.StaticMath(answerSpan);
             staticMath.latex(correctAnswer);
         } else {
@@ -254,36 +279,55 @@ class UI {
         }
     }
 
-    showSuccess(levelName, time, rating, isNewBest, previousBest) {
+    showSuccess(levelName, time, rating, isNewBest, previousBest, levelKey, questionCount) {
         console.log('Showing success screen for:', levelName);
-        
+
         this.elements.completedLevel.innerHTML = levelName;
         this.elements.finalTime.textContent = new Timer().formatTime(time);
         this.elements.finalRating.textContent = rating.name;
-        
+
         if (isNewBest) {
-            this.elements.bestTimeMessage.textContent = previousBest 
+            this.elements.bestTimeMessage.textContent = previousBest
                 ? `New personal best! Beat your old time of ${new Timer().formatTime(previousBest)}.`
                 : `You've set your first record!`;
         } else {
             this.elements.bestTimeMessage.textContent = `Your best time is still ${new Timer().formatTime(previousBest)}.`;
         }
-        
+
+        // Show rating improvement guidance based on THIS attempt's rating
+        try {
+            const nextTarget = RatingUtils.getNextRatingTarget(rating, levelKey, questionCount, CONFIG);
+
+            if (nextTarget) {
+                // Not at highest rating - show what time is needed for next rating
+                const targetTimeFormatted = new Timer().formatTime(nextTarget.targetTime);
+                this.elements.ratingExplanation.textContent =
+                    `Complete in ${targetTimeFormatted} or less for ${nextTarget.nextRating.name}.`;
+            } else if (rating.key === 'true-mastery') {
+                // Already at Maths Queen - explain why
+                const threshold = 1.5; // Hard-coded Maths Queen threshold (avoids Infinity for other ratings)
+                const difficultyMultiplier = (levelKey && CONFIG && CONFIG.LEVEL_DIFFICULTY_MULTIPLIERS)
+                    ? (CONFIG.LEVEL_DIFFICULTY_MULTIPLIERS[levelKey] || 1.0)
+                    : 1.0;
+                const maxTime = threshold * difficultyMultiplier * questionCount;
+                const maxTimeFormatted = new Timer().formatTime(maxTime);
+                this.elements.ratingExplanation.textContent =
+                    `You completed this level in under ${maxTimeFormatted}.`;
+            } else {
+                // Fallback (shouldn't happen, but prevents errors)
+                this.elements.ratingExplanation.textContent = '';
+            }
+        } catch (error) {
+            console.error('Failed to set rating explanation:', error);
+            this.elements.ratingExplanation.textContent = '';
+        }
+
         this.showScreen('success');
     }
 
     // --- Learning Path UI Methods ---
 
     setupSuccessScreenButtons() {
-        // Continue to Next Challenge button
-        if (this.elements.continueNextBtn) {
-            this.elements.continueNextBtn.addEventListener('click', () => {
-                if (this.onContinueNext) {
-                    this.onContinueNext();
-                }
-            });
-        }
-
         // Replay Level button
         if (this.elements.replayLevelBtn) {
             this.elements.replayLevelBtn.addEventListener('click', () => {
@@ -295,8 +339,7 @@ class UI {
     }
 
     // Set callback functions for success screen buttons
-    setSuccessScreenCallbacks(onContinueNext, onReplayLevel) {
-        this.onContinueNext = onContinueNext;
+    setSuccessScreenCallbacks(onReplayLevel) {
         this.onReplayLevel = onReplayLevel;
     }
 

@@ -347,7 +347,7 @@ const CONFIG = {
         'furtherRationalisingDenominatorHard': 46,
         
         // Advanced Skills - Evaluate Fractional Indices
-        'evaluatingFractionalIndicesEasy': 2,
+        'evaluatingFractionalIndicesEasy': 1,
         'evaluatingFractionalIndicesMedium': 4,
         'evaluatingFractionalIndicesHard': 6,
         

@@ -32,7 +32,6 @@ class GameController {
     initializeLearningPath() {
         // Set up success screen callbacks
         this.ui.setSuccessScreenCallbacks(
-            () => this.continueToNextChallenge(),
             () => this.replayCurrentLevel()
         );
 
@@ -44,24 +43,34 @@ class GameController {
         // Quit button
         this.ui.elements.quitBtn.addEventListener('click', () => this.quitGame());
         this.ui.elements.playAgainBtn.addEventListener('click', () => this.quitGame());
-        
+
         // Listen for Enter key from MathQuill
         document.addEventListener('mathquill-enter', () => {
             if (!this.isChecking && !this.answerSubmitted) {
                 this.checkAnswer();
             }
         });
-        
-        // Global ESC key handler
-        this.handleEscKey = (e) => {
-            if (e.key === 'Escape') {
-                // Only quit if we're in the game screen
-                if (!this.ui.elements.gameScreen.classList.contains('hidden')) {
+
+        // Global keyboard handler for ESC and Enter
+        this.handleGlobalKeys = (e) => {
+            // Success screen shortcuts
+            if (!this.ui.elements.successScreen.classList.contains('hidden')) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.replayCurrentLevel();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    this.quitGame();
+                }
+            }
+            // Game screen ESC handler
+            else if (!this.ui.elements.gameScreen.classList.contains('hidden')) {
+                if (e.key === 'Escape') {
                     this.quitGame();
                 }
             }
         };
-        document.addEventListener('keydown', this.handleEscKey);
+        document.addEventListener('keydown', this.handleGlobalKeys);
     }
 
     startGame(level) {
@@ -132,35 +141,49 @@ class GameController {
         } else {
             // Increment incorrect count
             const incorrectCount = this.state.incrementIncorrectCount();
-            
+
             if (this.state.isSecondIncorrectAttempt()) {
-                // Second incorrect attempt - reset streak, show correct answer, move to next question
+                // Second incorrect attempt - reset streak, show correct answer with question, persist until user input
                 this.state.resetStreak();
                 this.ui.updateStreak(0);
                 this.ui.showInputFeedback(false);
-                this.ui.showFeedback(false, null, correctAnswer);
+                this.ui.showFeedback(false, null, correctAnswer, this.state.currentQuestion.problem);
                 this.timer.reset();
-                
+
                 // Record the mistake
                 this.recordMistake(userAnswer, correctAnswer);
-                
-                setTimeout(() => { 
-                    this.answerSubmitted = false;
-                    this.generateQuestion(); 
-                    this.timer.start();
-                    this.isChecking = false; 
-                }, CONFIG.FEEDBACK_DELAY_INCORRECT);
+
+                // Clear the answer field but keep feedback visible
+                this.ui.clearAnswer();
+
+                // Set up one-time listener for when user presses any key to move to next question
+                const moveToNextQuestion = (e) => {
+                    // Only respond to actual key presses (not meta keys like Shift, Ctrl, etc.)
+                    if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
+                        // Remove this listener
+                        document.removeEventListener('keydown', moveToNextQuestion);
+
+                        // Move to next question
+                        this.answerSubmitted = false;
+                        this.generateQuestion();
+                        this.timer.start();
+                        this.isChecking = false;
+                    }
+                };
+
+                // Add the keydown listener
+                document.addEventListener('keydown', moveToNextQuestion);
             } else {
                 // First incorrect attempt - give second chance
                 this.ui.showInputFeedback(false);
                 this.ui.showFeedback(false, CONFIG.SECOND_CHANCE_FEEDBACK[Math.floor(Math.random() * CONFIG.SECOND_CHANCE_FEEDBACK.length)]);
-                
+
                 setTimeout(() => {
                     this.ui.clearFeedback();
                     this.ui.clearInputFeedback();
                     this.answerSubmitted = false;
                     this.isChecking = false;
-                    
+
                     // Refocus the input field for second attempt
                     if (this.ui.mathField) {
                         this.ui.mathField.focus();
@@ -205,7 +228,15 @@ class GameController {
         }
         
         try {
-            this.ui.showSuccess(this.state.currentLevel.name, time, rating, isNewBest, previousBest);
+            this.ui.showSuccess(
+                this.state.currentLevel.name,
+                time,
+                rating,
+                isNewBest,
+                previousBest,
+                this.state.currentLevel.key,
+                CONFIG.REQUIRED_STREAK
+            );
         } catch (error) {
             console.error('Error showing success screen:', error);
         }

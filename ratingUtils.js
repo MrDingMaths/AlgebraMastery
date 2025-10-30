@@ -119,6 +119,50 @@ class RatingUtils {
         const multiplier = config.LEVEL_DIFFICULTY_MULTIPLIERS[levelKey] || config.LEVEL_DIFFICULTY_MULTIPLIERS.default || 1.0;
         return avgTime / multiplier;
     }
+
+    /**
+     * Get the next rating target and time needed to achieve it
+     * @param {Object} currentRating - Current rating object with key, name, maxAvg
+     * @param {string} levelKey - Level identifier for difficulty adjustment
+     * @param {number} questionCount - Number of questions (default: 15)
+     * @param {Object} config - Configuration object
+     * @returns {Object|null} Object with nextRating and targetTime, or null if already at highest rating
+     */
+    static getNextRatingTarget(currentRating, levelKey, questionCount = 15, config = null) {
+        // Use global CONFIG if not provided
+        if (!config && typeof window !== 'undefined' && window.CONFIG) {
+            config = window.CONFIG;
+        }
+
+        if (!config || !config.RATING_THRESHOLDS) {
+            return null;
+        }
+
+        // Find current rating index
+        const currentIndex = config.RATING_THRESHOLDS.findIndex(r => r.key === currentRating.key);
+
+        // If already at highest rating (index 0) or not found, return null
+        if (currentIndex <= 0) {
+            return null;
+        }
+
+        // Get next rating (one index lower means better rating)
+        const nextRating = config.RATING_THRESHOLDS[currentIndex - 1];
+
+        // Calculate target time needed for next rating
+        // nextRating.maxAvg is the adjusted average time threshold
+        // We need to reverse the difficulty adjustment: time = adjustedAvg * multiplier * questionCount
+        const difficultyMultiplier = (levelKey && config.LEVEL_DIFFICULTY_MULTIPLIERS)
+            ? (config.LEVEL_DIFFICULTY_MULTIPLIERS[levelKey] || config.LEVEL_DIFFICULTY_MULTIPLIERS.default || 1.0)
+            : 1.0;
+
+        const targetTime = nextRating.maxAvg * difficultyMultiplier * questionCount;
+
+        return {
+            nextRating: nextRating,
+            targetTime: targetTime
+        };
+    }
 }
 
 // Make RatingUtils available globally
