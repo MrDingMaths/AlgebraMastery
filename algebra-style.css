@@ -327,7 +327,7 @@ sup.mq-nthroot {
 }
 
 /* Connecting line behind skill path nodes */
-.skill-path-scroll::before {
+#skill-path.skill-path-scroll::before {
     content: '';
     position: absolute;
     top: 50%;
