@@ -29,9 +29,17 @@ class NavigationButtons {
         algebraButton.title = 'Algebra Mastery Challenge';
         algebraButton.innerHTML = `<span class="nav-button-emoji">𝑥</span>`;
 
+        // Create Trig Facts button
+        const trigButton = document.createElement('a');
+        trigButton.href = 'https://mrdingmaths.github.io/TrigFacts/';
+        trigButton.className = 'nav-button nav-button-red';
+        trigButton.title = 'Trig Facts';
+        trigButton.innerHTML = `<span class="nav-button-emoji">θ</span>`;
+
         // Append buttons to container
         navContainer.appendChild(mathsButton);
         navContainer.appendChild(algebraButton);
+        navContainer.appendChild(trigButton);
 
         // Insert at the beginning of body
         document.body.insertBefore(navContainer, document.body.firstChild);

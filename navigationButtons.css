@@ -52,6 +52,16 @@
     background-color: #2563eb;
 }
 
+/* Red button for Trig Facts */
+.nav-button-red {
+    background-color: #ef4444;
+    color: white;
+}
+
+.nav-button-red:hover {
+    background-color: #dc2626;
+}
+
 /* Emoji styling */
 .nav-button-emoji {
     font-size: 24px;
