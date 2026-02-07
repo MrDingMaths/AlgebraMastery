@@ -161,11 +161,16 @@ class GameController {
                 // Set up one-time listener for when user presses any key to move to next question
                 const moveToNextQuestion = (e) => {
                     // Only respond to actual key presses (not meta keys like Shift, Ctrl, etc.)
-                    if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete') {
+                    if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Delete' || e.key === 'Escape') {
                         // Remove this listener
                         document.removeEventListener('keydown', moveToNextQuestion);
 
-                        // Move to next question
+                        // If Escape was pressed, don't advance to next question - let global handler quit the game
+                        if (e.key === 'Escape') {
+                            return;
+                        }
+
+                        // Move to next question (only for non-Escape keys)
                         this.ui.hideTimerPausedMessage();
                         this.answerSubmitted = false;
                         this.generateQuestion();
