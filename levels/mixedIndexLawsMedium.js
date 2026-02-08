@@ -65,13 +65,13 @@ class MixedIndexLawsMediumLevel {
             // Variable expressions
             {problem: "b^5 \\times b^2 \\div b", answer: "b^6"},
             {problem: "y^5 \\times y^4 \\div y^3", answer: "y^6"},
-            {problem: "c^4 \\div c \\times c^4", answer: "c^7"},
+            {problem: "x^4 \\div x \\times x^4", answer: "x^7"},
             {problem: "x^4 \\times x^2 \\div x^5", answer: "x"},
-            {problem: "(t^4 \\times t^3) \\div t^6", answer: "t"},
-            {problem: "(p^2 \\times p^7) \\div p^3", answer: "p^6"},
-            {problem: "(d^5 \\times d^3) \\div d^2", answer: "d^6"},
+            {problem: "(x^4 \\times x^3) \\div x^6", answer: "x"},
+            {problem: "(x^2 \\times x^7) \\div x^3", answer: "x^6"},
+            {problem: "(x^5 \\times x^3) \\div x^2", answer: "x^6"},
             {problem: "(x^9 \\times x^2) \\div x", answer: "x^{10}"},
-            {problem: "m^8 \\div m^3 \\times m^2", answer: "m^7"},
+            {problem: "x^8 \\div x^3 \\times x^2", answer: "x^7"},
             // Additional complex combinations (without negative indices)
             {problem: "(x^3)^2 \\div x^4", answer: "x^2"},
             {problem: "(a^4)^3 \\div a^{10}", answer: "a^2"}

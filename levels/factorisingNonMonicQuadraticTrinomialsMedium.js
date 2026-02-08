@@ -58,10 +58,7 @@ class FactorisingNonMonicQuadraticTrinomialsMediumLevel {
             // Different variables for variety
             {problem: "6a^2 + 13a + 6", answer: "(2a + 3)(3a + 2)"},
             {problem: "8b^2 + 10b + 3", answer: "(2b + 1)(4b + 3)"},
-            {problem: "10c^2 - 11c - 6", answer: "(2c - 3)(5c + 2)"},
-            {problem: "12d^2 + d - 6", answer: "(3d - 2)(4d + 3)"},
-            {problem: "15e^2 - 13e + 2", answer: "(3e - 2)(5e - 1)"},
-    
+            {problem: "12x^2 + x - 6", answer: "(3x - 2)(4x + 3)"},    
             // More negative coefficient patterns
             {problem: "-9x^2 + 6x - 1", answer: "-(3x - 1)^2"},
             {problem: "-16x^2 + 8x - 1", answer: "-(4x - 1)^2"},

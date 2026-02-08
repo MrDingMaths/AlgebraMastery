@@ -12,7 +12,7 @@ class AddSubtractFractionsFactorisingMedium {
             {problem: "\\frac{x}{x+1} - \\frac{5x+1}{(x+1)^2}", answer: "\\frac{x^2-4x-1}{(x+1)^2}"},
             {problem: "\\frac{1}{(x+3)(x+4)} + \\frac{2}{(x+4)(x+5)}", answer: "\\frac{3x+11}{(x+3)(x+4)(x+5)}"},
             {problem: "\\frac{5x}{(x+1)(x-5)} - \\frac{2}{x-5}", answer: "\\frac{3x-2}{(x+1)(x-5)}"},
-            {problem: "\\frac{7}{k(k-1)} - \\frac{4}{k(k+1)}", answer: "\\frac{3k+11}{k(k-1)(k+1)}"},
+            {problem: "\\frac{7}{x(x-1)} - \\frac{4}{x(x+1)}", answer: "\\frac{3x+11}{x(x-1)(x+1)}"},
             {problem: "\\frac{8}{(x+4)(x-7)} + \\frac{3}{x(x+4)}", answer: "\\frac{11x-21}{x(x+4)(x-7)}"},
             {problem: "\\frac{3}{x+2} + \\frac{5}{2x+4}", answer: "\\frac{11}{2(x+2)}"},
             {problem: "\\frac{7}{3x-3} - \\frac{2}{x-1}", answer: "\\frac{1}{3(x-1)}"},
@@ -58,7 +58,7 @@ class AddSubtractFractionsFactorisingMedium {
             // Variable coefficients
             {problem: "\\frac{a}{(x+a)^2} + \\frac{1}{x+a}", answer: "\\frac{x+2a}{(x+a)^2}"},
             {problem: "\\frac{2b}{x^2-b^2} - \\frac{1}{x-b}", answer: "-\\frac{1}{x+b}"},
-            {problem: "\\frac{c}{(x-c)(x+c)} + \\frac{2}{x+c}", answer: "\\frac{2x-c}{(x-c)(x+c)}"}
+            {problem: "\\frac{y}{(x-y)(x+y)} + \\frac{2}{x+y}", answer: "\\frac{2x-y}{(x-y)(x+y)}"}
         ];
     }
 

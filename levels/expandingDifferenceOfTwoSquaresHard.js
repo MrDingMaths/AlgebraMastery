@@ -16,9 +16,9 @@ class ExpandingDifferenceOfTwoSquaresHard {
             {problem: "(\\frac{7}{3}-5x)(\\frac{7}{3}+5x)", answer: "\\frac{49}{9}-25x^2"},
             
             // Reciprocal terms
-            {problem: "(t+\\frac{1}{t})(t-\\frac{1}{t})", answer: "t^2-\\frac{1}{t^2}"},
-            {problem: "(\\frac{4}{m}-m)(\\frac{4}{m}+m)", answer: "\\frac{16}{m^2}-m^2"},
-            {problem: "(3g+\\frac{1}{g})(3g-\\frac{1}{g})", answer: "9g^2-\\frac{1}{g^2}"},
+            {problem: "(x+\\frac{1}{x})(x-\\frac{1}{x})", answer: "x^2-\\frac{1}{x^2}"},
+            {problem: "(\\frac{4}{x}-x)(\\frac{4}{x}+x)", answer: "\\frac{16}{x^2}-x^2"},
+            {problem: "(3x+\\frac{1}{x})(3x-\\frac{1}{x})", answer: "9x^2-\\frac{1}{x^2}"},
             {problem: "(\\frac{4a}{3}+2)(\\frac{4a}{3}-2)", answer: "\\frac{16a^2}{9}-4"},
             {problem: "(xy-\\frac{1}{y})(xy+\\frac{1}{y})", answer: "x^2y^2-\\frac{1}{y^2}"},
             
@@ -43,14 +43,14 @@ class ExpandingDifferenceOfTwoSquaresHard {
             // Two-variable fractions
             {problem: "(\\frac{x}{2}+\\frac{y}{3})(\\frac{x}{2}-\\frac{y}{3})", answer: "\\frac{x^2}{4}-\\frac{y^2}{9}"},
             {problem: "(\\frac{a}{5}+\\frac{b}{4})(\\frac{a}{5}-\\frac{b}{4})", answer: "\\frac{a^2}{25}-\\frac{b^2}{16}"},
-            {problem: "(\\frac{p}{7}-\\frac{q}{6})(\\frac{p}{7}+\\frac{q}{6})", answer: "\\frac{p^2}{49}-\\frac{q^2}{36}"},
+            {problem: "(\\frac{x}{7}-\\frac{y}{6})(\\frac{x}{7}+\\frac{y}{6})", answer: "\\frac{x^2}{49}-\\frac{y^2}{36}"},
             {problem: "(\\frac{2x}{3}+\\frac{3y}{4})(\\frac{2x}{3}-\\frac{3y}{4})", answer: "\\frac{4x^2}{9}-\\frac{9y^2}{16}"},
             {problem: "(\\frac{3a}{8}-\\frac{2b}{5})(\\frac{3a}{8}+\\frac{2b}{5})", answer: "\\frac{9a^2}{64}-\\frac{4b^2}{25}"},
             
             // Complex reciprocal patterns
             {problem: "(\\frac{2}{x}+x)(\\frac{2}{x}-x)", answer: "\\frac{4}{x^2}-x^2"},
             {problem: "(\\frac{3}{y}-y)(\\frac{3}{y}+y)", answer: "\\frac{9}{y^2}-y^2"},
-            {problem: "(\\frac{5}{z}+2z)(\\frac{5}{z}-2z)", answer: "\\frac{25}{z^2}-4z^2"},
+            {problem: "(\\frac{5}{x}+2x)(\\frac{5}{x}-2x)", answer: "\\frac{25}{x^2}-4x^2"},
             {problem: "(\\frac{1}{2a}+3a)(\\frac{1}{2a}-3a)", answer: "\\frac{1}{4a^2}-9a^2"},
             {problem: "(\\frac{4}{3b}-2b)(\\frac{4}{3b}+2b)", answer: "\\frac{16}{9b^2}-4b^2"},
             
@@ -58,13 +58,13 @@ class ExpandingDifferenceOfTwoSquaresHard {
             {problem: "(2x+\\frac{y}{3})(2x-\\frac{y}{3})", answer: "4x^2-\\frac{y^2}{9}"},
             {problem: "(\\frac{x}{4}+3y)(\\frac{x}{4}-3y)", answer: "\\frac{x^2}{16}-9y^2"},
             {problem: "(5a-\\frac{b}{2})(5a+\\frac{b}{2})", answer: "25a^2-\\frac{b^2}{4}"},
-            {problem: "(\\frac{p}{6}+4q)(\\frac{p}{6}-4q)", answer: "\\frac{p^2}{36}-16q^2"},
-            {problem: "(3r-\\frac{s}{5})(3r+\\frac{s}{5})", answer: "9r^2-\\frac{s^2}{25}"},
+            {problem: "(\\frac{x}{6}+4y)(\\frac{x}{6}-4y)", answer: "\\frac{x^2}{36}-16y^2"},
+            {problem: "(3x-\\frac{y}{5})(3x+\\frac{y}{5})", answer: "9x^2-\\frac{y^2}{25}"},
             
             // Advanced reciprocal with variables
             {problem: "(ab+\\frac{1}{ab})(ab-\\frac{1}{ab})", answer: "a^2b^2-\\frac{1}{a^2b^2}"},
             {problem: "(\\frac{xy}{2}-\\frac{2}{xy})(\\frac{xy}{2}+\\frac{2}{xy})", answer: "\\frac{x^2y^2}{4}-\\frac{4}{x^2y^2}"},
-            {problem: "(\\frac{3}{pq}+pq)(\\frac{3}{pq}-pq)", answer: "\\frac{9}{p^2q^2}-p^2q^2"},
+            {problem: "(\\frac{3}{xy}+xy)(\\frac{3}{xy}-xy)", answer: "\\frac{9}{x^2y^2}-x^2y^2"},
             
             // Nested fraction expressions
             {problem: "(\\frac{x+1}{2}+\\frac{x-1}{3})(\\frac{x+1}{2}-\\frac{x-1}{3})", answer: "\\frac{(x+1)^2}{4}-\\frac{(x-1)^2}{9}"},

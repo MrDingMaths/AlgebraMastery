@@ -42,17 +42,8 @@ class DifferenceOfTwoSquaresEasy {
             // Different variables for variety
             {problem: "a^2 - 4", answer: "(a-2)(a+2)"},
             {problem: "b^2 - 9", answer: "(b-3)(b+3)"},
-            {problem: "c^2 - 25", answer: "(c-5)(c+5)"},
-            {problem: "d^2 - 49", answer: "(d-7)(d+7)"},
-            {problem: "m^2 - 1", answer: "(m-1)(m+1)"},
-            {problem: "n^2 - 16", answer: "(n-4)(n+4)"},
-            {problem: "p^2 - 36", answer: "(p-6)(p+6)"},
-            {problem: "q^2 - 64", answer: "(q-8)(q+8)"},
-            {problem: "r^2 - 100", answer: "(r-10)(r+10)"},
-            {problem: "s^2 - 121", answer: "(s-11)(s+11)"},
-            {problem: "t^2 - 144", answer: "(t-12)(t+12)"},
-            {problem: "u^2 - 169", answer: "(u-13)(u+13)"},
-            
+            {problem: "x^2 - 25", answer: "(x-5)(x+5)"},
+            {problem: "x^2 - 1", answer: "(x-1)(x+1)"},            
             // Simple coefficient squares
             {problem: "4x^2 - 25", answer: "(2x-5)(2x+5)"},
             {problem: "25b^2 - 4", answer: "(5b-2)(5b+2)"},
@@ -78,13 +69,12 @@ class DifferenceOfTwoSquaresEasy {
             
             // Two variable expressions
             {problem: "4x^2 - 25y^2", answer: "(2x-5y)(2x+5y)"},
-            {problem: "4p^2 - 25q^2", answer: "(2p-5q)(2p+5q)"},
             {problem: "25a^2 - 49b^2", answer: "(5a-7b)(5a+7b)"},
-            {problem: "81m^2 - 4n^2", answer: "(9m-2n)(9m+2n)"},
+            {problem: "81x^2 - 4y^2", answer: "(9x-2y)(9x+2y)"},
             {problem: "9a^2 - 16b^2", answer: "(3a-4b)(3a+4b)"},
             {problem: "16x^2 - 49y^2", answer: "(4x-7y)(4x+7y)"},
-            {problem: "36p^2 - 25q^2", answer: "(6p-5q)(6p+5q)"},
-            {problem: "49m^2 - 36n^2", answer: "(7m-6n)(7m+6n)"},
+            {problem: "36x^2 - 25y^2", answer: "(6x-5y)(6x+5y)"},
+            {problem: "49x^2 - 36y^2", answer: "(7x-6y)(7x+6y)"},
             {problem: "64a^2 - 25b^2", answer: "(8a-5b)(8a+5b)"}
         ];
     }

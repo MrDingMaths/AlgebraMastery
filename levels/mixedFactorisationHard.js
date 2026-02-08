@@ -11,7 +11,7 @@ class MixedFactorisationHard {
             {problem: "(2x + 8)(x + 8) + (3x + 12)(x + 8)", answer: "5(x + 4)(x + 8)"},
             
             // Complex fractions and mixed numbers
-            {problem: "9d^2 - 2\\frac{1}{4}", answer: "(3d - \\frac{3}{2})(3d + \\frac{3}{2})"},
+            {problem: "9x^2 - 2\\frac{1}{4}", answer: "(3x - \\frac{3}{2})(3x + \\frac{3}{2})"},
             
             // Higher degree with complex factorisation
             {problem: "a^4 + a^3 + a^2 + a", answer: "a(a + 1)(a^2 + 1)"},
@@ -26,7 +26,7 @@ class MixedFactorisationHard {
             
             // Advanced expressions with variables in denominators
             {problem: "x^2 + 2 + \\frac{1}{x^2}", answer: "(x + \\frac{1}{x})^2"},
-            {problem: "25k^2 - 20 + \\frac{4}{k^2}", answer: "(5k - \\frac{2}{k})^2"},
+            {problem: "25x^2 - 20 + \\frac{4}{x^2}", answer: "(5x - \\frac{2}{x})^2"},
             
             // Complex difference of squares
             {problem: "(a - 1)^2 - (b - 2)^2", answer: "(a - b + 1)(a + b - 3)"},
@@ -34,23 +34,23 @@ class MixedFactorisationHard {
             
             // Very high degree factorisation
             {problem: "x^4 - 16y^4", answer: "(x - 2y)(x + 2y)(x^2 + 4y^2)"},
-            {problem: "144e^5 - 36e^3", answer: "36e^3(2e - 1)(2e + 1)"},
+            {problem: "144x^5 - 36x^3", answer: "36x^3(2x - 1)(2x + 1)"},
             
             // Complex fractions with mixed numbers
-            {problem: "100k^2 - 6\\frac{1}{4}", answer: "(10k - \\frac{5}{2})(10k + \\frac{5}{2})"},
-            {problem: "36m^3n^2 - 9m", answer: "9m(2mn - 1)(2mn + 1)"},
+            {problem: "100x^2 - 6\\frac{1}{4}", answer: "(10x - \\frac{5}{2})(10x + \\frac{5}{2})"},
+            {problem: "36x^3y^2 - 9x", answer: "9x(2xy - 1)(2xy + 1)"},
             
             // Very complex fractions
             {problem: "\\frac{64b^2}{25} - \\frac{4y^2}{81}", answer: "(\\frac{8b}{5} - \\frac{2y}{9})(\\frac{8b}{5} + \\frac{2y}{9})"},
-            {problem: "3p^2 - \\frac{48}{p^2}", answer: "3(p - \\frac{4}{p})(p + \\frac{4}{p})"},
-            {problem: "\\frac{4c^2}{9} - \\frac{e^2}{36}", answer: "(\\frac{2c}{3} - \\frac{e}{6})(\\frac{2c}{3} + \\frac{e}{6})"},
+            {problem: "3x^2 - \\frac{48}{x^2}", answer: "3(x - \\frac{4}{x})(x + \\frac{4}{x})"},
+            {problem: "\\frac{4x^2}{9} - \\frac{y^2}{36}", answer: "(\\frac{2x}{3} - \\frac{y}{6})(\\frac{2x}{3} + \\frac{y}{6})"},
             
             // Complex algebraic manipulation
-            {problem: "(p + x)^2 - (p - x)^2", answer: "4px"},
-            {problem: "4g^2 - (g - 2k)^2", answer: "(g + 2k)(3g - 2k)"},
+            {problem: "(y + x)^2 - (y - x)^2", answer: "4yx"},
+            {problem: "4x^2 - (x - 2y)^2", answer: "(x + 2y)(3x - 2y)"},
             
             // Very high degree with complex patterns
-            {problem: "5w^5 - 80w", answer: "5w(w - 2)(w + 2)(w^2 + 4)"},
+            {problem: "5x^5 - 80x", answer: "5x(x - 2)(x + 2)(x^2 + 4)"},
             {problem: "4x^4 - 37x^2 + 9", answer: "(x - 3)(x + 3)(2x - 1)(2x + 1)"},
             
             // Complex quadratics with negative leading coefficients
@@ -80,12 +80,12 @@ class MixedFactorisationHard {
             {problem: "-5x^2 + 4x - 5x + 4", answer: "(4-5x)(x+1)"},
             {problem: "3x - 8x - 6x^2 + 4", answer: "(1-2x)(3x+4)"},
             {problem: "x^2 - bx + x - b", answer: "(x+1)(x-b)"},
-            {problem: "x^2 - cx + x - c", answer: "(x+1)(x-c)"},
+            {problem: "x^2 - yx + x - y", answer: "(x+1)(x-y)"},
             {problem: "x^2 + bx + x + b", answer: "(x+1)(x+b)"},
-            {problem: "x^2 + cx - x - c", answer: "(x-1)(x+c)"},
+            {problem: "x^2 + yx - x - y", answer: "(x-1)(x+y)"},
             {problem: "x^2 + ax - x - a", answer: "(x-1)(x+a)"},
             {problem: "x^2 - bx - x + b", answer: "(x-1)(x-b)"},
-            {problem: "x^2 - 3x - 3xc + 9c", answer: "(x-3c)(x-3)"},
+            {problem: "x^2 - 3x - 3xy + 9y", answer: "(x-3y)(x-3)"},
             {problem: "x^2 - 2x - xa + 2a", answer: "(x-a)(x-2)"},
             {problem: "x^2 - 5x - 3xa + 15a", answer: "(x-3a)(x-5)"},
             
@@ -115,10 +115,9 @@ class MixedFactorisationHard {
             
             // Multiple parameters with different variables
             {problem: "ax^2 + a^2x + bx + ab", answer: "(ax+b)(x+a)"},
-            {problem: "bx^2 + abx + cx + ac", answer: "(bx+c)(x+a)"},
-            {problem: "cx^2 + acx + bx + ab", answer: "(cx+b)(x+a)"},
-            {problem: "dx^2 + adx + ex + ae", answer: "(dx+e)(x+a)"},
-            {problem: "ex^2 - aex + fx - af", answer: "(ex+f)(x-a)"},
+            {problem: "bx^2 + abx + yx + ay", answer: "(bx+y)(x+a)"},
+            {problem: "yx^2 + ayx + bx + ab", answer: "(yx+b)(x+a)"},
+            {problem: "yx^2 - ayx + bx - ab", answer: "(yx+b)(x-a)"},
             
             // Fractional coefficients
             {problem: "\\frac{1}{2}x^2 + \\frac{a}{2}x + bx + ab", answer: "(\\frac{1}{2}x+b)(x+a)"},
@@ -132,7 +131,7 @@ class MixedFactorisationHard {
             {problem: "-ab + x^2 - ax + bx", answer: "(x-a)(x+b)"},
             {problem: "-ab - x^2 + ax + bx", answer: "-(x-a)(x-b)"},
             {problem: "2ab + 2x^2 + 2ax + 2bx", answer: "2(x+a)(x+b)"},
-            {problem: "3ac - 3x^2 + 3ax - 3cx", answer: "3(a-x)(x+c)"},
+            {problem: "3ay - 3x^2 + 3ax - 3yx", answer: "3(a-x)(x+y)"},
             
             // Mixed variable expressions with parameters
             {problem: "axy + ay + bxy + by", answer: "y(a+b)(x+1)"},
@@ -144,16 +143,16 @@ class MixedFactorisationHard {
             // Advanced parameter manipulation
             {problem: "x^2 + (a+2)x + 2x + 2a", answer: "x^2+ax+4x+2a"},
             {problem: "x^2 + (b+3)x + 3x + 3b", answer: "x^2+bx+6x+3b"},
-            {problem: "x^2 - (c+4)x + 4x - 4c", answer: "x^2-cx-4c"},
-            {problem: "x^2 - (d+5)x - 5x + 5d", answer: "x^2-dx-10x+5d"},
+            {problem: "x^2 - (y+4)x + 4x - 4y", answer: "x^2-yx-4y"},
+            {problem: "x^2 - (y+5)x - 5x + 5y", answer: "x^2-yx-10x+5y"},
             {problem: "2x^2 + (2a+1)x + ax + \\frac{a}{2}", answer: "2x^2+3ax+x+\\frac{a}{2}"},
             {problem: "3x^2 - (3b+2)x + 2x - \\frac{2b}{3}", answer: "3x^2-3bx-\\frac{2b}{3}"},
             
             // Very complex parameter relationships
             {problem: "x^2y + axy + bxy + ab", answer: "(xy+a)(x+b)"},
-            {problem: "x^2z - axz + bxz - ab", answer: "x^2z - axz + bxz - ab"},
+            {problem: "x^2y - axy + bxy - ab", answer: "x^2y - axy + bxy - ab"},
             {problem: "ay^2 + a^2y + by^2 + aby", answer: "y(a+b)(y+a)"},
-            {problem: "bz^2 - abz + cz^2 - acz", answer: "z(b+c)(z-a)"},
+            {problem: "bx^2 - abx + yx^2 - ayx", answer: "x(b+y)(x-a)"},
             {problem: "3x(5x + 2)^2 - 2(5x + 2)", answer: "(5x + 2)(15x^2 + 6x - 2)"},
             {problem: "3x(7x - 1)^2 - 2(7x - 1)", answer: "(7x - 1)(21x^2 - 3x - 2)"},
             {problem: "25x(2x + 1)^2 + 15(2x + 1)", answer: "5(2x + 1)(10x^2 + 5x + 3)"},
@@ -182,7 +181,7 @@ class MixedFactorisationHard {
             {problem: "12x(4x - 1) - 18(4x - 1)^2", answer: "6(4x - 1)(-10x + 3)"},
             {problem: "45x(x + 1) + 27(x + 1)^2", answer: "9(x + 1)(8x + 3)"},
             {problem: "48x(2x - 3)^3 + 32(2x - 3)^2", answer: "16(2x - 3)^2(6x^2 - 9x + 2)"},
-            {problem: "9cx(3x + 1)^3 + 6c(3x + 1)^2", answer: "3c(3x + 1)^2(9x^2 + 3x + 2)"},
+            {problem: "9yx(3x + 1)^3 + 6y(3x + 1)^2", answer: "3y(3x + 1)^2(9x^2 + 3x + 2)"},
             {problem: "7x\\sqrt{x + 5} - 4\\sqrt{x + 5}", answer: "(7x - 4)\\sqrt{x + 5}"},
             {problem: "10x(x - 3)^2 - 8x(3 - x)", answer: "2x(x - 3)(5x - 11)"},
             {problem: "8x(x + 2)(2x - 1) + 12(x + 2)^2(2x - 1)^2", answer: "4(x + 2)(2x - 1)(6x^2 + 11x - 6)"},
@@ -192,7 +191,7 @@ class MixedFactorisationHard {
             {problem: "35x(2x - 7) + 21(2x - 7)^2", answer: "7(2x - 7)(11x - 21)"},
             {problem: "42x(x - 5) - 28(x - 5)^2", answer: "14(x - 5)(x + 10)"},
             {problem: "54x(x + 8)^3 - 36(x + 8)^2", answer: "18(x + 8)^2(3x^2 + 24x - 2)"},
-            {problem: "11dx(2x + 3)^3 - 7d(2x + 3)^2", answer: "d(2x + 3)^2(22x^2 + 33x - 7)"},
+            {problem: "11yx(2x + 3)^3 - 7y(2x + 3)^2", answer: "y(2x + 3)^2(22x^2 + 33x - 7)"},
             {problem: "6x\\sqrt{2x - 1} + 9\\sqrt{2x - 1}", answer: "(6x + 9)\\sqrt{2x - 1}"},
             {problem: "12x(2x + 1)^2 - 15x(1 + 2x)", answer: "3x(2x + 1)(8x - 1)"},
             {problem: "10x(x - 6)(3x + 2) - 15(x - 6)^2(3x + 2)^2", answer: "5(x - 6)(3x + 2)(-9x^2 + 50x + 36)"},
@@ -202,7 +201,7 @@ class MixedFactorisationHard {
             {problem: "56x(x - 9) + 28(x - 9)^2", answer: "84(x - 9)(x - 3)"},
             {problem: "9x(2x + 1) - 6(2x + 1)^2", answer: "-3(2x + 1)(x + 2)"},
             {problem: "36x(x + 10)^3 + 24(x + 10)^2", answer: "12(x + 10)^2(3x^2 + 30x + 2)"},
-            {problem: "13ex(3x - 2)^3 + 9e(3x - 2)^2", answer: "e(3x - 2)^2(39x^2 - 26x + 9)"},
+            {problem: "13yx(3x - 2)^3 + 9y(3x - 2)^2", answer: "y(3x - 2)^2(39x^2 - 26x + 9)"},
             {problem: "8x\\sqrt{4x + 3} - 12\\sqrt{4x + 3}", answer: "(8x - 12)\\sqrt{4x + 3}"},
             {problem: "14x(3x - 4)^2 + 21x(4 - 3x)", answer: "7x(3x - 4)(6x - 11)"},
             {problem: "16x(2x - 5)(x + 3) + 24(2x - 5)^2(x + 3)^2", answer: "8(2x - 5)(x + 3)(6x^2 + 5x - 45)"},
@@ -254,35 +253,35 @@ class MixedFactorisationHard {
             {problem: "16x^4 + 24x^2 + 9", answer: "(4x^2+3)^2"},
             {problem: "36 - 12x + x^2", answer: "(x-6)^2"},
             {problem: "49x^6 - 14x^3 + 1", answer: "(7x^3-1)^2"},
-            {problem: "81x^2 - 36xz + 4z^2", answer: "(9x-2z)^2"},
-            {problem: "144m^6 - 72m^3 + 9", answer: "(12m^3-3)^2"},
-            {problem: "t^2 + t + \\frac{1}{4}", answer: "(t+\\frac{1}{2})^2"},
+            {problem: "81x^2 - 36xy + 4y^2", answer: "(9x-2y)^2"},
+            {problem: "144x^6 - 72x^3 + 9", answer: "(12x^3-3)^2"},
+            {problem: "x^2 + x + \\frac{1}{4}", answer: "(x+\\frac{1}{2})^2"},
             {problem: "x^2 - \\frac{4x}{3} + \\frac{4}{9}", answer: "(x-\\frac{2}{3})^2"},
             {problem: "9y^2 + \\frac{6y}{5} + \\frac{1}{25}", answer: "(3y+\\frac{1}{5})^2"},
             {problem: "x^2 + 2 + \\frac{1}{x^2}", answer: "(x+\\frac{1}{x})^2"},
-            {problem: "25k^2 - 20 + \\frac{4}{k^2}", answer: "(5k-\\frac{2}{k})^2"},
+            {problem: "25x^2 - 20 + \\frac{4}{x^2}", answer: "(5x-\\frac{2}{x})^2"},
             
             // Additional questions for variety
-            {problem: "9t^4 + 6t^2 + 1", answer: "(3t^2+1)^2"},
+            {problem: "9x^4 + 6x^2 + 1", answer: "(3x^2+1)^2"},
             {problem: "64x^6 - 16x^3 + 1", answer: "(8x^3-1)^2"},
             {problem: "100y^8 + 20y^4 + 1", answer: "(10y^4+1)^2"},
             {problem: "121a^4 - 22a^2 + 1", answer: "(11a^2-1)^2"},
             {problem: "169b^6 + 26b^3 + 1", answer: "(13b^3+1)^2"},
-            {problem: "196c^4 - 28c^2 + 1", answer: "(14c^2-1)^2"},
-            {problem: "225d^8 + 30d^4 + 1", answer: "(15d^4+1)^2"},
-            {problem: "256e^6 - 32e^3 + 1", answer: "(16e^3-1)^2"},
-            {problem: "289f^4 + 34f^2 + 1", answer: "(17f^2+1)^2"},
-            {problem: "324g^6 - 36g^3 + 1", answer: "(18g^3-1)^2"},
-            {problem: "361h^4 + 38h^2 + 1", answer: "(19h^2+1)^2"},
-            {problem: "400j^8 - 40j^4 + 1", answer: "(20j^4-1)^2"},
+            {problem: "196x^4 - 28x^2 + 1", answer: "(14x^2-1)^2"},
+            {problem: "225x^8 + 30x^4 + 1", answer: "(15x^4+1)^2"},
+            {problem: "256x^6 - 32x^3 + 1", answer: "(16x^3-1)^2"},
+            {problem: "289x^4 + 34x^2 + 1", answer: "(17x^2+1)^2"},
+            {problem: "324x^6 - 36x^3 + 1", answer: "(18x^3-1)^2"},
+            {problem: "361x^4 + 38x^2 + 1", answer: "(19x^2+1)^2"},
+            {problem: "400x^8 - 40x^4 + 1", answer: "(20x^4-1)^2"},
             {problem: "x^2 - \\frac{2x}{3} + \\frac{1}{9}", answer: "(x-\\frac{1}{3})^2"},
             {problem: "4y^2 + \\frac{4y}{3} + \\frac{1}{9}", answer: "(2y+\\frac{1}{3})^2"},
-            {problem: "9z^2 - \\frac{12z}{5} + \\frac{4}{25}", answer: "(3z-\\frac{2}{5})^2"},
+            {problem: "9x^2 - \\frac{12x}{5} + \\frac{4}{25}", answer: "(3x-\\frac{2}{5})^2"},
             {problem: "16a^2 + \\frac{8a}{7} + \\frac{1}{49}", answer: "(4a+\\frac{1}{7})^2"},
             {problem: "25b^2 - \\frac{10b}{3} + \\frac{1}{9}", answer: "(5b-\\frac{1}{3})^2"},
-            {problem: "36c^2 + \\frac{12c}{5} + \\frac{1}{25}", answer: "(6c+\\frac{1}{5})^2"},
-            {problem: "49d^2 - \\frac{14d}{9} + \\frac{1}{81}", answer: "(7d-\\frac{1}{9})^2"},
-            {problem: "64e^2 + \\frac{16e}{7} + \\frac{1}{49}", answer: "(8e+\\frac{1}{7})^2"},
+            {problem: "36x^2 + \\frac{12x}{5} + \\frac{1}{25}", answer: "(6x+\\frac{1}{5})^2"},
+            {problem: "49x^2 - \\frac{14x}{9} + \\frac{1}{81}", answer: "(7x-\\frac{1}{9})^2"},
+            {problem: "64x^2 + \\frac{16x}{7} + \\frac{1}{49}", answer: "(8x+\\frac{1}{7})^2"},
             {problem: "\\frac{5x^2}{9} - \\frac{5}{4}", answer: "\\frac{5}{36}(2x - 3)(2x + 3)"},
             {problem: "x^2 - \\frac{3}{4}", answer: "(x - \\frac{\\sqrt{3}}{2})(x + \\frac{\\sqrt{3}}{2})"},
             {problem: "x^2 - \\frac{7}{16}", answer: "(x - \\frac{\\sqrt{7}}{4})(x + \\frac{\\sqrt{7}}{4})"},
@@ -317,29 +316,29 @@ class MixedFactorisationHard {
             {problem: "(y-7)^2 - (y+4)^2", answer: "-11(2y-3)"},
             {problem: "(b+5)^2 - (b-5)^2", answer: "20b"},
             {problem: "(a+3)^2 - (a-5)^2", answer: "16(a-1)"},
-            {problem: "(2w+3x)^2 - (3w+4x)^2", answer: "-(w+x)(5w+7x)"},
+            {problem: "(2y+3x)^2 - (3y+4x)^2", answer: "-(y+x)(5y+7x)"},
             {problem: "(3a+2b)^2 - (2a+3b)^2", answer: "5(a-b)(a+b)"},
             {problem: "(4x-y)^2 - (2x+3y)^2", answer: "4(x-2y)(3x+y)"},
-            {problem: "(5m+n)^2 - (3m-2n)^2", answer: "(2m+3n)(8m-n)"},
+            {problem: "(5x+y)^2 - (3x-2y)^2", answer: "(2x+3y)(8x-y)"},
             
             // Fourth power differences
-            {problem: "1 - w^4", answer: "(1-w)(1+w)(1+w^2)"},
+            {problem: "1 - x^4", answer: "(1-x)(1+x)(1+x^2)"},
             {problem: "a^4 - 1", answer: "(a-1)(a+1)(a^2+1)"},
             {problem: "b^4 - 16", answer: "(b-2)(b+2)(b^2+4)"},
             {problem: "81 - x^4", answer: "(3-x)(3+x)(9+x^2)"},
-            {problem: "16m^4 - 81n^4", answer: "(2m-3n)(2m+3n)(4m^2+9n^2)"},
+            {problem: "16x^4 - 81y^4", answer: "(2x-3y)(2x+3y)(4x^2+9y^2)"},
             {problem: "y^8 - 256", answer: "(y-2)(y+2)(y^2+4)(y^4+16)"},
-            {problem: "c^{16} - 1", answer: "(c-1)(c+1)(c^2+1)(c^4+1)(c^8+1)"},
+            {problem: "x^{16} - 1", answer: "(x-1)(x+1)(x^2+1)(x^4+1)(x^8+1)"},
             {problem: "x^4 - 81", answer: "(x-3)(x+3)(x^2+9)"},
             {problem: "625 - a^4", answer: "(5-a)(5+a)(25+a^2)"},
             
             // Mixed factorisation with fourth powers
             {problem: "2x^4 - 32", answer: "2(x-2)(x+2)(x^2+4)"},
-            {problem: "ap^4 - 81a", answer: "a(p-3)(p+3)(p^2+9)"},
+            {problem: "ax^4 - 81a", answer: "a(x-3)(x+3)(x^2+9)"},
             {problem: "x^5 - x", answer: "x(x-1)(x+1)(x^2+1)"},
-            {problem: "3k^8 - 3", answer: "3(k-1)(k+1)(k^2+1)(k^4+1)"},
+            {problem: "3x^8 - 3", answer: "3(x-1)(x+1)(x^2+1)(x^4+1)"},
             {problem: "\\frac{y^4}{81} - 1", answer: "(\\frac{y}{3}-1)(\\frac{y}{3}+1)(\\frac{y^2}{9}+1)"},
-            {problem: "5m^9 - 5m", answer: "5m(m-1)(m+1)(m^2+1)(m^4+1)"},
+            {problem: "5x^9 - 5x", answer: "5x(x-1)(x+1)(x^2+1)(x^4+1)"},
             {problem: "4a^4 - 64", answer: "4(a-2)(a+2)(a^2+4)"},
             {problem: "3x^4 - 243", answer: "3(x-3)(x+3)(x^2+9)"},
             

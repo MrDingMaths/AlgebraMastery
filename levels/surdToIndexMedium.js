@@ -47,7 +47,7 @@ class SurdToIndexMediumLevel {
             
             // Higher coefficients with surds
             {problem: "7\\sqrt{x^5}", answer: "7x^{\\frac{5}{2}}"},
-            {problem: "6\\sqrt[3]{n^7}", answer: "6n^{\\frac{7}{3}}"},
+            {problem: "6\\sqrt[3]{x^7}", answer: "6x^{\\frac{7}{3}}"},
             {problem: "9\\sqrt{x^9}", answer: "9x^{\\frac{9}{2}}"},
             {problem: "10\\sqrt[4]{x^7}", answer: "10x^{\\frac{7}{4}}"},
             {problem: "12\\sqrt[5]{x^8}", answer: "12x^{\\frac{8}{5}}"},

@@ -23,14 +23,12 @@ class SurdToIndexEasyLevel {
             // Basic square root conversions
             {problem: "\\sqrt{x}", answer: "x^{\\frac{1}{2}}"},
             {problem: "\\sqrt{y}", answer: "y^{\\frac{1}{2}}"},
-            {problem: "\\sqrt{z}", answer: "z^{\\frac{1}{2}}"},
             {problem: "\\sqrt{a}", answer: "a^{\\frac{1}{2}}"},
             {problem: "\\sqrt{b}", answer: "b^{\\frac{1}{2}}"},
             
             // Basic cube root conversions
             {problem: "\\sqrt[3]{x}", answer: "x^{\\frac{1}{3}}"},
             {problem: "\\sqrt[3]{y}", answer: "y^{\\frac{1}{3}}"},
-            {problem: "\\sqrt[3]{z}", answer: "z^{\\frac{1}{3}}"},
             {problem: "\\sqrt[3]{a}", answer: "a^{\\frac{1}{3}}"},
             {problem: "\\sqrt[3]{b}", answer: "b^{\\frac{1}{3}}"},
             
@@ -50,10 +48,10 @@ class SurdToIndexEasyLevel {
             
             // Perfect power simplifications
             {problem: "3\\sqrt[4]{y^{12}}", answer: "3y^3"},
-            {problem: "\\sqrt{25s^4}", answer: "5s^2"},
-            {problem: "\\sqrt[3]{27t^6}", answer: "3t^2"},
-            {problem: "\\sqrt[4]{16t^8}", answer: "2t^2"},
-            {problem: "\\sqrt[3]{125t^{12}}", answer: "5t^4"},
+            {problem: "\\sqrt{25x^4}", answer: "5x^2"},
+            {problem: "\\sqrt[3]{27x^6}", answer: "3x^2"},
+            {problem: "\\sqrt[4]{16x^8}", answer: "2x^2"},
+            {problem: "\\sqrt[3]{125x^{12}}", answer: "5x^4"},
             {problem: "\\sqrt{9x^2}", answer: "3x"},
             {problem: "\\sqrt{16x^4}", answer: "4x^2"},
             {problem: "\\sqrt[3]{8x^3}", answer: "2x"},

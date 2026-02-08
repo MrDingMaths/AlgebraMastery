@@ -10,10 +10,10 @@ class SimplifyAlgebraicFractionsHard {
             {problem: "\\frac{2x^2+14x+24}{3x^2+4x-15}", answer: "\\frac{2(x+4)}{3x-5}"},
             {problem: "\\frac{14x-24-2x^2}{3x^2+4x-15}", answer: "\\frac{14x-24-2x^2}{3x^2+4x-15}"},
             {problem: "\\frac{14x-24-2x^2}{3x^2-4x-15}", answer: "\\frac{-2(x-4)}{3x+5}"},
-            {problem: "\\frac{he-hd+pe-pd}{e^2-d^2}", answer: "\\frac{h+p}{e+d}"},
-            {problem: "\\frac{k^2+5k-24}{2k^2-18}", answer: "\\frac{k+8}{2(k+3)}"},
-            {problem: "\\frac{6m-30-pm+5p}{m^2+3m-40}", answer: "\\frac{6-p}{m+8}"},
-            {problem: "\\frac{n^3-5n^2+4n}{n^2-2n+1}", answer: "\\frac{n(n-4)}{n-1}"},
+            {problem: "\\frac{xy-xa+by-ba}{y^2-a^2}", answer: "\\frac{x+b}{y+a}"},
+            {problem: "\\frac{x^2+5x-24}{2x^2-18}", answer: "\\frac{x+8}{2(x+3)}"},
+            {problem: "\\frac{6x-30-yx+5y}{x^2+3x-40}", answer: "\\frac{6-y}{x+8}"},
+            {problem: "\\frac{x^3-5x^2+4x}{x^2-2x+1}", answer: "\\frac{x(x-4)}{x-1}"},
             {problem: "\\frac{x^2-7}{x+\\sqrt{7}}", answer: "x-\\sqrt{7}"},
             {problem: "\\frac{x^2-10}{x-\\sqrt{10}}", answer: "x+\\sqrt{10}"},
             {problem: "\\frac{\\sqrt{5}x+3}{5x^2-9}", answer: "\\frac{1}{\\sqrt{5}x-3}"},
@@ -51,7 +51,7 @@ class SimplifyAlgebraicFractionsHard {
             {problem: "\\frac{8x^2-2x-15}{16x^2-25}", answer: "\\frac{2x-3}{4x-5}"},
             {problem: "\\frac{25-4a^2}{6a^2-11a-10}", answer: "-\\frac{2a+5}{3a+2}"},
             {problem: "\\frac{40+11b-2b^2}{8b^2+34b+35}", answer: "\\frac{8-b}{4b+7}"},
-            {problem: "\\frac{x^2y^2-4}{xy^2-3mxy-2y+6m}", answer: "\\frac{xy+2}{y-3m}"}
+            {problem: "\\frac{x^2y^2-4}{xy^2-3axy-2y+6a}", answer: "\\frac{xy+2}{y-3a}"}
         ];
     }
 

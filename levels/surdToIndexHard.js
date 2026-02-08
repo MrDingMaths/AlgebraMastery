@@ -8,16 +8,16 @@ class SurdToIndexHardLevel {
         // Hard level questions - Complex multi-variable and advanced conversions
         this.questions = [
             // Complex multi-variable surds
-            {problem: "\\sqrt[5]{10t^2}", answer: "10^{\\frac{1}{5}}t^{\\frac{2}{5}}"},
-            {problem: "\\sqrt[8]{8m^4}", answer: "8^{\\frac{1}{8}}m^{\\frac{1}{2}}"},
+            {problem: "\\sqrt[5]{10x^2}", answer: "10^{\\frac{1}{5}}x^{\\frac{2}{5}}"},
+            {problem: "\\sqrt[8]{8x^4}", answer: "8^{\\frac{1}{8}}x^{\\frac{1}{2}}"},
             {problem: "\\sqrt[4]{7x^7}", answer: "7^{\\frac{1}{4}}x^{\\frac{7}{4}}"},
-            {problem: "5\\sqrt[3]{p^2r}", answer: "5p^{\\frac{2}{3}}r^{\\frac{1}{3}}"},
+            {problem: "5\\sqrt[3]{x^2y}", answer: "5x^{\\frac{2}{3}}y^{\\frac{1}{3}}"},
             {problem: "2\\sqrt[3]{a^4b^2}", answer: "2a^{\\frac{4}{3}}b^{\\frac{2}{3}}"},
-            {problem: "2\\sqrt[4]{g^3h^5}", answer: "2g^{\\frac{3}{4}}h^{\\frac{5}{4}}"},
+            {problem: "2\\sqrt[4]{x^3y^5}", answer: "2x^{\\frac{3}{4}}y^{\\frac{5}{4}}"},
             {problem: "3\\sqrt[5]{x^7y^3}", answer: "3x^{\\frac{7}{5}}y^{\\frac{3}{5}}"},
             {problem: "4\\sqrt[6]{a^5b^7}", answer: "4a^{\\frac{5}{6}}b^{\\frac{7}{6}}"},
-            {problem: "6\\sqrt[7]{m^8n^{12}}", answer: "6m^{\\frac{8}{7}}n^{\\frac{12}{7}}"},
-            {problem: "7\\sqrt[3]{x^{10}y^8z^5}", answer: "7x^{\\frac{10}{3}}y^{\\frac{8}{3}}z^{\\frac{5}{3}}"},
+            {problem: "6\\sqrt[7]{x^8y^{12}}", answer: "6x^{\\frac{8}{7}}y^{\\frac{12}{7}}"},
+            {problem: "7\\sqrt[3]{x^{10}y^8a^5}", answer: "7x^{\\frac{10}{3}}y^{\\frac{8}{3}}a^{\\frac{5}{3}}"},
             
             // Multi-variable with constants
             {problem: "\\sqrt[4]{81x^8y^{12}}", answer: "3x^2y^3"},
@@ -75,10 +75,10 @@ class SurdToIndexHardLevel {
             {problem: "\\sqrt[6]{\\frac{729x^{18}}{64y^{12}}}", answer: "\\frac{3x^3}{2y^2}"},
                         
             // Powers of multi-variable expressions
-            {problem: "(125x^{15}y^{21}z^9)^{\\frac{1}{3}}", answer: "5x^5y^7z^3"},
-            {problem: "(256x^{20}y^{16}z^{12})^{\\frac{1}{4}}", answer: "4x^5y^4z^3"},
-            {problem: "(243x^{25}y^{15}z^{10})^{\\frac{1}{5}}", answer: "3x^5y^3z^2"},
-            {problem: "(729x^{18}y^{24}z^{30})^{\\frac{1}{6}}", answer: "3x^3y^4z^5"},
+            {problem: "(125x^{15}y^{21}a^9)^{\\frac{1}{3}}", answer: "5x^5y^7a^3"},
+            {problem: "(256x^{20}y^{16}a^{12})^{\\frac{1}{4}}", answer: "4x^5y^4a^3"},
+            {problem: "(243x^{25}y^{15}a^{10})^{\\frac{1}{5}}", answer: "3x^5y^3a^2"},
+            {problem: "(729x^{18}y^{24}a^{30})^{\\frac{1}{6}}", answer: "3x^3y^4a^5"},
             
             // Complex constant expressions
             {problem: "\\sqrt[7]{128x^{21}}", answer: "2x^3"},

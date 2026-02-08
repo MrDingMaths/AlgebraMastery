@@ -22,41 +22,41 @@ class ExpandingDoubleBracketsHard {
             // General algebraic expressions
             {problem: "(ax-b)(cx-d)", answer: "acx^2 - adx - bcx + bd"},
             {problem: "(ax+b)(cx+d)", answer: "acx^2 + adx + bcx + bd"},
-            {problem: "(a+b)(a+c)", answer: "a^2 + ab + ac + bc"},
-            {problem: "(a-b)(a+c)", answer: "a^2 - ab + ac - bc"},
+            {problem: "(a+b)(a+x)", answer: "a^2 + ab + ax + bx"},
+            {problem: "(a-b)(a+x)", answer: "a^2 - ab + ax - bx"},
             
             // Multi-variable expressions
-            {problem: "(y-x)(z-y)", answer: "xy - xz - y^2 + yz"},
+            {problem: "(y-x)(a-y)", answer: "xy - xa - y^2 + ya"},
             {problem: "(2x+y)(x-2y)", answer: "2x^2 - 3xy - 2y^2"},
             {problem: "(2a+b)(a-b)", answer: "2a^2 - ab - b^2"},
             {problem: "(3x-y)(2x+y)", answer: "6x^2 + xy - y^2"},
             {problem: "(2a-b)(3a+2)", answer: "6a^2 - 3ab + 4a - 2b"},
             {problem: "(4x-3y)(3x-4y)", answer: "12x^2 - 25xy + 12y^2"},
-            {problem: "(xy-yz)(z+3x)", answer: "3x^2y - 2xyz - yz^2"},
+            {problem: "(xy-ya)(a+3x)", answer: "3x^2y - 2xya - ya^2"},
             
             // Additional complex algebraic patterns
             {problem: "(3a+2b)(2a-3b)", answer: "6a^2 - 5ab - 6b^2"},
             {problem: "(4x-5y)(2x+3y)", answer: "8x^2 + 2xy - 15y^2"},
-            {problem: "(5m+3n)(m-4n)", answer: "5m^2 - 17mn - 12n^2"},
-            {problem: "(2p-7q)(3p+2q)", answer: "6p^2 - 17pq - 14q^2"},
-            {problem: "(6r+s)(r-2s)", answer: "6r^2 - 11rs - 2s^2"},
-            {problem: "(3u-4v)(5u+v)", answer: "15u^2 - 17uv - 4v^2"},
+            {problem: "(5x+3y)(x-4y)", answer: "5x^2 - 17xy - 12y^2"},
+            {problem: "(2x-7y)(3x+2y)", answer: "6x^2 - 17xy - 14y^2"},
+            {problem: "(6x+y)(x-2y)", answer: "6x^2 - 11xy - 2y^2"},
+            {problem: "(3x-4y)(5x+y)", answer: "15x^2 - 17xy - 4y^2"},
             
             // Cubic expansion patterns
             {problem: "x(x+1)(x-2)", answer: "x^3 - x^2 - 2x"},
             {problem: "2y(y-3)(y+4)", answer: "2y^3 + 2y^2 - 24y"},
             {problem: "-x(x-5)(x+1)", answer: "-x^3 + 4x^2 + 5x"},
-            {problem: "3z(z+2)(z-6)", answer: "3z^3 - 12z^2 - 36z"},
+            {problem: "3x(x+2)(x-6)", answer: "3x^3 - 12x^2 - 36x"},
             
             // Mixed variable coefficients  
-            {problem: "(ab+c)(ab-c)", answer: "a^2b^2 - c^2"},
+            {problem: "(ab+x)(ab-x)", answer: "a^2b^2 - x^2"},
             {problem: "(2xy+3)(xy-5)", answer: "2x^2y^2 - 7xy - 15"},
-            {problem: "(3pq-2r)(pq+4r)", answer: "3p^2q^2 + 10pqr - 8r^2"},
+            {problem: "(3xy-2a)(xy+4a)", answer: "3x^2y^2 + 10xya - 8a^2"},
             
             // Complex rational expressions
             {problem: "(3x-2y)(4x+5y) - (2x+y)(x-3y)", answer: "10x^2 + 12xy - 7y^2"},
             {problem: "(5a+3b)(2a-b) - (a+4b)(3a-2b)", answer: "7a^2 - 9ab + 5b^2"},
-            {problem: "(4p-q)(p+2q) - (2p-3q)(p+q)", answer: "2p^2 + 8pq + q^2"},
+            {problem: "(4x-y)(x+2y) - (2x-3y)(x+y)", answer: "2x^2 + 8xy + y^2"},
             
             // Very challenging patterns
             {problem: "x(x+y)(x-y) + y(x+y)(x-y)", answer: "x^3 + x^2y - xy^2 - y^3"},

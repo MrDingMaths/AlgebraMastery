@@ -12,8 +12,8 @@ class MixedAlgebraicSimplificationEasyLevel {
             {problem: "7a + 12a", answer: "19a"},
             {problem: "15x - 6x", answer: "9x"},
             {problem: "-4x^2 + 3x^2", answer: "-x^2"},
-            {problem: "5 \\times 2m", answer: "10m"},
-            {problem: "3 \\times 5p", answer: "15p"},
+            {problem: "5 \\times 2x", answer: "10x"},
+            {problem: "3 \\times 5x", answer: "15x"},
             {problem: "3 + b", answer: "3 + b"},
             {problem: "3 \\times b", answer: "3b"},
             {problem: "b + b + b", answer: "3b"},
@@ -23,11 +23,11 @@ class MixedAlgebraicSimplificationEasyLevel {
             {problem: "3 \\times 2b", answer: "6b"},
             {problem: "3b + 2b", answer: "5b"},
             {problem: "3a + 2b", answer: "3a + 2b"},
-            {problem: "9m + m", answer: "10m"},
-            {problem: "9m \\times m", answer: "9m^2"},
-            {problem: "\\frac{9m}{m}", answer: "9"},
-            {problem: "9m + 3m", answer: "12m"},
-            {problem: "9m \\div 3m", answer: "3"},
+            {problem: "9x + x", answer: "10x"},
+            {problem: "9x \\times x", answer: "9x^2"},
+            {problem: "\\frac{9x}{x}", answer: "9"},
+            {problem: "9x + 3x", answer: "12x"},
+            {problem: "9x \\div 3x", answer: "3"},
             {problem: "\\frac{2x}{5x}", answer: "\\frac{2}{5}"},
             {problem: "\\frac{5a}{9a}", answer: "\\frac{5}{9}"},
             {problem: "\\frac{2x}{4}", answer: "\\frac{x}{2}"},
@@ -36,38 +36,38 @@ class MixedAlgebraicSimplificationEasyLevel {
             {problem: "\\frac{30y}{40y}", answer: "\\frac{3}{4}"},
             {problem: "\\frac{4a}{2}", answer: "2a"},
             {problem: "\\frac{21x}{7x}", answer: "3"},
-            {problem: "9k \\times (-7)", answer: "-63k"},
+            {problem: "9x \\times (-7)", answer: "-63x"},
 
             // Additional generated questions for variety
             // Basic like terms combining
             {problem: "4x + 6x", answer: "10x"},
             {problem: "8y - 3y", answer: "5y"},
-            {problem: "2z + 7z", answer: "9z"},
-            {problem: "11p - 5p", answer: "6p"},
-            {problem: "3q + q", answer: "4q"},
-            {problem: "10r - 4r", answer: "6r"},
-            {problem: "5s + 8s", answer: "13s"},
-            {problem: "12t - 7t", answer: "5t"},
+            {problem: "2x + 7x", answer: "9x"},
+            {problem: "11x - 5x", answer: "6x"},
+            {problem: "3x + x", answer: "4x"},
+            {problem: "10x - 4x", answer: "6x"},
+            {problem: "5x + 8x", answer: "13x"},
+            {problem: "12x - 7x", answer: "5x"},
 
             // Simple multiplication with coefficients
-            {problem: "4 \\times 3n", answer: "12n"},
-            {problem: "2 \\times 7w", answer: "14w"},
-            {problem: "6 \\times 2v", answer: "12v"},
-            {problem: "5 \\times 4u", answer: "20u"},
-            {problem: "3c \\times 4", answer: "12c"},
-            {problem: "7d \\times 2", answer: "14d"},
+            {problem: "4 \\times 3x", answer: "12x"},
+            {problem: "2 \\times 7x", answer: "14x"},
+            {problem: "6 \\times 2x", answer: "12x"},
+            {problem: "5 \\times 4x", answer: "20x"},
+            {problem: "3x \\times 4", answer: "12x"},
+            {problem: "7x \\times 2", answer: "14x"},
 
             // Basic power operations
             {problem: "x \\times x", answer: "x^2"},
             {problem: "y \\times y \\times y", answer: "y^3"},
             {problem: "a \\times a \\times a \\times a", answer: "a^4"},
-            {problem: "c + c", answer: "2c"},
-            {problem: "d + d + d", answer: "3d"},
+            {problem: "x + x", answer: "2x"},
+            {problem: "x + x + x", answer: "3x"},
 
             // Simple division with same variables
             {problem: "\\frac{8x}{4x}", answer: "2"},
             {problem: "\\frac{12y}{3y}", answer: "4"},
-            {problem: "\\frac{15z}{5z}", answer: "3"},
+            {problem: "\\frac{15x}{5x}", answer: "3"},
             {problem: "\\frac{20a}{4a}", answer: "5"},
             {problem: "\\frac{18b}{6b}", answer: "3"},
 
@@ -76,25 +76,25 @@ class MixedAlgebraicSimplificationEasyLevel {
             {problem: "12y \\div 16", answer: "\\frac{3y}{4}"},
             {problem: "\\frac{8a}{12}", answer: "\\frac{2a}{3}"},
             {problem: "\\frac{15b}{25}", answer: "\\frac{3b}{5}"},
-            {problem: "\\frac{14c}{21}", answer: "\\frac{2c}{3}"},
+            {problem: "\\frac{14x}{21}", answer: "\\frac{2x}{3}"},
 
             // Negative coefficient handling
             {problem: "-3x + 5x", answer: "2x"},
             {problem: "6y - 9y", answer: "-3y"},
-            {problem: "-2z \\times 4", answer: "-8z"},
-            {problem: "3 \\times (-5w)", answer: "-15w"},
-            {problem: "\\frac{-8p}{4}", answer: "-2p"},
+            {problem: "-2x \\times 4", answer: "-8x"},
+            {problem: "3 \\times (-5x)", answer: "-15x"},
+            {problem: "\\frac{-8x}{4}", answer: "-2x"},
 
             // Constants with variables
             {problem: "5 + 2x", answer: "5 + 2x"},
             {problem: "3y + 7", answer: "3y + 7"},
-            {problem: "4 \\times z", answer: "4z"},
+            {problem: "4 \\times x", answer: "4x"},
             {problem: "6 \\div a", answer: "\\frac{6}{a}"},
 
             // Quadratic terms
             {problem: "2x^2 + 3x^2", answer: "5x^2"},
             {problem: "7y^2 - 4y^2", answer: "3y^2"},
-            {problem: "-2z^2 + 8z^2", answer: "6z^2"},
+            {problem: "-2x^2 + 8x^2", answer: "6x^2"},
             {problem: "5a^2 - 5a^2", answer: "0"}
         ];
     }

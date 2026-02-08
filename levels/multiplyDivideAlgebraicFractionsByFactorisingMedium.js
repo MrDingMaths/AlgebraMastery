@@ -10,7 +10,7 @@ class MultiplyDivideAlgebraicFractionsByFactorisingMediumLevel {
             // From provided textbook questions
             {problem: "\\frac{3x+3}{2x} \\times \\frac{x^2}{x^2-1}", answer: "\\frac{3x}{2(x-1)}"},
             {problem: "\\frac{a^2+a-2}{a+2} \\times \\frac{a^2-3a}{a^2-4a+3}", answer: "a"},
-            {problem: "\\frac{c^2+5c+6}{c^2-16} \\div \\frac{c+3}{c-4}", answer: "\\frac{c+2}{c+4}"},
+            {problem: "\\frac{x^2+5x+6}{x^2-16} \\div \\frac{x+3}{x-4}", answer: "\\frac{x+2}{x+4}"},
             {problem: "\\frac{x^2-4}{x^2-x-6} \\times \\frac{5x-15}{x^2+4x-12}", answer: "\\frac{5}{x+6}"},
             {problem: "\\frac{x^2+3x+2}{x^2+4x+3} \\times \\frac{x^2-9}{3x+6}", answer: "\\frac{x-3}{3}"},
             {problem: "\\frac{x^2+2x-3}{x^2-25} \\times \\frac{2x-10}{x+3}", answer: "\\frac{2(x-1)}{x+5}"},

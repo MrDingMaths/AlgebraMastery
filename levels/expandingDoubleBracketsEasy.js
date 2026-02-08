@@ -49,11 +49,9 @@ class ExpandingDoubleBracketsEasy {
             
             // Different variables
             {problem: "(b+3)(b+4)", answer: "b^2 + 7b + 12"},
-            {problem: "(t+8)(t+7)", answer: "t^2 + 15t + 56"},
+            {problem: "(x+8)(x+7)", answer: "x^2 + 15x + 56"},
             {problem: "(a+1)(a+7)", answer: "a^2 + 8a + 7"},
-            {problem: "(y+10)(y+2)", answer: "y^2 + 12y + 20"},
-            {problem: "(m+4)(m+12)", answer: "m^2 + 16m + 48"},
-            
+            {problem: "(y+10)(y+2)", answer: "y^2 + 12y + 20"},            
             // Additional easy questions to reach good coverage
             {problem: "(x+1)(x+1)", answer: "x^2 + 2x + 1"},
             {problem: "(x+2)(x+2)", answer: "x^2 + 4x + 4"},

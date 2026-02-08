@@ -56,14 +56,7 @@ class ExpandingPerfectSquaresEasy {
             {problem: "(a - 2)^2", answer: "a^2 - 4a + 4"},
             {problem: "(a - 5)^2", answer: "a^2 - 10a + 25"},
             {problem: "(y + 4)^2", answer: "y^2 + 8y + 16"},
-            {problem: "(y - 3)^2", answer: "y^2 - 6y + 9"},
-            {problem: "(m + 2)^2", answer: "m^2 + 4m + 4"},
-            {problem: "(m - 1)^2", answer: "m^2 - 2m + 1"},
-            {problem: "(n + 5)^2", answer: "n^2 + 10n + 25"},
-            {problem: "(n - 4)^2", answer: "n^2 - 8n + 16"},
-            {problem: "(p + 6)^2", answer: "p^2 + 12p + 36"},
-            {problem: "(p - 7)^2", answer: "p^2 - 14p + 49"}
-        ];
+            {problem: "(y - 3)^2", answer: "y^2 - 6y + 9"},        ];
     }
 
     generateQuestion() {

@@ -29,7 +29,7 @@ class IndexFormToSurdFormMediumLevel {
             {problem: "(x^{\\frac{2}{3}})^4", answer: "x^2\\sqrt[3]{x^2}"},
             {problem: "(a^{\\frac{2}{5}})^{\\frac{1}{3}}", answer: "\\sqrt[15]{a^2}"},
             {problem: "(a^{\\frac{3}{4}})^{\\frac{1}{2}}", answer: "\\sqrt[8]{a^3}"},
-            {problem: "(n^{\\frac{2}{5}})^{\\frac{10}{3}}", answer: "n\\sqrt[3]{n}"},
+            {problem: "(x^{\\frac{2}{5}})^{\\frac{10}{3}}", answer: "x\\sqrt[3]{x}"},
             {problem: "a \\times a^{\\frac{1}{3}}", answer: "a\\sqrt[3]{a}"},
             {problem: "a^{\\frac{1}{2}} \\times a^{\\frac{1}{5}}", answer: "\\sqrt[10]{a^7}"},
             {problem: "a^{\\frac{2}{3}} \\times a^{\\frac{3}{7}}", answer: "a\\sqrt[21]{a^2}"},

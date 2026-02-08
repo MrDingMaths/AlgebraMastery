@@ -10,34 +10,34 @@ class MultiplyTermsMediumLevel {
 
             // Multiplying Two Negative Terms
             {problem: "(-3x) \\times (-4)", answer: "12x"},
-            {problem: "(-7m) \\times (-2n)", answer: "14mn"},
+            {problem: "(-7x) \\times (-2y)", answer: "14xy"},
             {problem: "(-5a) \\times (-3)", answer: "15a"},
             {problem: "(-4y) \\times (-6b)", answer: "24by"},
-            {problem: "(-2p) \\times (-7)", answer: "14p"},
-            {problem: "(-8r) \\times (-3s)", answer: "24rs"},
-            {problem: "(-6t) \\times (-2)", answer: "12t"},
-            {problem: "(-9n) \\times (-4q)", answer: "36nq"},
-            {problem: "(-3z) \\times (-5)", answer: "15z"},
-            {problem: "(-7w) \\times (-2v)", answer: "14vw"},
+            {problem: "(-2x) \\times (-7)", answer: "14x"},
+            {problem: "(-8x) \\times (-3y)", answer: "24xy"},
+            {problem: "(-6x) \\times (-2)", answer: "12x"},
+            {problem: "(-9x) \\times (-4y)", answer: "36xy"},
+            {problem: "(-3x) \\times (-5)", answer: "15x"},
+            {problem: "(-7x) \\times (-2y)", answer: "14yx"},
 
             // Products of Three Simple Factors
             {problem: "5a \\times (-2) \\times 3b", answer: "-30ab"},
             {problem: "6 \\times x \\times (-4)", answer: "-24x"},
             {problem: "3x \\times 2 \\times 4y", answer: "24xy"},
-            {problem: "7m \\times (-3) \\times 2n", answer: "-42mn"},
-            {problem: "4 \\times (-5) \\times 3p", answer: "-60p"},
+            {problem: "7x \\times (-3) \\times 2y", answer: "-42xy"},
+            {problem: "4 \\times (-5) \\times 3x", answer: "-60x"},
             {problem: "2a \\times 6 \\times (-3)", answer: "-36a"},
             {problem: "(-4) \\times 3y \\times 5", answer: "-60y"},
-            {problem: "8r \\times (-1) \\times 2s", answer: "-16rs"},
-            {problem: "(-2) \\times 4w \\times 3v", answer: "-24vw"},
-            {problem: "7 \\times (-2z) \\times 3", answer: "-42z"},
+            {problem: "8x \\times (-1) \\times 2y", answer: "-16xy"},
+            {problem: "(-2) \\times 4x \\times 3y", answer: "-24yx"},
+            {problem: "7 \\times (-2x) \\times 3", answer: "-42x"},
 
             // Additional problems from user list
-            {problem: "-3z \\times 2w", answer: "-6wz"},
+            {problem: "-3x \\times 2y", answer: "-6yx"},
             {problem: "-5a \\times -3b", answer: "15ab"},
-            {problem: "x \\times 2y \\times 7z", answer: "14xyz"},
-            {problem: "-4r \\times 3 \\times 2s", answer: "-24rs"},
-            {problem: "5j \\times (-4) \\times 2k", answer: "-40jk"},
+            {problem: "x \\times 2y \\times 7a", answer: "14xya"},
+            {problem: "-4x \\times 3 \\times 2y", answer: "-24xy"},
+            {problem: "5x \\times (-4) \\times 2y", answer: "-40xy"},
         ];
     }
 

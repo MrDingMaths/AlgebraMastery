@@ -23,7 +23,7 @@ class MixedExpansionMedium {
             
             // Coefficient perfect squares
             {problem: "2(x + 3)^2", answer: "2x^2 + 12x + 18"},
-            {problem: "4(m + 5)^2", answer: "4m^2 + 40m + 100"},
+            {problem: "4(x + 5)^2", answer: "4x^2 + 40x + 100"},
             {problem: "2(a - 7)^2", answer: "2a^2 - 28a + 98"},
             {problem: "-3(y + 5)^2", answer: "-3y^2 - 30y - 75"},
             {problem: "3(2b - 1)^2", answer: "12b^2 - 12b + 3"},
@@ -57,10 +57,10 @@ class MixedExpansionMedium {
             {problem: "2(x + y)^2 - 2(x - y)^2", answer: "8xy"},
             {problem: "(2 - x)^2 - (2 + x)^2", answer: "-8x"},
             {problem: "(a + 3)^2 - (a - 3)^2", answer: "12a"},
-            {problem: "16 - (z - 4)(z + 4)", answer: "32 - z^2"},
+            {problem: "16 - (x - 4)(x + 4)", answer: "32 - x^2"},
             
             // Two-variable expansions
-            {problem: "(3ab - 4c)(3ab + 4c)", answer: "9a^2b^2 - 16c^2"},
+            {problem: "(3ab - 4x)(3ab + 4x)", answer: "9a^2b^2 - 16x^2"},
             {problem: "(2a^2 + 5b^3)^2", answer: "4a^4 + 20a^2b^3 + 25b^6"},
             
             // Additional medium complexity questions
@@ -79,18 +79,18 @@ class MixedExpansionMedium {
             {problem: "3(2x + 5)^2", answer: "12x^2 + 60x + 75"},
             {problem: "-2(3y - 4)^2", answer: "-18y^2 + 48y - 32"},
             {problem: "4(a - 2b)^2", answer: "4a^2 - 16ab + 16b^2"},
-            {problem: "5(2m + 3n)^2", answer: "20m^2 + 60mn + 45n^2"},
+            {problem: "5(2x + 3y)^2", answer: "20x^2 + 60xy + 45y^2"},
             
             // Combined operations with simpler expressions
             {problem: "(x + 2)^2 + (x - 2)^2", answer: "2x^2 + 8"},
             {problem: "(a + 5)^2 - (a - 1)^2", answer: "12a + 24"},
             {problem: "(b - 3)(b + 3) + (b + 1)^2", answer: "2b^2 + 2b - 8"},
-            {problem: "(c + 4)(c - 2) + (c - 1)(c + 3)", answer: "2c^2 + 4c - 11"},
+            {problem: "(x + 4)(x - 2) + (x - 1)(x + 3)", answer: "2x^2 + 4x - 11"},
             
             // Three-term coefficient expansions
             {problem: "2xy(3x + 4y - 2)", answer: "6x^2y + 8xy^2 - 4xy"},
             {problem: "-3ab(2a - b + 3)", answer: "-6a^2b + 3ab^2 - 9ab"},
-            {problem: "4pq(p - 2q + 1)", answer: "4p^2q - 8pq^2 + 4pq"}
+            {problem: "4xy(x - 2y + 1)", answer: "4x^2y - 8xy^2 + 4xy"}
         ];
     }
 

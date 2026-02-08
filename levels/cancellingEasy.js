@@ -8,31 +8,31 @@ class CancellingEasy {
             {problem: "12x ÷ 3", answer: "4x"},
             {problem: "15y ÷ 5", answer: "3y"},
             {problem: "6a ÷ 2", answer: "3a"},
-            {problem: "9m ÷ 3", answer: "3m"},
-            {problem: "14p ÷ 7", answer: "2p"},
-            {problem: "24r ÷ 6", answer: "4r"},
+            {problem: "9x ÷ 3", answer: "3x"},
+            {problem: "14x ÷ 7", answer: "2x"},
+            {problem: "24x ÷ 6", answer: "4x"},
             
             // Category 1: Negative numerators
             {problem: "-12x ÷ 4", answer: "-3x"},
             {problem: "-8y ÷ 2", answer: "-4y"},
-            {problem: "-15z ÷ 3", answer: "-5z"},
+            {problem: "-15x ÷ 3", answer: "-5x"},
             {problem: "-10a ÷ 5", answer: "-2a"},
             {problem: "-16b ÷ 8", answer: "-2b"},
             
             // Category 3: Basic Variable Cancelling (Same Variables)
             {problem: "8ab ÷ 4a", answer: "2b"},
             {problem: "12xy ÷ 3x", answer: "4y"},
-            {problem: "15abc ÷ 5a", answer: "3bc"},
-            {problem: "18xyz ÷ 6x", answer: "3yz"},
-            {problem: "21rst ÷ 7r", answer: "3st"},
+            {problem: "15abx ÷ 5a", answer: "3bx"},
+            {problem: "18xya ÷ 6x", answer: "3ya"},
+            {problem: "21xya ÷ 7x", answer: "3ya"},
             {problem: "4x ÷ 8xy", answer: "\\frac{1}{2y}"},
             {problem: "6a ÷ 12ab", answer: "\\frac{1}{2b}"},
-            {problem: "9m ÷ 15mn", answer: "\\frac{3}{5n}"},
+            {problem: "9x ÷ 15xy", answer: "\\frac{3}{5y}"},
             
             // Keep questions where powers are present but core task doesn't involve changing powers
             {problem: "6x ÷ 3x^2", answer: "\\frac{2}{x}"},
             {problem: "8ab ÷ 4a^2", answer: "\\frac{2b}{a}"},
-            {problem: "12mn ÷ 6m^2n", answer: "\\frac{2}{m}"},
+            {problem: "12xy ÷ 6x^2y", answer: "\\frac{2}{x}"},
             
             // Textbook Questions - Easy Level
             {problem: "\\frac{2x}{5x}", answer: "\\frac{2}{5}"},

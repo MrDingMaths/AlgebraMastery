@@ -36,14 +36,14 @@ class ExpandingDoubleBracketsMedium {
             
             // Scalar multiplication of perfect squares
             {problem: "2(x+3)^2", answer: "2x^2 + 12x + 18"},
-            {problem: "4(m+5)^2", answer: "4m^2 + 40m + 100"},
+            {problem: "4(x+5)^2", answer: "4x^2 + 40x + 100"},
             {problem: "2(a-7)^2", answer: "2a^2 - 28a + 98"},
             {problem: "-3(y-5)^2", answer: "-3y^2 + 30y - 75"},
             {problem: "3(2b-1)^2", answer: "12b^2 - 12b + 3"},
             {problem: "-3(2y-6)^2", answer: "-12y^2 + 72y - 108"},
             
             // Mixed terms and expansion
-            {problem: "p(3-2p) - 3p(p-2)", answer: "-5p^2 + 9p"},
+            {problem: "x(3-2x) - 3x(x-2)", answer: "-5x^2 + 9x"},
             
             // Coefficients in brackets
             {problem: "(2x+1)(3x+5)", answer: "6x^2 + 13x + 5"},

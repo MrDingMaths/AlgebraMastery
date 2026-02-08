@@ -31,7 +31,7 @@ class DifferenceOfTwoSquaresMedium {
             {problem: "(2y+7)^2 - y^2", answer: "(y+7)(3y+7)"},
             {problem: "(3x-5y)^2 - 25y^2", answer: "3x(3x-10y)"},
             {problem: "(4a+3b)^2 - 9b^2", answer: "8a(2a+3b)"},
-            {problem: "(5m-2n)^2 - 4n^2", answer: "5m(5m-4n)"},
+            {problem: "(5x-2y)^2 - 4y^2", answer: "5x(5x-4y)"},
             {problem: "(x+2y)^2 - 4y^2", answer: "x(x+4y)"},
             {problem: "(2x-3y)^2 - 9y^2", answer: "4x(x-3y)"},
             
@@ -54,7 +54,7 @@ class DifferenceOfTwoSquaresMedium {
             {problem: "10a^2 - 10", answer: "10(a-1)(a+1)"},
             {problem: "4y^2 - 64", answer: "4(y-4)(y+4)"},
             {problem: "98 - 2x^2", answer: "2(7-x)(7+x)"},
-            {problem: "32 - 8m^2", answer: "8(2-m)(2+m)"},
+            {problem: "32 - 8x^2", answer: "8(2-x)(2+x)"},
             {problem: "5x^2y^2 - 5", answer: "5(xy-1)(xy+1)"},
             {problem: "3 - 3x^2y^2", answer: "3(1-xy)(1+xy)"},
             {problem: "63 - 7a^2b^2", answer: "7(3-ab)(3+ab)"},
@@ -79,15 +79,15 @@ class DifferenceOfTwoSquaresMedium {
             // Additional higher powers with coefficients
             {problem: "9x^6 - y^4", answer: "(3x^3 - y^2)(3x^3 + y^2)"},
             {problem: "a^4 - 25b^2", answer: "(a^2 - 5b)(a^2 + 5b)"},
-            {problem: "m^8 - 36n^6", answer: "(m^4 - 6n^3)(m^4 + 6n^3)"},
-            {problem: "100p^{10} - 49q^4", answer: "(10p^5 - 7q^2)(10p^5 + 7q^2)"},
-            {problem: "16c^6 - 9d^{12}", answer: "(4c^3 - 3d^6)(4c^3 + 3d^6)"},
+            {problem: "x^8 - 36y^6", answer: "(x^4 - 6y^3)(x^4 + 6y^3)"},
+            {problem: "100x^{10} - 49y^4", answer: "(10x^5 - 7y^2)(10x^5 + 7y^2)"},
+            {problem: "16x^6 - 9y^{12}", answer: "(4x^3 - 3y^6)(4x^3 + 3y^6)"},
             {problem: "x^4 - y^6", answer: "(x^2 - y^3)(x^2 + y^3)"},
             {problem: "a^8 - b^2", answer: "(a^4 - b)(a^4 + b)"},
-            {problem: "4p^6 - 25", answer: "(2p^3 - 5)(2p^3 + 5)"},
-            {problem: "9m^2 - n^4", answer: "(3m - n^2)(3m + n^2)"},
-            {problem: "49c^{10} - 1", answer: "(7c^5 - 1)(7c^5 + 1)"},
-            {problem: "k^{12} - 64h^2", answer: "(k^6 - 8h)(k^6 + 8h)"},
+            {problem: "4x^6 - 25", answer: "(2x^3 - 5)(2x^3 + 5)"},
+            {problem: "9x^2 - y^4", answer: "(3x - y^2)(3x + y^2)"},
+            {problem: "49x^{10} - 1", answer: "(7x^5 - 1)(7x^5 + 1)"},
+            {problem: "x^{12} - 64y^2", answer: "(x^6 - 8y)(x^6 + 8y)"},
             {problem: "100x^{14} - 81y^{16}", answer: "(10x^7 - 9y^8)(10x^7 + 9y^8)"}
         ];
     }

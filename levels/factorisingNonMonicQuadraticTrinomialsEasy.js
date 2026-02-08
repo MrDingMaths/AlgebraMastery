@@ -51,12 +51,7 @@ class FactorisingNonMonicQuadraticTrinomialsEasyLevel {
 
             // Different variables for variety
             {problem: "2a^2 + 3a + 1", answer: "(2a + 1)(a + 1)"},
-            {problem: "2b^2 + 5b + 2", answer: "(2b + 1)(b + 2)"},
-            {problem: "3c^2 + 4c + 1", answer: "(3c + 1)(c + 1)"},
-            {problem: "2d^2 - 3d + 1", answer: "(2d - 1)(d - 1)"},
-            {problem: "3e^2 - 5e + 2", answer: "(3e - 2)(e - 1)"},
-
-            // More basic patterns
+            {problem: "2b^2 + 5b + 2", answer: "(2b + 1)(b + 2)"},            // More basic patterns
             {problem: "2x^2 + 11x + 5", answer: "(2x + 1)(x + 5)"},
             {problem: "2x^2 - 11x + 5", answer: "(2x - 1)(x - 5)"},
             {problem: "3x^2 + 8x + 5", answer: "(3x + 5)(x + 1)"},
@@ -71,11 +66,7 @@ class FactorisingNonMonicQuadraticTrinomialsEasyLevel {
             {problem: "5x^2 - 7x + 2", answer: "(5x - 2)(x - 1)"},
 
             // More patterns with different variables
-            {problem: "2y^2 + 3y + 1", answer: "(2y + 1)(y + 1)"},
-            {problem: "3z^2 + 4z + 1", answer: "(3z + 1)(z + 1)"},
-            {problem: "2m^2 + 5m + 2", answer: "(2m + 1)(m + 2)"},
-            {problem: "3n^2 + 5n + 2", answer: "(3n + 2)(n + 1)"}
-        ];
+            {problem: "2y^2 + 3y + 1", answer: "(2y + 1)(y + 1)"},        ];
     }
 
     generateQuestion() {

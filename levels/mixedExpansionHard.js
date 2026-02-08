@@ -35,12 +35,12 @@ class MixedExpansionHard {
             {problem: "3x^2(2x - 1)^2 + 4x(x + 2)^2", answer: "12x^4 - 8x^3 + 19x^2 + 16x"},
             {problem: "-2a^3(a^2 - 3a + 1) + a^2(4a^2 + a - 2)", answer: "-2a^5 + 10a^4 - a^3 - 2a^2"},
             {problem: "4y(y - 1)(y + 3) - 2y^2(y - 2)", answer: "2y^3 + 12y^2 - 12y"},
-            {problem: "5z^2(z^2 + 2z - 1) - 3z(z^3 - z + 4)", answer: "2z^4 + 10z^3 - 2z^2 - 12z"},
+            {problem: "5x^2(x^2 + 2x - 1) - 3x(x^3 - x + 4)", answer: "2x^4 + 10x^3 - 2x^2 - 12x"},
             
             // Advanced rational expressions
             {problem: "(\\frac{a}{b} + \\frac{b}{a})^2", answer: "\\frac{a^2}{b^2} + 2 + \\frac{b^2}{a^2}"},
             {problem: "(\\frac{2x}{y} - \\frac{y}{2x})^2", answer: "\\frac{4x^2}{y^2} - 2 + \\frac{y^2}{4x^2}"},
-            {problem: "(\\frac{m}{n} + \\frac{n}{m})(\\frac{m}{n} - \\frac{n}{m})", answer: "\\frac{m^2}{n^2} - \\frac{n^2}{m^2}"},
+            {problem: "(\\frac{x}{y} + \\frac{y}{x})(\\frac{x}{y} - \\frac{y}{x})", answer: "\\frac{x^2}{y^2} - \\frac{y^2}{x^2}"},
             // Subtraction of complex double bracket expressions
             {problem: "(2a+3)(a-5) - (a+6)(2a+5)", answer: "-24a - 45"},
             {problem: "(4b+8)(b+5) - (3b-5)(b-7)", answer: "b^2 + 54b + 5"},
@@ -56,41 +56,41 @@ class MixedExpansionHard {
             // General algebraic expressions
             {problem: "(ax-b)(cx-d)", answer: "acx^2 - adx - bcx + bd"},
             {problem: "(ax+b)(cx+d)", answer: "acx^2 + adx + bcx + bd"},
-            {problem: "(a+b)(a+c)", answer: "a^2 + ab + ac + bc"},
-            {problem: "(a-b)(a+c)", answer: "a^2 - ab + ac - bc"},
+            {problem: "(a+b)(a+x)", answer: "a^2 + ab + ax + bx"},
+            {problem: "(a-b)(a+x)", answer: "a^2 - ab + ax - bx"},
             
             // Multi-variable expressions
-            {problem: "(y-x)(z-y)", answer: "xy - xz - y^2 + yz"},
+            {problem: "(y-x)(a-y)", answer: "xy - xa - y^2 + ya"},
             {problem: "(2x+y)(x-2y)", answer: "2x^2 - 3xy - 2y^2"},
             {problem: "(2a+b)(a-b)", answer: "2a^2 - ab - b^2"},
             {problem: "(3x-y)(2x+y)", answer: "6x^2 + xy - y^2"},
             {problem: "(2a-b)(3a+2)", answer: "6a^2 - 3ab + 4a - 2b"},
             {problem: "(4x-3y)(3x-4y)", answer: "12x^2 - 25xy + 12y^2"},
-            {problem: "(xy-yz)(z+3x)", answer: "3x^2y - 2xyz - yz^2"},
+            {problem: "(xy-ya)(a+3x)", answer: "3x^2y - 2xya - ya^2"},
             
             // Additional complex algebraic patterns
             {problem: "(3a+2b)(2a-3b)", answer: "6a^2 - 5ab - 6b^2"},
             {problem: "(4x-5y)(2x+3y)", answer: "8x^2 + 2xy - 15y^2"},
-            {problem: "(5m+3n)(m-4n)", answer: "5m^2 - 17mn - 12n^2"},
-            {problem: "(2p-7q)(3p+2q)", answer: "6p^2 - 17pq - 14q^2"},
-            {problem: "(6r+s)(r-2s)", answer: "6r^2 - 11rs - 2s^2"},
-            {problem: "(3u-4v)(5u+v)", answer: "15u^2 - 17uv - 4v^2"},
+            {problem: "(5x+3y)(x-4y)", answer: "5x^2 - 17xy - 12y^2"},
+            {problem: "(2x-7y)(3x+2y)", answer: "6x^2 - 17xy - 14y^2"},
+            {problem: "(6x+y)(x-2y)", answer: "6x^2 - 11xy - 2y^2"},
+            {problem: "(3x-4y)(5x+y)", answer: "15x^2 - 17xy - 4y^2"},
             
             // Cubic expansion patterns
             {problem: "x(x+1)(x-2)", answer: "x^3 - x^2 - 2x"},
             {problem: "2y(y-3)(y+4)", answer: "2y^3 + 2y^2 - 24y"},
             {problem: "-x(x-5)(x+1)", answer: "-x^3 + 4x^2 + 5x"},
-            {problem: "3z(z+2)(z-6)", answer: "3z^3 - 12z^2 - 36z"},
+            {problem: "3x(x+2)(x-6)", answer: "3x^3 - 12x^2 - 36x"},
             
             // Mixed variable coefficients  
-            {problem: "(ab+c)(ab-c)", answer: "a^2b^2 - c^2"},
+            {problem: "(ab+x)(ab-x)", answer: "a^2b^2 - x^2"},
             {problem: "(2xy+3)(xy-5)", answer: "2x^2y^2 - 7xy - 15"},
-            {problem: "(3pq-2r)(pq+4r)", answer: "3p^2q^2 + 10pqr - 8r^2"},
+            {problem: "(3xy-2a)(xy+4a)", answer: "3x^2y^2 + 10xya - 8a^2"},
             
             // Complex rational expressions
             {problem: "(3x-2y)(4x+5y) - (2x+y)(x-3y)", answer: "10x^2 + 12xy - 7y^2"},
             {problem: "(5a+3b)(2a-b) - (a+4b)(3a-2b)", answer: "7a^2 - 9ab + 5b^2"},
-            {problem: "(4p-q)(p+2q) - (2p-3q)(p+q)", answer: "2p^2 + 8pq + q^2"},
+            {problem: "(4x-y)(x+2y) - (2x-3y)(x+y)", answer: "2x^2 + 8xy + y^2"},
             
             // Very challenging patterns
             {problem: "x(x+y)(x-y) + y(x+y)(x-y)", answer: "x^3 + x^2y - xy^2 - y^3"},
@@ -104,24 +104,22 @@ class MixedExpansionHard {
             {problem: "(\\frac{x}{5} - \\frac{3}{8})^2", answer: "\\frac{x^2}{25} - \\frac{3x}{20} + \\frac{9}{64}"},
             {problem: "(\\frac{2x}{3} + \\frac{9y}{8})^2", answer: "\\frac{4x^2}{9} + \\frac{3xy}{2} + \\frac{81y^2}{64}"},
             
-            // Reciprocal terms
-            {problem: "(t + \\frac{1}{t})^2", answer: "t^2 + 2 + \\frac{1}{t^2}"},
-            {problem: "(t - \\frac{1}{t})^2", answer: "t^2 - 2 + \\frac{1}{t^2}"},
+            // Reciprocal terms            {problem: "(x - \\frac{1}{x})^2", answer: "x^2 - 2 + \\frac{1}{x^2}"},
             {problem: "(2 + \\frac{2}{a})^2", answer: "4 + \\frac{8}{a} + \\frac{4}{a^2}"},
-            {problem: "(\\frac{6}{m} - m)^2", answer: "m^2 - 12 + \\frac{36}{m^2}"},
+            {problem: "(\\frac{6}{x} - x)^2", answer: "x^2 - 12 + \\frac{36}{x^2}"},
             {problem: "(\\frac{3}{x} + 3x)^2", answer: "9x^2 + 18 + \\frac{9}{x^2}"},
             
             // Higher powers with coefficients
             {problem: "(2x^2 + 3y^2)^2", answer: "4x^4 + 12x^2y^2 + 9y^4"},
             {problem: "(5a^3 - 2b^4)^2", answer: "25a^6 - 20a^3b^4 + 4b^8"},
-            {problem: "(m^5 + 4n^2)^2", answer: "m^{10} + 8m^5n^2 + 16n^4"},
+            {problem: "(x^5 + 4y^2)^2", answer: "x^{10} + 8x^5y^2 + 16y^4"},
             {problem: "(3x^4 - 5y^3)^2", answer: "9x^8 - 30x^4y^3 + 25y^6"},
             
             // Fractions with powers
             {problem: "(x^2 + \\frac{1}{2})^2", answer: "x^4 + x^2 + \\frac{1}{4}"},
             {problem: "(y^3 - \\frac{1}{3})^2", answer: "y^6 - \\frac{2}{3}y^3 + \\frac{1}{9}"},
             {problem: "(\\frac{a^3}{2} - \\frac{b^2}{3})^2", answer: "\\frac{a^6}{4} - \\frac{a^3b^2}{3} + \\frac{b^4}{9}"},
-            {problem: "(2p^3 + \\frac{1}{p})^2", answer: "4p^6 + 4p^2 + \\frac{1}{p^2}"},
+            {problem: "(2x^3 + \\frac{1}{x})^2", answer: "4x^6 + 4x^2 + \\frac{1}{x^2}"},
             
             // Additional complex fraction examples
             {problem: "(x + \\frac{1}{2})^2", answer: "x^2 + x + \\frac{1}{4}"},
@@ -139,8 +137,8 @@ class MixedExpansionHard {
             // Complex power combinations
             {problem: "(x^3 + 2y^2)^2", answer: "x^6 + 4x^3y^2 + 4y^4"},
             {problem: "(3a^2 - b^3)^2", answer: "9a^4 - 6a^2b^3 + b^6"},
-            {problem: "(2m^4 + 3n^3)^2", answer: "4m^8 + 12m^4n^3 + 9n^6"},
-            {problem: "(4p^5 - q^2)^2", answer: "16p^{10} - 8p^5q^2 + q^4"},
+            {problem: "(2x^4 + 3y^3)^2", answer: "4x^8 + 12x^4y^3 + 9y^6"},
+            {problem: "(4x^5 - y^2)^2", answer: "16x^{10} - 8x^5y^2 + y^4"},
             
             // Mixed fraction and power terms
             {problem: "(\\frac{x^2}{3} + \\frac{2}{x})^2", answer: "\\frac{x^4}{9} + \\frac{4x}{3} + \\frac{4}{x^2}"},
@@ -150,7 +148,7 @@ class MixedExpansionHard {
             // Complex coefficient fractions
             {problem: "(\\frac{3x}{4} + \\frac{5y}{6})^2", answer: "\\frac{9x^2}{16} + \\frac{5xy}{4} + \\frac{25y^2}{36}"},
             {problem: "(\\frac{2a}{5} - \\frac{3b}{7})^2", answer: "\\frac{4a^2}{25} - \\frac{12ab}{35} + \\frac{9b^2}{49}"},
-            {problem: "(\\frac{4m}{3} + \\frac{n}{2})^2", answer: "\\frac{16m^2}{9} + \\frac{4mn}{3} + \\frac{n^2}{4}"},
+            {problem: "(\\frac{4x}{3} + \\frac{y}{2})^2", answer: "\\frac{16x^2}{9} + \\frac{4xy}{3} + \\frac{y^2}{4}"},
             
             // Very advanced combinations
             {problem: "(\\sqrt{2}x + \\frac{1}{\\sqrt{2}})^2", answer: "2x^2 + 2x + \\frac{1}{2}"},
@@ -164,7 +162,7 @@ class MixedExpansionHard {
             
             // Final complex variations
             {problem: "(\\frac{7}{3x^2} + \\frac{x^3}{5})^2", answer: "\\frac{x^6}{25} + \\frac{14x}{15} + \\frac{49}{9x^4}"},
-            {problem: "(\\frac{4m^2}{9} - \\frac{2}{3m})^2", answer: "\\frac{16m^4}{81} - \\frac{16m}{27} + \\frac{4}{9m^2}"},
+            {problem: "(\\frac{4x^2}{9} - \\frac{2}{3x})^2", answer: "\\frac{16x^4}{81} - \\frac{16x}{27} + \\frac{4}{9x^2}"},
 
             {problem: "(x+\\frac{1}{3})(x-\\frac{1}{3})", answer: "x^2-\\frac{1}{9}"},
             {problem: "(x+\\frac{3}{4})(x-\\frac{3}{4})", answer: "x^2-\\frac{9}{16}"},
@@ -174,9 +172,9 @@ class MixedExpansionHard {
             {problem: "(\\frac{7}{3}-5x)(\\frac{7}{3}+5x)", answer: "\\frac{49}{9}-25x^2"},
             
             // Reciprocal terms
-            {problem: "(t+\\frac{1}{t})(t-\\frac{1}{t})", answer: "t^2-\\frac{1}{t^2}"},
-            {problem: "(\\frac{4}{m}-m)(\\frac{4}{m}+m)", answer: "\\frac{16}{m^2}-m^2"},
-            {problem: "(3g+\\frac{1}{g})(3g-\\frac{1}{g})", answer: "9g^2-\\frac{1}{g^2}"},
+            {problem: "(x+\\frac{1}{x})(x-\\frac{1}{x})", answer: "x^2-\\frac{1}{x^2}"},
+            {problem: "(\\frac{4}{x}-x)(\\frac{4}{x}+x)", answer: "\\frac{16}{x^2}-x^2"},
+            {problem: "(3x+\\frac{1}{x})(3x-\\frac{1}{x})", answer: "9x^2-\\frac{1}{x^2}"},
             {problem: "(\\frac{4a}{3}+2)(\\frac{4a}{3}-2)", answer: "\\frac{16a^2}{9}-4"},
             {problem: "(xy-\\frac{1}{y})(xy+\\frac{1}{y})", answer: "x^2y^2-\\frac{1}{y^2}"},
             
@@ -201,14 +199,14 @@ class MixedExpansionHard {
             // Two-variable fractions
             {problem: "(\\frac{x}{2}+\\frac{y}{3})(\\frac{x}{2}-\\frac{y}{3})", answer: "\\frac{x^2}{4}-\\frac{y^2}{9}"},
             {problem: "(\\frac{a}{5}+\\frac{b}{4})(\\frac{a}{5}-\\frac{b}{4})", answer: "\\frac{a^2}{25}-\\frac{b^2}{16}"},
-            {problem: "(\\frac{p}{7}-\\frac{q}{6})(\\frac{p}{7}+\\frac{q}{6})", answer: "\\frac{p^2}{49}-\\frac{q^2}{36}"},
+            {problem: "(\\frac{x}{7}-\\frac{y}{6})(\\frac{x}{7}+\\frac{y}{6})", answer: "\\frac{x^2}{49}-\\frac{y^2}{36}"},
             {problem: "(\\frac{2x}{3}+\\frac{3y}{4})(\\frac{2x}{3}-\\frac{3y}{4})", answer: "\\frac{4x^2}{9}-\\frac{9y^2}{16}"},
             {problem: "(\\frac{3a}{8}-\\frac{2b}{5})(\\frac{3a}{8}+\\frac{2b}{5})", answer: "\\frac{9a^2}{64}-\\frac{4b^2}{25}"},
             
             // Complex reciprocal patterns
             {problem: "(\\frac{2}{x}+x)(\\frac{2}{x}-x)", answer: "\\frac{4}{x^2}-x^2"},
             {problem: "(\\frac{3}{y}-y)(\\frac{3}{y}+y)", answer: "\\frac{9}{y^2}-y^2"},
-            {problem: "(\\frac{5}{z}+2z)(\\frac{5}{z}-2z)", answer: "\\frac{25}{z^2}-4z^2"},
+            {problem: "(\\frac{5}{x}+2x)(\\frac{5}{x}-2x)", answer: "\\frac{25}{x^2}-4x^2"},
             {problem: "(\\frac{1}{2a}+3a)(\\frac{1}{2a}-3a)", answer: "\\frac{1}{4a^2}-9a^2"},
             {problem: "(\\frac{4}{3b}-2b)(\\frac{4}{3b}+2b)", answer: "\\frac{16}{9b^2}-4b^2"},
             
@@ -216,13 +214,13 @@ class MixedExpansionHard {
             {problem: "(2x+\\frac{y}{3})(2x-\\frac{y}{3})", answer: "4x^2-\\frac{y^2}{9}"},
             {problem: "(\\frac{x}{4}+3y)(\\frac{x}{4}-3y)", answer: "\\frac{x^2}{16}-9y^2"},
             {problem: "(5a-\\frac{b}{2})(5a+\\frac{b}{2})", answer: "25a^2-\\frac{b^2}{4}"},
-            {problem: "(\\frac{p}{6}+4q)(\\frac{p}{6}-4q)", answer: "\\frac{p^2}{36}-16q^2"},
-            {problem: "(3r-\\frac{s}{5})(3r+\\frac{s}{5})", answer: "9r^2-\\frac{s^2}{25}"},
+            {problem: "(\\frac{x}{6}+4y)(\\frac{x}{6}-4y)", answer: "\\frac{x^2}{36}-16y^2"},
+            {problem: "(3x-\\frac{y}{5})(3x+\\frac{y}{5})", answer: "9x^2-\\frac{y^2}{25}"},
             
             // Advanced reciprocal with variables
             {problem: "(ab+\\frac{1}{ab})(ab-\\frac{1}{ab})", answer: "a^2b^2-\\frac{1}{a^2b^2}"},
             {problem: "(\\frac{xy}{2}-\\frac{2}{xy})(\\frac{xy}{2}+\\frac{2}{xy})", answer: "\\frac{x^2y^2}{4}-\\frac{4}{x^2y^2}"},
-            {problem: "(\\frac{3}{pq}+pq)(\\frac{3}{pq}-pq)", answer: "\\frac{9}{p^2q^2}-p^2q^2"},
+            {problem: "(\\frac{3}{xy}+xy)(\\frac{3}{xy}-xy)", answer: "\\frac{9}{x^2y^2}-x^2y^2"},
             
             // Nested fraction expressions
             {problem: "(\\frac{x+1}{2}+\\frac{x-1}{3})(\\frac{x+1}{2}-\\frac{x-1}{3})", answer: "\\frac{(x+1)^2}{4}-\\frac{(x-1)^2}{9}"},

@@ -15,7 +15,7 @@ class MultiplyDivideAlgebraicFractionsEasyLevel {
             {problem: "\\frac{x}{3} \\times \\frac{2}{5}", answer: "\\frac{2x}{15}"},
             {problem: "\\frac{1}{7} \\times \\frac{a}{9}", answer: "\\frac{a}{63}"},
             {problem: "\\frac{2}{3} \\times \\frac{4a}{5}", answer: "\\frac{8a}{15}"},
-            {problem: "\\frac{4c}{5} \\times \\frac{1}{5}", answer: "\\frac{4c}{25}"},
+            {problem: "\\frac{4x}{5} \\times \\frac{1}{5}", answer: "\\frac{4x}{25}"},
             {problem: "\\frac{4a}{3} \\times \\frac{2b}{5}", answer: "\\frac{8ab}{15}"},
             {problem: "\\frac{3}{5} \\times \\frac{x}{y}", answer: "\\frac{3x}{5y}"},
             {problem: "\\frac{x}{y} \\times \\frac{3}{5}", answer: "\\frac{3x}{5y}"},
@@ -52,7 +52,7 @@ class MultiplyDivideAlgebraicFractionsEasyLevel {
             {problem: "\\frac{6x}{7} \\div \\frac{3}{4}", answer: "\\frac{8x}{7}"},
             {problem: "\\frac{5}{6} \\div \\frac{y}{4}", answer: "\\frac{10}{3y}"},
             {problem: "\\frac{9b}{10} \\div \\frac{3}{5}", answer: "\\frac{3b}{2}"},
-            {problem: "\\frac{4}{9} \\div \\frac{2c}{7}", answer: "\\frac{14}{9c}"},
+            {problem: "\\frac{4}{9} \\div \\frac{2x}{7}", answer: "\\frac{14}{9x}"},
 
             {problem: "\\frac{a}{6} \\times 12", answer: "2a"},
             {problem: "8 \\times \\frac{3b}{4}", answer: "6b"},

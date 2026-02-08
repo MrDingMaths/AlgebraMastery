@@ -24,15 +24,14 @@ class FactorisingMonicQuadraticTrinomialsMediumLevel {
             {problem: "x^2 - x - 12", answer: "(x-4)(x+3)"},
             {problem: "x^2 - 3x - 10", answer: "(x-5)(x+2)"},
             {problem: "x^2 - 5x + 6", answer: "(x-2)(x-3)"},
-            {problem: "c^2 - 7c + 10", answer: "(c-2)(c-5)"},
             {problem: "a^2 - 7a + 12", answer: "(a-3)(a-4)"},
-            {problem: "t^2 + t - 2", answer: "(t+2)(t-1)"},
-            {problem: "u^2 - u - 2", answer: "(u-2)(u+1)"},
-            {problem: "p^2 - 2p - 15", answer: "(p-5)(p+3)"},
+            {problem: "x^2 + x - 2", answer: "(x+2)(x-1)"},
+            {problem: "x^2 - x - 2", answer: "(x-2)(x+1)"},
+            {problem: "x^2 - 2x - 15", answer: "(x-5)(x+3)"},
             {problem: "y^2 + 3y - 28", answer: "(y+7)(y-4)"},
             {problem: "x^2 - x - 90", answer: "(x-10)(x+9)"},
             {problem: "x^2 + 3x - 40", answer: "(x+8)(x-5)"},
-            {problem: "u^2 - 16u - 80", answer: "(u-20)(u+4)"},
+            {problem: "x^2 - 16x - 80", answer: "(x-20)(x+4)"},
 
             // Additional generated questions - Mixed positive/negative middle terms
             {problem: "x^2 + 4x - 5", answer: "(x+5)(x-1)"},
@@ -69,12 +68,11 @@ class FactorisingMonicQuadraticTrinomialsMediumLevel {
             // Different variables for variety
             {problem: "a^2 + 2a - 8", answer: "(a+4)(a-2)"},
             {problem: "b^2 - 5b + 6", answer: "(b-2)(b-3)"},
-            {problem: "c^2 + 6c - 27", answer: "(c+9)(c-3)"},
-            {problem: "d^2 - 9d + 14", answer: "(d-2)(d-7)"},
-            {problem: "e^2 + 4e - 21", answer: "(e+7)(e-3)"},
-            {problem: "f^2 - 6f - 7", answer: "(f-7)(f+1)"},
-            {problem: "g^2 + 8g - 33", answer: "(g+11)(g-3)"},
-            {problem: "h^2 - 11h + 18", answer: "(h-2)(h-9)"},
+            {problem: "x^2 + 6x - 27", answer: "(x+9)(x-3)"},
+            {problem: "x^2 - 9x + 14", answer: "(x-2)(x-7)"},
+            {problem: "x^2 + 4x - 21", answer: "(x+7)(x-3)"},
+            {problem: "x^2 + 8x - 33", answer: "(x+11)(x-3)"},
+            {problem: "x^2 - 11x + 18", answer: "(x-2)(x-9)"},
 
             // Perfect squares with negative terms
             {problem: "x^2 - 6x + 9", answer: "(x-3)^2"},

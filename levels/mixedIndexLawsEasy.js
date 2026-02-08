@@ -44,7 +44,7 @@ class MixedIndexLawsEasyLevel {
             {problem: "(5^2)^{14}", answer: "5^{28}"},
             {problem: "(6^8)^3", answer: "6^{24}"},
             {problem: "(x^5)^3", answer: "x^{15}"},
-            {problem: "(z^2)^7", answer: "z^{14}"},
+            {problem: "(x^2)^7", answer: "x^{14}"},
             {problem: "(3^3)^4", answer: "3^{12}"},
             {problem: "(7^2)^5", answer: "7^{10}"},
             {problem: "(2^4)^6", answer: "2^{24}"},
@@ -78,8 +78,8 @@ class MixedIndexLawsEasyLevel {
             {problem: "(3^4)^3", answer: "3^{12}"},
             {problem: "8^0", answer: "1"},
             {problem: "15^0", answer: "1"},
-            {problem: "m^6 \\times m^2", answer: "m^8"},
-            {problem: "n^8 \\div n^5", answer: "n^3"},
+            {problem: "x^6 \\times x^2", answer: "x^8"},
+            {problem: "x^8 \\div x^5", answer: "x^3"},
             {problem: "(y^2)^4", answer: "y^8"},
             {problem: "b^{11} \\div b^{11}", answer: "1"}
         ];

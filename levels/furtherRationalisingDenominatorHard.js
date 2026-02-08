@@ -9,11 +9,11 @@ class FurtherRationalisingDenominatorHardLevel {
         this.questions = [
             // Provided textbook questions
             {problem: "\\frac{4\\sqrt{3}-\\sqrt{2}}{5-3\\sqrt{3}}", answer: "\\frac{-36+5\\sqrt{2}-20\\sqrt{3}+3\\sqrt{6}}{2}"},
-            {problem: "\\frac{a\\sqrt{b}}{c\\sqrt{d}}", answer: "\\frac{a\\sqrt{bd}}{cd}"},
+            {problem: "\\frac{a\\sqrt{b}}{x\\sqrt{y}}", answer: "\\frac{a\\sqrt{by}}{xy}"},
             {problem: "\\frac{1}{a+\\sqrt{b}}", answer: "\\frac{a-\\sqrt{b}}{a^2-b}"},
             {problem: "\\frac{1}{\\sqrt{a}}-\\frac{1}{\\sqrt{b}}", answer: "\\frac{b\\sqrt{a}-a\\sqrt{b}}{ab}"},
-            {problem: "\\frac{1}{a\\sqrt{b}-c}", answer: "\\frac{a\\sqrt{b}+c}{a^2b-c^2}"},
-            {problem: "\\frac{1}{a\\sqrt{b}+c\\sqrt{d}}", answer: "\\frac{a\\sqrt{b}-c\\sqrt{d}}{a^2b-c^2d}"},
+            {problem: "\\frac{1}{a\\sqrt{b}-x}", answer: "\\frac{a\\sqrt{b}+x}{a^2b-x^2}"},
+            {problem: "\\frac{1}{a\\sqrt{b}+x\\sqrt{y}}", answer: "\\frac{a\\sqrt{b}-x\\sqrt{y}}{a^2b-x^2y}"},
             {problem: "\\frac{1}{3+\\sqrt{6}}+\\frac{2}{\\sqrt{6}}", answer: "1"},
             {problem: "\\frac{4}{2+\\sqrt{2}}+\\frac{1}{3-2\\sqrt{2}}", answer: "7"},
             {problem: "\\frac{8}{3-\\sqrt{7}}-\\frac{6}{2\\sqrt{7}-5}", answer: "2"},

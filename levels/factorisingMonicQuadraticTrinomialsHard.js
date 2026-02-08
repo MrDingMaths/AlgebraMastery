@@ -89,9 +89,8 @@ class FactorisingMonicQuadraticTrinomialsHardLevel {
             // Different variables for variety
             {problem: "2a^2 + 10a + 8", answer: "2(a+1)(a+4)"},
             {problem: "3b^2 + 15b + 18", answer: "3(b+2)(b+3)"},
-            {problem: "4c^2 - 16c + 12", answer: "4(c-1)(c-3)"},
-            {problem: "5d^2 + 25d - 30", answer: "5(d+6)(d-1)"},
-            {problem: "6e^2 - 18e - 24", answer: "6(e-4)(e+1)"},
+            {problem: "5x^2 + 25x - 30", answer: "5(x+6)(x-1)"},
+            {problem: "6x^2 - 18x - 24", answer: "6(x-4)(x+1)"},
 
             // Larger common factors
             {problem: "8x^2 + 24x + 16", answer: "8(x+1)(x+2)"},

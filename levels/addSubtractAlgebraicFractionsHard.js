@@ -9,9 +9,9 @@ class AddSubtractAlgebraicFractionsHardLevel {
         this.questions = [
 
             // Textbook questions
-            {problem: "\\frac{10u}{3} + \\frac{3v}{10}", answer: "\\frac{100u + 9v}{30}"},
+            {problem: "\\frac{10x}{3} + \\frac{3y}{10}", answer: "\\frac{100x + 9y}{30}"},
             {problem: "\\frac{7y}{10} - \\frac{2x}{5}", answer: "\\frac{7y - 4x}{10}"},
-            {problem: "2t + \\frac{7p}{2}", answer: "\\frac{4t + 7p}{2}"},
+            {problem: "2x + \\frac{7y}{2}", answer: "\\frac{4x + 7y}{2}"},
             {problem: "\\frac{x}{3} - y", answer: "\\frac{x - 3y}{3}"},
             {problem: "5 - \\frac{2x}{7}", answer: "\\frac{35 - 2x}{7}"},
             {problem: "\\frac{1}{a} + \\frac{1}{2a}", answer: "\\frac{3}{2a}"},
@@ -46,13 +46,13 @@ class AddSubtractAlgebraicFractionsHardLevel {
             // Additional questions for cognitive complexity
             // Different variables in fractions
             {problem: "\\frac{a}{4} + \\frac{b}{3}", answer: "\\frac{3a+4b}{12}"},
-            {problem: "\\frac{2m}{5} - \\frac{3n}{7}", answer: "\\frac{14m-15n}{35}"},
-            {problem: "\\frac{4p}{9} + \\frac{5q}{6}", answer: "\\frac{8p+15q}{18}"},
-            {problem: "\\frac{7r}{8} - \\frac{2s}{3}", answer: "\\frac{21r-16s}{24}"},
+            {problem: "\\frac{2x}{5} - \\frac{3y}{7}", answer: "\\frac{14x-15y}{35}"},
+            {problem: "\\frac{4x}{9} + \\frac{5y}{6}", answer: "\\frac{8x+15y}{18}"},
+            {problem: "\\frac{7x}{8} - \\frac{2y}{3}", answer: "\\frac{21x-16y}{24}"},
             
             // Mixed powers and variables
             {problem: "\\frac{2}{y} + \\frac{3}{y^{2}}", answer: "\\frac{2y+3}{y^{2}}"},
-            {problem: "\\frac{4}{z^{2}} - \\frac{1}{z}", answer: "\\frac{4-z}{z^{2}}"},
+            {problem: "\\frac{4}{x^{2}} - \\frac{1}{x}", answer: "\\frac{4-x}{x^{2}}"},
             {problem: "\\frac{5}{a} + \\frac{2}{a^{3}}", answer: "\\frac{5a^{2}+2}{a^{3}}"},
             {problem: "\\frac{3}{b^{2}} - \\frac{4}{b^{3}}", answer: "\\frac{3b-4}{b^{3}}"},
             
@@ -65,20 +65,20 @@ class AddSubtractAlgebraicFractionsHardLevel {
             // Complex denominators with variables
             {problem: "\\frac{2}{3xy} + \\frac{1}{4xy}", answer: "\\frac{11}{12xy}"},
             {problem: "\\frac{5}{6ab} - \\frac{2}{9ab}", answer: "\\frac{11}{18ab}"},
-            {problem: "\\frac{3}{8pq} + \\frac{7}{12pq}", answer: "\\frac{23}{24pq}"},
-            {problem: "\\frac{4}{15mn} - \\frac{1}{10mn}", answer: "\\frac{1}{6mn}"},
+            {problem: "\\frac{3}{8xy} + \\frac{7}{12xy}", answer: "\\frac{23}{24xy}"},
+            {problem: "\\frac{4}{15xy} - \\frac{1}{10xy}", answer: "\\frac{1}{6xy}"},
             
             // Very complex mixed expressions
             {problem: "\\frac{3a}{2b} + \\frac{5b}{3a}", answer: "\\frac{9a^{2}+10b^{2}}{6ab}"},
             {problem: "\\frac{2x}{3y} - \\frac{4y}{5x}", answer: "\\frac{10x^{2}-12y^{2}}{15xy}"},
-            {problem: "\\frac{7p}{4q} + \\frac{3q}{8p}", answer: "\\frac{14p^{2}+3q^{2}}{8pq}"},
-            {problem: "\\frac{5m}{6n} - \\frac{2n}{9m}", answer: "\\frac{15m^{2}-4n^{2}}{18mn}"},
+            {problem: "\\frac{7x}{4y} + \\frac{3y}{8x}", answer: "\\frac{14x^{2}+3y^{2}}{8xy}"},
+            {problem: "\\frac{5x}{6y} - \\frac{2y}{9x}", answer: "\\frac{15x^{2}-4y^{2}}{18xy}"},
             
             // Negative coefficients and complex expressions
             {problem: "-\\frac{2a}{3} + \\frac{5a}{4}", answer: "\\frac{7a}{12}"},
             {problem: "\\frac{3b}{5} - \\frac{7b}{2}", answer: "-\\frac{29b}{10}"},
-            {problem: "-\\frac{4c}{7} - \\frac{2c}{9}", answer: "-\\frac{50c}{63}"},
-            {problem: "\\frac{6d}{11} + \\frac{3d}{8}", answer: "\\frac{81d}{88}"}
+            {problem: "-\\frac{4x}{7} - \\frac{2x}{9}", answer: "-\\frac{50x}{63}"},
+            {problem: "\\frac{6x}{11} + \\frac{3x}{8}", answer: "\\frac{81x}{88}"}
         ];
     }
 

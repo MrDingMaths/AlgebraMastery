@@ -43,7 +43,7 @@ class BinomialFactorsMedium {
             {problem: "4x(x - 6) + (6 - x)", answer: "(4x - 1)(x - 6)"},
             {problem: "x(3x - 7) + 2(7 - 3x)", answer: "(x - 2)(3x - 7)"},
             {problem: "2x(x + 3) - 9(3 + x)", answer: "(2x - 9)(x + 3)"},
-            {problem: "(m + 3)^2 - 7(m + 3)", answer: "(m + 3)(m - 4)"},
+            {problem: "(x + 3)^2 - 7(x + 3)", answer: "(x + 3)(x - 4)"},
             {problem: "(x - 1)^2 + 4(x - 1)", answer: "(x - 1)(x + 3)"},
             {problem: "16x(2x - 5) + 24(2x - 5)", answer: "8(2x - 5)(2x + 3)"},
             {problem: "30x(x + 2) - 12(x + 2)", answer: "6(x + 2)(5x - 2)"},

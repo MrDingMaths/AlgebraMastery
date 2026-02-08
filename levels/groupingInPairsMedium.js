@@ -23,12 +23,12 @@ class GroupingInPairsMedium {
             {problem: "2x^2 - 3 - x + 6x", answer: "(2x-1)(x+3)"},
             {problem: "11x - 5a - 55 + ax", answer: "(a+11)(x-5)"},
             {problem: "12y + 2x - 8xy - 3", answer: "(3-2x)(4y-1)"},
-            {problem: "6m - n + 3mn - 2", answer: "(n+2)(3m-1)"},
-            {problem: "15p - 8r - 5pr + 24", answer: "(3-r)(5p+8)"},
+            {problem: "6x - y + 3xy - 2", answer: "(y+2)(3x-1)"},
+            {problem: "15x - 8y - 5xy + 24", answer: "(3-y)(5x+8)"},
             {problem: "16x - 3y - 8xy + 6", answer: "(2-y)(8x+3)"},
-            {problem: "4m^2 - 15n + 6m - 10mn", answer: "(2m-5n)(2m+3)"},
+            {problem: "4x^2 - 15y + 6x - 10xy", answer: "(2x-5y)(2x+3)"},
             {problem: "4a - 6b^2 + 3b - 8ab", answer: "(4a+3b)(1-2b)"},
-            {problem: "2ab - a^2 - 2bc + ac", answer: "(2b-a)(a-c)"},
+            {problem: "2ab - a^2 - 2bx + ax", answer: "(2b-a)(a-x)"},
             
             // Additional medium questions - mixed signs and reorganization needed
             {problem: "2x^2 - 6x + 3x - 9", answer: "(2x+3)(x-3)"},
@@ -45,22 +45,22 @@ class GroupingInPairsMedium {
             // Terms out of order requiring mental reorganization
             {problem: "xy - 3y + 2x - 6", answer: "(x-3)(y+2)"},
             {problem: "ab - 4b + 5a - 20", answer: "(a-4)(b+5)"},
-            {problem: "mn - 6n + 3m - 18", answer: "(m-6)(n+3)"},
-            {problem: "pq - 7q + 4p - 28", answer: "(p-7)(q+4)"},
-            {problem: "rs - 8s + 2r - 16", answer: "(r-8)(s+2)"},
-            {problem: "uv - 9v + 6u - 54", answer: "(u-9)(v+6)"},
-            {problem: "wx - 10w + 3x - 30", answer: "(w+3)(x-10)"},
-            {problem: "yz - 12z + 5y - 60", answer: "(y-12)(z+5)"},
+            {problem: "xy - 6y + 3x - 18", answer: "(x-6)(y+3)"},
+            {problem: "xy - 7y + 4x - 28", answer: "(x-7)(y+4)"},
+            {problem: "xy - 8y + 2x - 16", answer: "(x-8)(y+2)"},
+            {problem: "xy - 9y + 6x - 54", answer: "(x-9)(y+6)"},
+            {problem: "yx - 10y + 3x - 30", answer: "(y+3)(x-10)"},
+            {problem: "yx - 12x + 5y - 60", answer: "(y-12)(x+5)"},
             
             // Mixed positive and negative coefficients
             {problem: "3ab - 9a + 2b - 6", answer: "(3a+2)(b-3)"},
             {problem: "4xy - 12x + 3y - 9", answer: "(4x+3)(y-3)"},
-            {problem: "5mn - 15m + 4n - 12", answer: "(5m+4)(n-3)"},
-            {problem: "6pq - 18p + 5q - 15", answer: "(6p+5)(q-3)"},
-            {problem: "7rs - 21r + 2s - 6", answer: "(7r+2)(s-3)"},
-            {problem: "8uv - 24u + 3v - 9", answer: "(8u+3)(v-3)"},
-            {problem: "9wx - 27w + 4x - 12", answer: "(9w+4)(x-3)"},
-            {problem: "10yz - 30y + x - 3", answer: "10y(z-3) + x - 3"},
+            {problem: "5xy - 15x + 4y - 12", answer: "(5x+4)(y-3)"},
+            {problem: "6xy - 18x + 5y - 15", answer: "(6x+5)(y-3)"},
+            {problem: "7xy - 21x + 2y - 6", answer: "(7x+2)(y-3)"},
+            {problem: "8xy - 24x + 3y - 9", answer: "(8x+3)(y-3)"},
+            {problem: "9yx - 27y + 4x - 12", answer: "(9y+4)(x-3)"},
+            {problem: "10ya - 30y + x - 3", answer: "10y(a-3) + x - 3"},
             
             // Larger coefficients requiring careful grouping
             {problem: "12x^2 - 18x + 8x - 12", answer: "(6x+4)(2x-3)"},
@@ -70,14 +70,14 @@ class GroupingInPairsMedium {
             {problem: "24x^2 - 30x + 4x - 5", answer: "(6x+1)(4x-5)"},
             
             // Different variable combinations
-            {problem: "2ac - 8c + 3ab - 12b", answer: "(a-4)(2c+3b)"},
-            {problem: "5bd - 10d + 2bc - 4c", answer: "(b-2)(5d+2c)"},
-            {problem: "3ef - 12f + 4eg - 16g", answer: "(e-4)(3f+4g)"},
-            {problem: "6gh - 18h + 5gi - 15i", answer: "(g-3)(6h+5i)"},
-            {problem: "7jk - 14k + 3jm - 6m", answer: "(j-2)(7k+3m)"},
-            {problem: "8no - 24o + 9np - 27p", answer: "(n-3)(8o+9p)"},
-            {problem: "10qr - 20r + 7qs - 14s", answer: "(q-2)(10r+7s)"},
-            {problem: "12tu - 36u + 5tv - 15v", answer: "(t-3)(12u+5v)"}
+            {problem: "2ax - 8x + 3ab - 12b", answer: "(a-4)(2x+3b)"},
+            {problem: "5bx - 10x + 2by - 4y", answer: "(b-2)(5x+2y)"},
+            {problem: "3xy - 12y + 4xa - 16a", answer: "(x-4)(3y+4a)"},
+            {problem: "6xy - 18y + 5xa - 15a", answer: "(x-3)(6y+5a)"},
+            {problem: "7xy - 14y + 3xa - 6a", answer: "(x-2)(7y+3a)"},
+            {problem: "8xy - 24y + 9xa - 27a", answer: "(x-3)(8y+9a)"},
+            {problem: "10xy - 20y + 7xa - 14a", answer: "(x-2)(10y+7a)"},
+            {problem: "12xy - 36y + 5xa - 15a", answer: "(x-3)(12y+5a)"}
         ];
     }
 

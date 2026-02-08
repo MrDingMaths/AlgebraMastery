@@ -21,24 +21,24 @@ class ExpandingDifferenceOfTwoSquaresEasy {
             // Additional basic patterns with different variables
             {problem: "(a+2)(a-2)", answer: "a^2-4"},
             {problem: "(b+4)(b-4)", answer: "b^2-16"},
-            {problem: "(c+5)(c-5)", answer: "c^2-25"},
-            {problem: "(d+7)(d-7)", answer: "d^2-49"},
-            {problem: "(e+9)(e-9)", answer: "e^2-81"},
-            {problem: "(f+10)(f-10)", answer: "f^2-100"},
-            {problem: "(g-3)(g+3)", answer: "g^2-9"},
-            {problem: "(h-8)(h+8)", answer: "h^2-64"},
-            {problem: "(k-12)(k+12)", answer: "k^2-144"},
-            {problem: "(m-15)(m+15)", answer: "m^2-225"},
+            {problem: "(x+5)(x-5)", answer: "x^2-25"},
+            {problem: "(x+7)(x-7)", answer: "x^2-49"},
+            {problem: "(x+9)(x-9)", answer: "x^2-81"},
+            {problem: "(x+10)(x-10)", answer: "x^2-100"},
+            {problem: "(x-3)(x+3)", answer: "x^2-9"},
+            {problem: "(x-8)(x+8)", answer: "x^2-64"},
+            {problem: "(x-12)(x+12)", answer: "x^2-144"},
+            {problem: "(x-15)(x+15)", answer: "x^2-225"},
             
             // Order variations (constant first)
             {problem: "(2+y)(2-y)", answer: "4-y^2"},
-            {problem: "(4+z)(4-z)", answer: "16-z^2"},
-            {problem: "(9+p)(9-p)", answer: "81-p^2"},
-            {problem: "(13+q)(13-q)", answer: "169-q^2"},
-            {problem: "(14+r)(14-r)", answer: "196-r^2"},
-            {problem: "(3-s)(3+s)", answer: "9-s^2"},
-            {problem: "(11-t)(11+t)", answer: "121-t^2"},
-            {problem: "(15-u)(15+u)", answer: "225-u^2"},
+            {problem: "(4+x)(4-x)", answer: "16-x^2"},
+            {problem: "(9+x)(9-x)", answer: "81-x^2"},
+            {problem: "(13+x)(13-x)", answer: "169-x^2"},
+            {problem: "(14+x)(14-x)", answer: "196-x^2"},
+            {problem: "(3-x)(3+x)", answer: "9-x^2"},
+            {problem: "(11-x)(11+x)", answer: "121-x^2"},
+            {problem: "(15-x)(15+x)", answer: "225-x^2"},
             
             // Perfect square constants
             {problem: "(x+4)(x-4)", answer: "x^2-16"},
@@ -51,15 +51,14 @@ class ExpandingDifferenceOfTwoSquaresEasy {
             // Small integer patterns
             {problem: "(x+2)(x-2)", answer: "x^2-4"},
             {problem: "(y+5)(y-5)", answer: "y^2-25"},
-            {problem: "(z+6)(z-6)", answer: "z^2-36"},
-            {problem: "(w+9)(w-9)", answer: "w^2-81"},
-            {problem: "(v+13)(v-13)", answer: "v^2-169"},
-            {problem: "(t+17)(t-17)", answer: "t^2-289"},
-            {problem: "(s+19)(s-19)", answer: "s^2-361"},
+            {problem: "(x+6)(x-6)", answer: "x^2-36"},
+            {problem: "(x+13)(x-13)", answer: "x^2-169"},
+            {problem: "(x+17)(x-17)", answer: "x^2-289"},
+            {problem: "(x+19)(x-19)", answer: "x^2-361"},
             
             // Additional variety
-            {problem: "(n+14)(n-14)", answer: "n^2-196"},
-            {problem: "(18-n)(18+n)", answer: "324-n^2"},
+            {problem: "(x+14)(x-14)", answer: "x^2-196"},
+            {problem: "(18-x)(18+x)", answer: "324-x^2"},
         ];
     }
 

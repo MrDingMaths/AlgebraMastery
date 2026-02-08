@@ -15,23 +15,23 @@ class ExpandingPerfectSquaresHard {
             {problem: "(\\frac{2x}{3} + \\frac{9y}{8})^2", answer: "\\frac{4x^2}{9} + \\frac{3xy}{2} + \\frac{81y^2}{64}"},
             
             // Reciprocal terms
-            {problem: "(t + \\frac{1}{t})^2", answer: "t^2 + 2 + \\frac{1}{t^2}"},
-            {problem: "(t - \\frac{1}{t})^2", answer: "t^2 - 2 + \\frac{1}{t^2}"},
+            {problem: "(x + \\frac{1}{x})^2", answer: "x^2 + 2 + \\frac{1}{x^2}"},
+            {problem: "(x - \\frac{1}{x})^2", answer: "x^2 - 2 + \\frac{1}{x^2}"},
             {problem: "(2 + \\frac{2}{a})^2", answer: "4 + \\frac{8}{a} + \\frac{4}{a^2}"},
-            {problem: "(\\frac{6}{m} - m)^2", answer: "m^2 - 12 + \\frac{36}{m^2}"},
+            {problem: "(\\frac{6}{x} - x)^2", answer: "x^2 - 12 + \\frac{36}{x^2}"},
             {problem: "(\\frac{3}{x} + 3x)^2", answer: "9x^2 + 18 + \\frac{9}{x^2}"},
             
             // Higher powers with coefficients
             {problem: "(2x^2 + 3y^2)^2", answer: "4x^4 + 12x^2y^2 + 9y^4"},
             {problem: "(5a^3 - 2b^4)^2", answer: "25a^6 - 20a^3b^4 + 4b^8"},
-            {problem: "(m^5 + 4n^2)^2", answer: "m^{10} + 8m^5n^2 + 16n^4"},
+            {problem: "(x^5 + 4y^2)^2", answer: "x^{10} + 8x^5y^2 + 16y^4"},
             {problem: "(3x^4 - 5y^3)^2", answer: "9x^8 - 30x^4y^3 + 25y^6"},
             
             // Fractions with powers
             {problem: "(x^2 + \\frac{1}{2})^2", answer: "x^4 + x^2 + \\frac{1}{4}"},
             {problem: "(y^3 - \\frac{1}{3})^2", answer: "y^6 - \\frac{2}{3}y^3 + \\frac{1}{9}"},
             {problem: "(\\frac{a^3}{2} - \\frac{b^2}{3})^2", answer: "\\frac{a^6}{4} - \\frac{a^3b^2}{3} + \\frac{b^4}{9}"},
-            {problem: "(2p^3 + \\frac{1}{p})^2", answer: "4p^6 + 4p^2 + \\frac{1}{p^2}"},
+            {problem: "(2x^3 + \\frac{1}{x})^2", answer: "4x^6 + 4x^2 + \\frac{1}{x^2}"},
             
             // Additional complex fraction examples
             {problem: "(x + \\frac{1}{2})^2", answer: "x^2 + x + \\frac{1}{4}"},
@@ -49,8 +49,8 @@ class ExpandingPerfectSquaresHard {
             // Complex power combinations
             {problem: "(x^3 + 2y^2)^2", answer: "x^6 + 4x^3y^2 + 4y^4"},
             {problem: "(3a^2 - b^3)^2", answer: "9a^4 - 6a^2b^3 + b^6"},
-            {problem: "(2m^4 + 3n^3)^2", answer: "4m^8 + 12m^4n^3 + 9n^6"},
-            {problem: "(4p^5 - q^2)^2", answer: "16p^{10} - 8p^5q^2 + q^4"},
+            {problem: "(2x^4 + 3y^3)^2", answer: "4x^8 + 12x^4y^3 + 9y^6"},
+            {problem: "(4x^5 - y^2)^2", answer: "16x^{10} - 8x^5y^2 + y^4"},
             
             // Mixed fraction and power terms
             {problem: "(\\frac{x^2}{3} + \\frac{2}{x})^2", answer: "\\frac{x^4}{9} + \\frac{4x}{3} + \\frac{4}{x^2}"},
@@ -60,7 +60,7 @@ class ExpandingPerfectSquaresHard {
             // Complex coefficient fractions
             {problem: "(\\frac{3x}{4} + \\frac{5y}{6})^2", answer: "\\frac{9x^2}{16} + \\frac{5xy}{4} + \\frac{25y^2}{36}"},
             {problem: "(\\frac{2a}{5} - \\frac{3b}{7})^2", answer: "\\frac{4a^2}{25} - \\frac{12ab}{35} + \\frac{9b^2}{49}"},
-            {problem: "(\\frac{4m}{3} + \\frac{n}{2})^2", answer: "\\frac{16m^2}{9} + \\frac{4mn}{3} + \\frac{n^2}{4}"},
+            {problem: "(\\frac{4x}{3} + \\frac{y}{2})^2", answer: "\\frac{16x^2}{9} + \\frac{4xy}{3} + \\frac{y^2}{4}"},
             
             // Very advanced combinations
             {problem: "(\\sqrt{2}x + \\frac{1}{\\sqrt{2}})^2", answer: "2x^2 + 2x + \\frac{1}{2}"},
@@ -74,7 +74,7 @@ class ExpandingPerfectSquaresHard {
             
             // Final complex variations
             {problem: "(\\frac{7}{3x^2} + \\frac{x^3}{5})^2", answer: "\\frac{x^6}{25} + \\frac{14x}{15} + \\frac{49}{9x^4}"},
-            {problem: "(\\frac{4m^2}{9} - \\frac{2}{3m})^2", answer: "\\frac{16m^4}{81} - \\frac{16m}{27} + \\frac{4}{9m^2}"}
+            {problem: "(\\frac{4x^2}{9} - \\frac{2}{3x})^2", answer: "\\frac{16x^4}{81} - \\frac{16x}{27} + \\frac{4}{9x^2}"}
         ];
     }
 

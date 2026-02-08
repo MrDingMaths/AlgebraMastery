@@ -14,14 +14,14 @@ class MultiplyDivideAlgebraicFractionsMediumLevel {
             {problem: "\\frac{x}{xy} \\times \\frac{3}{6}", answer: "\\frac{1}{2y}"},
             {problem: "\\frac{7x}{xy} \\times \\frac{3}{6}", answer: "\\frac{7}{2y}"},
             {problem: "\\frac{3x}{2} \\times \\frac{1}{6x}", answer: "\\frac{1}{4}"},
-            {problem: "\\frac{4}{9k} \\times \\frac{3k}{2}", answer: "\\frac{2}{3}"},
+            {problem: "\\frac{4}{9x} \\times \\frac{3x}{2}", answer: "\\frac{2}{3}"},
 
             // Same variable squared terms
             {problem: "\\frac{3a}{2} \\times \\frac{7a}{5}", answer: "\\frac{21a^2}{10}"},
             {problem: "\\frac{6x}{5} \\times \\frac{7y}{6}", answer: "\\frac{7xy}{5}"},
-            {problem: "\\frac{2b}{5} \\times \\frac{7d}{6}", answer: "\\frac{7bd}{15}"},
-            {problem: "\\frac{8a}{5} \\times \\frac{3b}{4c}", answer: "\\frac{6ab}{5c}"},
-            {problem: "\\frac{9d}{2} \\times \\frac{4e}{7}", answer: "\\frac{18de}{7}"},
+            {problem: "\\frac{2b}{5} \\times \\frac{7x}{6}", answer: "\\frac{7bx}{15}"},
+            {problem: "\\frac{8a}{5} \\times \\frac{3b}{4x}", answer: "\\frac{6ab}{5x}"},
+            {problem: "\\frac{9x}{2} \\times \\frac{4y}{7}", answer: "\\frac{18xy}{7}"},
 
             // Division with cancellation
             {problem: "\\frac{4x}{5} \\div 3", answer: "\\frac{4x}{15}"},
@@ -30,7 +30,7 @@ class MultiplyDivideAlgebraicFractionsMediumLevel {
             {problem: "\\frac{2}{3} \\div \\frac{4x}{7}", answer: "\\frac{7}{6x}"},
             {problem: "\\frac{4}{5} \\div \\frac{2y}{3}", answer: "\\frac{6}{5y}"},
             {problem: "\\frac{4a}{7} \\div \\frac{2}{5}", answer: "\\frac{10a}{7}"},
-            {problem: "\\frac{4b}{7} \\div \\frac{2c}{5}", answer: "\\frac{10b}{7c}"},
+            {problem: "\\frac{4b}{7} \\div \\frac{2x}{5}", answer: "\\frac{10b}{7x}"},
             {problem: "\\frac{2x}{5} \\div \\frac{4y}{3}", answer: "\\frac{3x}{10y}"},
 
             // More complex operations
@@ -58,11 +58,11 @@ class MultiplyDivideAlgebraicFractionsMediumLevel {
             {problem: "\\frac{9y^2}{10} \\times \\frac{20}{27y}", answer: "\\frac{2y}{3}"},
             {problem: "\\frac{4a^2}{5} \\times \\frac{15}{8a}", answer: "\\frac{3a}{2}"},
 
-            {problem: "\\frac{6ab}{5} \\times \\frac{10c}{9ab}", answer: "\\frac{4c}{3}"},
-            {problem: "\\frac{8xy}{7} \\times \\frac{21z}{12xy}", answer: "2z"},
-            {problem: "\\frac{12pq}{11} \\times \\frac{22r}{18pq}", answer: "\\frac{4r}{3}"},
-            {problem: "\\frac{15mn}{4} \\times \\frac{8s}{25mn}", answer: "\\frac{6s}{5}"},
-            {problem: "\\frac{20ab}{9} \\times \\frac{27c}{30ab}", answer: "2c"},
+            {problem: "\\frac{6ab}{5} \\times \\frac{10x}{9ab}", answer: "\\frac{4x}{3}"},
+            {problem: "\\frac{8xy}{7} \\times \\frac{21a}{12xy}", answer: "2a"},
+            {problem: "\\frac{12xy}{11} \\times \\frac{22a}{18xy}", answer: "\\frac{4a}{3}"},
+            {problem: "\\frac{15xy}{4} \\times \\frac{8a}{25xy}", answer: "\\frac{6a}{5}"},
+            {problem: "\\frac{20ab}{9} \\times \\frac{27x}{30ab}", answer: "2x"},
 
             {problem: "\\frac{18x}{5} \\div \\frac{6x}{15}", answer: "9"},
             {problem: "\\frac{24a}{7} \\div \\frac{8a}{21}", answer: "9"},

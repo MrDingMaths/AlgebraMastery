@@ -12,15 +12,15 @@ class IndexLawPowerEasyLevel {
             {problem: "(x^2)^5", answer: "x^{10}"},
             {problem: "(b^3)^4", answer: "b^{12}"},
             {problem: "(a^4)^5", answer: "a^{20}"},
-            {problem: "(m^6)^2", answer: "m^{12}"},
-            {problem: "(d^3)^3", answer: "d^9"},
-            {problem: "(k^8)^3", answer: "k^{24}"},
-            {problem: "(m^5)^{10}", answer: "m^{50}"},
+            {problem: "(x^6)^2", answer: "x^{12}"},
+            {problem: "(x^3)^3", answer: "x^9"},
+            {problem: "(x^8)^3", answer: "x^{24}"},
+            {problem: "(x^5)^{10}", answer: "x^{50}"},
             {problem: "(y^2)^6", answer: "y^{12}"},
-            {problem: "(p^7)^2", answer: "p^{14}"},
-            {problem: "(s^4)^3", answer: "s^{12}"},
-            {problem: "(t^5)^4", answer: "t^{20}"},
-            {problem: "(w^6)^5", answer: "w^{30}"},
+            {problem: "(x^7)^2", answer: "x^{14}"},
+            {problem: "(x^4)^3", answer: "x^{12}"},
+            {problem: "(x^5)^4", answer: "x^{20}"},
+            {problem: "(x^6)^5", answer: "x^{30}"},
             
             // Cognitive Level 1: Basic Zero Power Rules
             // Simple zero power applications
@@ -62,42 +62,42 @@ class IndexLawPowerEasyLevel {
             // Cognitive Level 3: Expression Zero Powers
             // Zero power with algebraic expressions
             {problem: "(3x^2)^0", answer: "1"},
-            {problem: "(5z)^0", answer: "1"},
+            {problem: "(5x)^0", answer: "1"},
             {problem: "(10ab^2)^0", answer: "1"},
             {problem: "(7xy)^0", answer: "1"},
             {problem: "(4a^3b)^0", answer: "1"},
             {problem: "(2x^4y^2)^0", answer: "1"},
-            {problem: "(9pq^3)^0", answer: "1"},
-            {problem: "(6m^2n)^0", answer: "1"},
-            {problem: "(8rst)^0", answer: "1"},
-            {problem: "(3a^5b^2c)^0", answer: "1"},
+            {problem: "(9xy^3)^0", answer: "1"},
+            {problem: "(6x^2y)^0", answer: "1"},
+            {problem: "(8xya)^0", answer: "1"},
+            {problem: "(3a^5b^2x)^0", answer: "1"},
             
             // Cognitive Level 3: Higher Order Powers
             // Power of a power with larger exponents
             {problem: "(x^7)^5", answer: "x^{35}"},
             {problem: "(a^9)^3", answer: "a^{27}"},
             {problem: "(b^{10})^4", answer: "b^{40}"},
-            {problem: "(c^{12})^2", answer: "c^{24}"},
-            {problem: "(d^8)^6", answer: "d^{48}"},
-            {problem: "(e^{11})^3", answer: "e^{33}"},
-            {problem: "(f^{15})^2", answer: "f^{30}"},
-            {problem: "(g^6)^8", answer: "g^{48}"},
+            {problem: "(x^{12})^2", answer: "x^{24}"},
+            {problem: "(x^8)^6", answer: "x^{48}"},
+            {problem: "(x^{11})^3", answer: "x^{33}"},
+            {problem: "(x^{15})^2", answer: "x^{30}"},
+            {problem: "(x^6)^8", answer: "x^{48}"},
             
             // Additional reinforcement questions
             {problem: "(y^3)^5", answer: "y^{15}"},
-            {problem: "(z^4)^7", answer: "z^{28}"},
-            {problem: "(h^5)^6", answer: "h^{30}"},
-            {problem: "(j^2)^9", answer: "j^{18}"},
-            {problem: "(n^7)^4", answer: "n^{28}"},
-            {problem: "(r^8)^5", answer: "r^{40}"},
+            {problem: "(x^4)^7", answer: "x^{28}"},
+            {problem: "(x^5)^6", answer: "x^{30}"},
+            {problem: "(x^2)^9", answer: "x^{18}"},
+            {problem: "(x^7)^4", answer: "x^{28}"},
+            {problem: "(x^8)^5", answer: "x^{40}"},
             
             // Power of a power with unit exponents
             {problem: "(x^1)^8", answer: "x^8"},
             {problem: "(a^6)^1", answer: "a^6"},
             {problem: "(b^1)^5", answer: "b^5"},
-            {problem: "(c^4)^1", answer: "c^4"},
-            {problem: "(d^1)^3", answer: "d^3"},
-            {problem: "(e^7)^1", answer: "e^7"}
+            {problem: "(x^4)^1", answer: "x^4"},
+            {problem: "(x^1)^3", answer: "x^3"},
+            {problem: "(x^7)^1", answer: "x^7"}
         ];
     }
 
