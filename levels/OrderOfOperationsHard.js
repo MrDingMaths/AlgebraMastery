@@ -1,4 +1,4 @@
-// levels/OrderOfOperationsHard.js
+// levels/orderOfOperationsHard.js
 class OrderOfOperationsHardLevel {
     constructor() {
         this.key = 'orderOfOperationsHard';

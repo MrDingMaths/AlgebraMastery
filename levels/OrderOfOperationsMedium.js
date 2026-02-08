@@ -1,4 +1,4 @@
-// levels/OrderOfOperationsMedium.js
+// levels/orderOfOperationsMedium.js
 class OrderOfOperationsMediumLevel {
     constructor() {
         this.key = 'orderOfOperationsMedium';
