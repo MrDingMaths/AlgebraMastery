@@ -50,9 +50,9 @@ class MobileKeyboard {
                     { label: '0', cmd: 'write', value: '0' },
                     { label: '𝑥', cmd: 'write', value: 'x' },
                     { label: '𝑦', cmd: 'write', value: 'y' },
-                    { label: '𝑥ⁿ', cmd: 'cmd', value: '^' },
-                    { label: '', cmd: 'none', value: '', class: 'spacer' },
-                    { label: '', cmd: 'none', value: '', class: 'spacer' }
+                    { label: '𝑎', cmd: 'write', value: 'a' },
+                    { label: '𝑏', cmd: 'write', value: 'b' },
+                    { label: '𝑥ⁿ', cmd: 'cmd', value: '^' }
                 ]
             },
             // Page 2: QWERTY Alphabet
