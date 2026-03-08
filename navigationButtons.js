@@ -17,21 +17,21 @@ class NavigationButtons {
 
         // Create Maths Mastery button
         const mathsButton = document.createElement('a');
-        mathsButton.href = 'https://mrdingmaths.github.io/MathsFacts/';
+        mathsButton.href = 'https://mathsmastery.mrdingmaths.com/';
         mathsButton.className = 'nav-button nav-button-green';
         mathsButton.title = 'Maths Mastery Challenge';
         mathsButton.innerHTML = `<span class="nav-button-emoji">±</span>`;
 
         // Create Algebra Mastery button
         const algebraButton = document.createElement('a');
-        algebraButton.href = 'https://mrdingmaths.github.io/AlgebraMastery/';
+        algebraButton.href = 'https://algebramastery.mrdingmaths.com/';
         algebraButton.className = 'nav-button nav-button-blue';
         algebraButton.title = 'Algebra Mastery Challenge';
         algebraButton.innerHTML = `<span class="nav-button-emoji">𝑥</span>`;
 
         // Create Trig Facts button
         const trigButton = document.createElement('a');
-        trigButton.href = 'https://mrdingmaths.github.io/TrigFacts/';
+        trigButton.href = 'https://trigmastery.mrdingmaths.com/';
         trigButton.className = 'nav-button nav-button-red';
         trigButton.title = 'Trig Facts';
         trigButton.innerHTML = `<span class="nav-button-emoji">θ</span>`;
